@@ -1,0 +1,11 @@
+.homeInfo {
+  display: flex;
+  padding: 20px 80px;
+}
+
+@media screen and (max-width: 950px) {
+  .homeInfo {
+    flex-direction: column;
+    padding: 20px 60px;
+  }
+}
