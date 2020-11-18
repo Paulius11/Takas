@@ -1,0 +1,80 @@
+.jumbotron {
+  display: flex;
+  align-items: center;
+}
+
+.jumbotron__info {
+  flex: 0.5;
+  padding: 80px;
+}
+
+.jumbotron__info > h1 {
+  line-height: 1.2;
+  color: #1c2237;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.jumbotron__info > p {
+  color: gray;
+  font-size: 18px;
+  padding-bottom: 70px;
+}
+
+.jumbotron__image {
+  flex: 0.5;
+}
+
+.jumbotron__image > img {
+  width: 100%;
+  object-fit: contain;
+  padding: 50px;
+}
+
+.jumbotron__buttonExplore {
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #3ab19d;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.jumbotron__buttonExplore:hover {
+  color: #3ab19d;
+  background-color: #fff;
+  border: 1px solid #3ab19d;
+  transition: all 0.5s ease-out;
+}
+
+.jumbotron__buttonSignIn {
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: #1c2237;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.jumbotron__buttonSignIn:hover {
+  color: #1c2237;
+  background-color: #fff;
+  border: 1px solid #1c2237;
+  transition: all 0.5s ease-out;
+}
+
+@media screen and (max-width: 960px) {
+  .jumbotron {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .jumbotron__info {
+    padding: 40px;
+  }
+}
