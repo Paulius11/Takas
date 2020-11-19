@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "title": "The Bear Path",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": true,
+    "rating": 5,
+    "dificulty": "medium",
+    "region": "Vilnius park",
+    "lenght": "34,4",
+    "image": "https://cdn-assets.alltrails.com/uploads/photo/image/22928103/large_2af738da41f0100ddc3dc12110e89c2d.jpg"
+  },
+  {
+    "id": 2,
+    "title": "The Greatest Road",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": true,
+    "rating": 5,
+    "dificulty": "medium",
+    "region": "Kaunas park",
+    "lenght": "15,2",
+    "image": "https://www.pittsburghmagazine.com/content/uploads/2020/03/cb-cook-forest-trail1.jpg"
+  },
+  {
+    "id": 3,
+    "title": "The Dark Mist",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 5,
+    "dificulty": "medium",
+    "region": "Kaunas park",
+    "lenght": "7",
+    "image": "https://www.hikespeak.com/img/Oregon/Forest_Park/Wildwood_Trail_Forest_Park_Portland_hike_5405.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Wildwood Trail",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 4,
+    "dificulty": "easy",
+    "region": "Mist park",
+    "lenght": "9,2",
+    "image": "https://kurdabar.files.wordpress.com/2017/07/road-sun-rays-path.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Forest Park",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": true,
+    "rating": 5,
+    "dificulty": "medium",
+    "region": "Vilnius",
+    "lenght": "4",
+    "image": "https://p1.pxfuel.com/preview/914/195/671/nature-path-trail-forest-light-calm.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Sunny Way",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 5,
+    "dificulty": "hard",
+    "region": "Right Park",
+    "lenght": "5",
+    "image": "https://images.unsplash.com/photo-1472740378865-80aab8e73251?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+  },
+  {
+    "id": 7,
+    "title": "Sandy",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 5,
+    "dificulty": "easy",
+    "region": "Right Park",
+    "lenght": "52",
+    "image": "https://images.unsplash.com/photo-1464788061904-b026adb5422b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+  },
+  {
+    "id": 8,
+    "title": "Wildwood",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 5,
+    "dificulty": "easy",
+    "region": "Right Park",
+    "lenght": "4,9",
+    "image": "https://images.unsplash.com/photo-1548638643-b16e0ceab1cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80"
+  },
+  {
+    "id": 9,
+    "title": "Wild Cherry",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 4,
+    "dificulty": "medium",
+    "region": "Right Park",
+    "lenght": "22",
+    "image": "https://images.unsplash.com/photo-1592219234234-8760070ab380?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+  },
+  {
+    "id": 10,
+    "title": "Dogwood",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet est molestie, ultrices velit non, faucibus mauris. Maecenas vel leo in dolor tempor aliquet. Cras ut egestas eros. Morbi tincidunt malesuada euismod.",
+    "featured": false,
+    "rating": 5,
+    "dificulty": "hard",
+    "region": "Right Park",
+    "lenght": "35",
+    "image": "https://images.unsplash.com/photo-1595514807053-2c594370091a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+  }
+]
