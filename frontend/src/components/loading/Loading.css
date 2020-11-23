@@ -1,0 +1,11 @@
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.loading > h1 {
+  color: #1c2237;
+}
