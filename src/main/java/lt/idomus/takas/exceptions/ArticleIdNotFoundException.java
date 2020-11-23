@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ArticleIdNotFoundException extends RuntimeException {
-    public ArticleIdNotFoundException(String s) {
+    public ArticleIdNotFoundException(String message) {
+        super(message);
     }
 }
