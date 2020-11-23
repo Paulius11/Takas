@@ -11,7 +11,7 @@ function PathCard({
   image,
   rating,
   description,
-  lenght,
+  length,
   region,
   difficulty,
 }) {
@@ -41,7 +41,7 @@ function PathCard({
         </div>
         <div className="pathCard__info">
           <p>
-            {region}, {lenght} km
+            {region}, {length} km
           </p>
           <span>{difficulty}</span>
           <div className="pathCard__InfoIcons">

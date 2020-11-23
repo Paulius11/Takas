@@ -42,3 +42,9 @@ button:focus {
 .page-btn-current:hover {
   background-color: #161b2c;
 }
+
+.pathPager__notFound {
+  display: flex;
+  margin-left: 100px;
+  margin-top: 30px;
+}

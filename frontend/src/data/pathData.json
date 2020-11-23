@@ -7,7 +7,7 @@
     "rating": 5,
     "difficulty": "medium",
     "region": "Vilnius park",
-    "lenght": "34.4",
+    "length": 34.4,
     "image": "https://cdn-assets.alltrails.com/uploads/photo/image/22928103/large_2af738da41f0100ddc3dc12110e89c2d.jpg"
   },
   {
@@ -18,7 +18,7 @@
     "rating": 5,
     "difficulty": "medium",
     "region": "Kaunas park",
-    "lenght": "15.2",
+    "length": 15.2,
     "image": "https://www.pittsburghmagazine.com/content/uploads/2020/03/cb-cook-forest-trail1.jpg"
   },
   {
@@ -29,7 +29,7 @@
     "rating": 5,
     "difficulty": "medium",
     "region": "Kaunas park",
-    "lenght": "7",
+    "length": 7,
     "image": "https://www.hikespeak.com/img/Oregon/Forest_Park/Wildwood_Trail_Forest_Park_Portland_hike_5405.jpg"
   },
   {
@@ -40,7 +40,7 @@
     "rating": 4,
     "difficulty": "easy",
     "region": "Mist park",
-    "lenght": "9.2",
+    "length": 9.2,
     "image": "https://kurdabar.files.wordpress.com/2017/07/road-sun-rays-path.jpg"
   },
   {
@@ -51,7 +51,7 @@
     "rating": 5,
     "difficulty": "medium",
     "region": "Vilnius",
-    "lenght": "4",
+    "length": 4,
     "image": "https://p1.pxfuel.com/preview/914/195/671/nature-path-trail-forest-light-calm.jpg"
   },
   {
@@ -62,7 +62,7 @@
     "rating": 5,
     "difficulty": "hard",
     "region": "Right Park",
-    "lenght": "5",
+    "length": 5,
     "image": "https://images.unsplash.com/photo-1472740378865-80aab8e73251?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   },
   {
@@ -73,7 +73,7 @@
     "rating": 5,
     "difficulty": "easy",
     "region": "Right Park",
-    "lenght": "52",
+    "length": 52,
     "image": "https://images.unsplash.com/photo-1464788061904-b026adb5422b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   },
   {
@@ -84,7 +84,7 @@
     "rating": 5,
     "difficulty": "easy",
     "region": "Right Park",
-    "lenght": "4.9",
+    "length": 4.9,
     "image": "https://images.unsplash.com/photo-1548638643-b16e0ceab1cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80"
   },
   {
@@ -95,7 +95,7 @@
     "rating": 4,
     "difficulty": "medium",
     "region": "Mist Park",
-    "lenght": "22",
+    "length": 22,
     "image": "https://images.unsplash.com/photo-1592219234234-8760070ab380?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   },
   {
@@ -106,7 +106,7 @@
     "rating": 5,
     "difficulty": "hard",
     "region": "Vilnius Park",
-    "lenght": "35",
+    "length": 35,
     "image": "https://images.unsplash.com/photo-1595514807053-2c594370091a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   },
   {
@@ -117,7 +117,7 @@
     "rating": 5,
     "difficulty": "easy",
     "region": "Vilnius Park",
-    "lenght": "15",
+    "length": 15,
     "image": "https://images.unsplash.com/photo-1595514807053-2c594370091a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   }
 ]

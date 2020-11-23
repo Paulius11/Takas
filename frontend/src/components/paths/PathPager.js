@@ -5,6 +5,7 @@ import PathList from "./PathList";
 import "./PathPager.css";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Filtered from "../filtered/Filtered";
 
 function PathPager() {
   const { sorted, page, changePage } = useContext(PathContext);
@@ -40,7 +41,14 @@ function PathPager() {
       </>
     );
   } else {
-    return <h3>No paths found</h3>;
+    return (
+      <>
+        <div className="pathPager__notFound">
+          <Filtered />
+          <h3>No paths found</h3>
+        </div>
+      </>
+    );
   }
 }
 
