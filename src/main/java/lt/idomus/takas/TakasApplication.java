@@ -29,8 +29,9 @@ public class TakasApplication {
 //			TODO: medium to enum
             log.info("Starting Command line runner");
             articleRepository.save(Article.builder().id(1L).title("The Bear Path").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(true).rating(5).difficulty("medium").region("Vilnius park").length(34.3).image("https://cdn-assets.alltrails.com/uploads/photo/image/22928103/large_2af738da41f0100ddc3dc12110e89c2d.jpg").build());
-            articleRepository.save(Article.builder().id(1L).title("The Bear Path2").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(true).rating(4).difficulty("easy").region("Vilnius park").length(10.2).image("https://www.pittsburghmagazine.com/content/uploads/2020/03/cb-cook-forest-trail1.jpg").build());
-            articleRepository.save(Article.builder().id(1L).title("The Bear Path3").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(true).rating(5).difficulty("medium").region("Vilnius park").length(9.1).image("https://www.hikespeak.com/img/Oregon/Forest_Park/Wildwood_Trail_Forest_Park_Portland_hike_5405.jpg").build());
+            articleRepository.save(Article.builder().id(2L).title("The Bear Path2").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(true).rating(4).difficulty("easy").region("Vilnius park").length(10.2).image("https://www.pittsburghmagazine.com/content/uploads/2020/03/cb-cook-forest-trail1.jpg").build());
+            articleRepository.save(Article.builder().id(3L).title("The Bear Path3").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(true).rating(5).difficulty("medium").region("Vilnius park").length(9.1).image("https://www.hikespeak.com/img/Oregon/Forest_Park/Wildwood_Trail_Forest_Park_Portland_hike_5405.jpg").build());
+      
         }
                 ;
     }
