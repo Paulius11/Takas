@@ -1,4 +1,4 @@
-package lt.idomus.takas.controller;
+package lt.idomus.takas.controllers;
 
 import lt.idomus.takas.doa.ArticleRepository;
 import lt.idomus.takas.model.Article;
