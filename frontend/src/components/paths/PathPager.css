@@ -1,0 +1,44 @@
+article {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #1c2237;
+}
+
+button:hover {
+  color: #161b2c;
+}
+
+.page-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 7px 11px;
+  color: #1c2237;
+  font-weight: bold;
+  margin: 5px;
+  background-color: transparent;
+}
+
+.page-btn:focus,
+button:focus {
+  outline: 0;
+}
+
+.page-btn:hover {
+  background-color: rgb(247, 247, 247);
+}
+.page-btn-current {
+  background-color: #1c2237;
+  color: #fff;
+}
+
+.page-btn-current:hover {
+  background-color: #161b2c;
+}

@@ -1,0 +1,88 @@
+.pathCard {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  box-shadow: 0 0 5px #999;
+}
+
+.pathCard__body {
+  display: flex;
+}
+
+.pathCard__image > a > img {
+  width: 260px;
+  margin: 15px;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+
+.patheCard__info {
+  padding-top: 10px;
+}
+
+.pathCard__header {
+  padding-left: 20px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pathCard__header > div > a {
+  font-size: 24px;
+  color: #1c2237;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.pathCard__header > div > a:hover,
+.pathCard__headerIcons > .MuiSvgIcon-root:hover {
+  color: #3ab19d;
+  transition: all 0.3s ease-out;
+}
+
+.pathCard__headerIcons {
+  margin-right: 10px;
+}
+
+.pathCard__info > p {
+  color: gray;
+  padding-top: 10px;
+  padding-right: 20px;
+}
+
+.pathCard__info > span {
+  color: #fff;
+  padding: 2px 3px;
+  border-radius: 3px;
+  background-color: #1c2237;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.pathCard__headerIcons > .MuiSvgIcon-root {
+  color: #1c2237;
+  margin: 5px 5px;
+  cursor: pointer;
+}
+
+.pathCard__rating {
+  font-size: 20px;
+  color: #f0c14b;
+}
+
+.pathCard__InfoIcons {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: gray;
+  margin-top: 5px;
+}
+
+.pathCard__InfoIcons > .MuiSvgIcon-root {
+  font-size: 14px;
+}
+
+.pathCard__InfoIcons > .MuiSvgIcon-root:last-child {
+  margin-left: 5px;
+}
