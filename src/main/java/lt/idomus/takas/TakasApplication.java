@@ -1,18 +1,17 @@
 package lt.idomus.takas;
 
+import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.doa.ArticleRepository;
 import lt.idomus.takas.model.Article;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@Slf4j
 public class TakasApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(TakasApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(TakasApplication.class, args);
