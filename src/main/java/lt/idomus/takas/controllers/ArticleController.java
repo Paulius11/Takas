@@ -24,8 +24,7 @@ public class ArticleController {
 
     private final ArticleServices articleServices;
 
-    // #TODO unique model for Article
-    // #TODO split code to userservice/
+
 
     @GetMapping
     public List<Article> articleList() {
