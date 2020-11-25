@@ -1,0 +1,7 @@
+.starRating__radio > input[type="radio"] {
+  display: none;
+}
+
+.startRating__star {
+  cursor: pointer;
+}
