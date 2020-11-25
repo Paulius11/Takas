@@ -1,4 +1,7 @@
-"scripts": {
-  "start": "cd frontend/src && node index.js",
-  "heroku-postbuild": "cd frontend && npm install && npm start"
+{
+  "name": "foobar-app",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "npm install --prefix frontend && npm install --prefix frontend"
+  }
 }
