@@ -1,4 +1,4 @@
 "scripts": {
   "start": "cd frontend/src && node index.js",
-  "heroku-postbuild": "cd map-project && npm install --only=dev && npm install && npm run build"
+  "heroku-postbuild": "cd frontend && npm install && npm start"
 }
