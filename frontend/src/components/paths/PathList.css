@@ -1,5 +1,12 @@
 .pathList__container {
   display: flex;
-  justify-content: center;
-  padding: 30px 100px;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+  max-width: 1300px;
+}
+@media screen and (max-width: 960px) {
+  .pathList__container {
+    flex-direction: column;
+  }
 }

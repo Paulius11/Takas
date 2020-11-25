@@ -41,10 +41,24 @@ button:focus {
 
 .page-btn-current:hover {
   background-color: #161b2c;
+  color: #fff;
 }
 
 .pathPager__notFound {
   display: flex;
-  margin-left: 100px;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.pathPage__notFoundText {
+  width: 60%;
+  color: #1c2237;
   margin-top: 30px;
+}
+
+@media screen and (max-width: 960px) {
+  .pathPager__notFound {
+    flex-direction: column;
+  }
 }

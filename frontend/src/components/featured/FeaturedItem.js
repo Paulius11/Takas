@@ -13,8 +13,8 @@ function FeaturedItem({ image, rating, title, description }) {
           <div className="featuredItem__rating">
             {Array(rating)
               .fill()
-              .map((_) => (
-                <span>&#9733;</span>
+              .map((_, index) => (
+                <span key={index}>&#9733;</span>
               ))}
           </div>
         </div>
