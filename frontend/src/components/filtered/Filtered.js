@@ -1,55 +1,62 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Filtered.css";
 import { PathContext } from "../../context/PathProvider";
-import { useContext } from "react";
+import SearchIcon from "@material-ui/icons/Search";
 
 function Filtered() {
   const {
-    filters: { search, rating, region, length, difficulty },
+    filters: { search, region, length, difficulty },
     updateFilters,
     sorted,
   } = useContext(PathContext);
   return (
     <div className="filtered">
-      <h2>Paths: {sorted.flat().length}</h2>
-      <hr />
-      <h1>Filters:</h1>
-      <input
-        placeholder="Search title"
-        type="text"
-        name="search"
-        value={search}
-        onChange={updateFilters}
-      ></input>
-      {/* <form>
-        <h3>Rating</h3>
-        1 <input type="checkbox" value />
-        2 <input type="checkbox" />
-        3 <input type="checkbox" />
-        4 <input type="checkbox" />
-        5 <input type="checkbox" />
-      </form> */}
-      <form>
+      <div>
+        <h2>Paths found: {sorted.flat().length}</h2>
+        <hr />
+        <br />
+        <div className="filtered__search">
+          <SearchIcon />
+          <input
+            placeholder="Search for title"
+            type="text"
+            name="search"
+            value={search}
+            onChange={updateFilters}
+            autoComplete="off"
+          />
+        </div>
+      </div>
+      <br />
+      <div>
         <h3>Region</h3>
-        <select name="region" value={region} onChange={updateFilters}>
+        <select
+          className="filtered__select"
+          name="region"
+          value={region}
+          onChange={updateFilters}
+        >
           <option value="all">All</option>
           <option value="Kaunas park">Kaunas</option>
-          <option value="Vilnius">Vilnius</option>
-          <option value="Vilnius Park">Vilnius Park</option>
-          <option value="Mist Park">Mist Park</option>
-          <option value="Right Park">Right Park</option>
+          <option value="Vilnius park">Vilnius</option>
+          <option value="Klaipėda park">Klaipėda</option>
         </select>
-      </form>
-      <form>
+      </div>
+      <div>
         <h3>Difficulty</h3>
-        <select name="difficulty" value={difficulty} onChange={updateFilters}>
+        <select
+          className="filtered__select"
+          name="difficulty"
+          value={difficulty}
+          onChange={updateFilters}
+        >
           <option value="all">All</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
-      </form>
-      <form>
+      </div>
+      <div>
         <h3>Lenght</h3>
         <label>
           <input
@@ -70,7 +77,7 @@ function Filtered() {
             checked={length === 0}
             onChange={updateFilters}
           />
-          0 - 10
+          0 - 10 km
         </label>
         <br />
         <label>
@@ -81,7 +88,7 @@ function Filtered() {
             checked={length === 10}
             onChange={updateFilters}
           />
-          10 - 30
+          10 - 30 km
         </label>
         <br />
         <label>
@@ -92,9 +99,9 @@ function Filtered() {
             checked={length === 30}
             onChange={updateFilters}
           />
-          over 30
+          over 30 km
         </label>
-      </form>
+      </div>
     </div>
   );
 }

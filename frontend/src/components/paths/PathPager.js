@@ -45,7 +45,9 @@ function PathPager() {
       <>
         <div className="pathPager__notFound">
           <Filtered />
-          <h3>No paths found</h3>
+          <div className="pathPage__notFoundText">
+            <h1>No paths found.</h1>
+          </div>
         </div>
       </>
     );

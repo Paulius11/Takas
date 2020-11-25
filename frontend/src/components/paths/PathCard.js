@@ -23,8 +23,8 @@ function PathCard({
           <div className="pathCard__rating">
             {Array(rating)
               .fill()
-              .map((_) => (
-                <span>&#9733;</span>
+              .map((_, index) => (
+                <span key={index}>&#9733;</span>
               ))}
           </div>
         </div>
