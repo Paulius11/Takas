@@ -1,7 +1,5 @@
 {
-  "name": "foobar-app",
-  "version": "0.1.0",
   "scripts": {
-    "postinstall": "npm install --prefix frontend && npm install --prefix frontend"
+    "heroku-postbuild": "cd frontend && npm --production=false i --quiet && NODE_ENV=production npm i --quiet && npm run build:prod"
   }
 }
