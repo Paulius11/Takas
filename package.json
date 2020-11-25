@@ -1,3 +1,4 @@
 "scripts": {
   "start": "cd frontend/src && node index.js"
+  "build": "webpack"
 }
