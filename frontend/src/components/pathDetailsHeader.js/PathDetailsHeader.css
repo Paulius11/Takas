@@ -1,0 +1,31 @@
+.pathDetailsHeader__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  color: #1c2237;
+}
+
+.pathDetailsHeader__title > .MuiSvgIcon-root:hover {
+  color: #3ab19d;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+.pathDetailsHeader__containerLinks {
+  border-bottom: 1px solid lightgray;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
+
+.pathDetailsHeader__containerLinks > a {
+  padding: 10px 20px;
+  color: #1c2237;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.pathDetailsHeader__containerLinks > a:hover {
+  color: #161b2c;
+  border-bottom: 1px solid #3ab19d;
+}
