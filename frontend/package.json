@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "homepage" : "https://github.com/Paulius11/Takas",
+  "homepage" : "http://Paulius11.github.io/Paulius11/Takas",
   "version": "0.1.0",
   "main": "src/index.js",
   "dependencies": {
