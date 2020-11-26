@@ -15,12 +15,13 @@ function PathCard({
   length,
   region,
   difficulty,
+  id,
 }) {
   return (
     <div className="pathCard">
       <div className="pathCard__header">
         <div>
-          <Link to="/">{title}</Link>
+          <Link to={`/paths/${id}`}>{title}</Link>
           <div className="pathCard__rating">
             <StarRating rate={rating} />
           </div>
