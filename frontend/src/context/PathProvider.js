@@ -1,7 +1,8 @@
 import React, { createContext, useEffect } from "react";
 import { useState } from "react";
-import pathData from "../data/pathData.json";
 import { paginate } from "../utils/helpers";
+import { BASE_URL } from "../utils/URL";
+import Axios from "axios";
 
 export const PathContext = createContext();
 
@@ -72,9 +73,12 @@ export default function PathProvider({ children }) {
 
   useEffect(() => {
     setLoading(true);
-    setSorted(paginate(pathData));
-    setPaths(pathData);
-    setLoading(false);
+    Axios.get(BASE_URL).then((response) => {
+      setSorted(paginate(response.data));
+      setPaths(response.data);
+      setLoading(false);
+    });
+
     return () => {};
   }, []);
 

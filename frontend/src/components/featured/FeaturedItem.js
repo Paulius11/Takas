@@ -3,6 +3,7 @@ import "./FeaturedItem.css";
 import MoreVertRoundedIcon from "@material-ui/icons/MoreVertRounded";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import ShareRoundedIcon from "@material-ui/icons/ShareRounded";
+import StarRating from "../starRating/StarRating";
 
 function FeaturedItem({ image, rating, title, description }) {
   return (
@@ -11,11 +12,7 @@ function FeaturedItem({ image, rating, title, description }) {
         <div className="featuredItem__headerLeft">
           <h2>{title}</h2>
           <div className="featuredItem__rating">
-            {Array(rating)
-              .fill()
-              .map((_) => (
-                <span>&#9733;</span>
-              ))}
+            <StarRating rate={rating} />
           </div>
         </div>
       </div>

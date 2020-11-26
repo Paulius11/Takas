@@ -5,6 +5,7 @@ import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded"
 import ShareRoundedIcon from "@material-ui/icons/ShareRounded";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import BookmarkRoundedIcon from "@material-ui/icons/BookmarkRounded";
+import StarRating from "../starRating/StarRating";
 
 function PathCard({
   title,
@@ -21,11 +22,7 @@ function PathCard({
         <div>
           <Link to="/">{title}</Link>
           <div className="pathCard__rating">
-            {Array(rating)
-              .fill()
-              .map((_) => (
-                <span>&#9733;</span>
-              ))}
+            <StarRating rate={rating} />
           </div>
         </div>
         <div className="pathCard__headerIcons">
