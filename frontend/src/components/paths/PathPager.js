@@ -11,7 +11,7 @@ function PathPager() {
   const { sorted, page, changePage } = useContext(PathContext);
   if (sorted[page]) {
     return (
-      <>
+      <div className="pathPager">
         <PathList paths={sorted[page]} />
         {sorted.length > 1 && (
           <article>
@@ -38,7 +38,7 @@ function PathPager() {
             )}
           </article>
         )}
-      </>
+      </div>
     );
   } else {
     return (

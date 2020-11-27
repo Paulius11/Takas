@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "../components/header/Header";
 import PathPager from "../components/paths/PathPager";
+import Footer from "../components/footer/Footer";
 
 function Paths() {
   return (
     <div>
-      <Header />
       <PathPager />
+      <Footer />
     </div>
   );
 }

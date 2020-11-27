@@ -4,13 +4,14 @@ import MoreVertRoundedIcon from "@material-ui/icons/MoreVertRounded";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import ShareRoundedIcon from "@material-ui/icons/ShareRounded";
 import StarRating from "../starRating/StarRating";
+import { Link } from "react-router-dom";
 
-function FeaturedItem({ image, rating, title, description }) {
+function FeaturedItem({ image, rating, title, description, id }) {
   return (
     <div className="featuredItem">
       <div className="featuredItem__header">
         <div className="featuredItem__headerLeft">
-          <h2>{title}</h2>
+          <Link to={`/paths/${id}`}>{title}</Link>
           <div className="featuredItem__rating">
             <StarRating rate={rating} />
           </div>
