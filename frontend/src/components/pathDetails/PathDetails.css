@@ -1,0 +1,80 @@
+.pathDetails {
+  display: flex;
+  background-color: #f1f1f1;
+}
+
+.pathDetails__container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  box-shadow: 0 0 5px #999;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.pathDetails__body {
+  display: grid;
+  grid-template-columns: 30fr 70fr;
+}
+
+.pathDetails__bodyImage {
+  width: 100%;
+  padding: 20px;
+}
+
+.pathDetails__bodyImage > img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.pathDetails__bodyInfoTop {
+  display: flex;
+}
+
+.pathDetails__bodyInfoTop > div > h1 {
+  background-color: #f44336;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 5px;
+  margin: 15px;
+  margin-top: 30px;
+}
+
+.pathDetails__rating {
+  display: flex;
+  margin-top: 20px;
+}
+
+.pathDetails__rating > p,
+.pathDetails__difficulty > p,
+.pathDetails__length > p,
+.pathDetails__ratingAll > p {
+  margin-right: 5px;
+  color: gray;
+}
+
+.pathDetails__difficulty,
+.pathDetails__length,
+.pathDetails__ratingAll,
+.pathDetails__region {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.pathDetails__bodyInfoText {
+  margin-top: 20px;
+  margin-left: 14px;
+}
+
+.pathDetails__bodyInfoText > h3 {
+  color: #1c2237;
+}
+
+.pathDetails__bodyInfoText > p {
+  padding-right: 5px;
+  padding-bottom: 20px;
+}

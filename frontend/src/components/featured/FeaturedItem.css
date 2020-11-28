@@ -25,8 +25,17 @@
   justify-content: space-between;
   padding: 10px;
 }
-.featuredItem__headerLeft > h2 {
+
+.featuredItem__headerLeft > a {
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
   color: #1c2237;
+}
+
+.featuredItem__headerLeft > a:hover {
+  color: #3ab19d;
+  transition: all 0.3s ease-out;
 }
 
 .featuredItem__headerLeft {
