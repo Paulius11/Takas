@@ -29,3 +29,23 @@
   color: #161b2c;
   border-bottom: 1px solid #3ab19d;
 }
+
+@media screen and (max-width: 760px) {
+  .pathDetailsHeader__title {
+    font-size: 14px;
+  }
+
+  .pathDetailsHeader__containerLinks > a {
+    display: inline-block;
+    padding: 5px 10px;
+    border: none;
+    margin-left: 5px;
+  }
+
+  .pathDetailsHeader__containerLinks > a:hover {
+    background: #3ab19d;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+  }
+}

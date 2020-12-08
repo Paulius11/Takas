@@ -78,3 +78,26 @@
   padding-right: 5px;
   padding-bottom: 20px;
 }
+
+@media screen and (max-width: 760px) {
+  .pathDetails__body {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .pathDetails__bodyInfoTop,
+  .pathDetails__bodyInfoText {
+    padding-left: 6px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .pathDetails__bodyInfoTop > div > h1 {
+    display: none;
+  }
+  .pathDetails__bodyInfoTop {
+    padding-left: 20px;
+  }
+}
