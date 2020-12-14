@@ -5,6 +5,9 @@ import Paths from "./pages/Paths";
 import Header from "./components/header/Header";
 import SinglePath from "./pages/SinglePath";
 import Photos from "./components/pathDetails/Photos";
+import SignIn from "./components/signin/SignIn";
+import SignUp from "./components/signin/SignUp";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -17,11 +20,18 @@ function App() {
         <Route exact path="/paths/:id/photos">
           <Photos />
         </Route>
+        <Route exact path="/signin">
+          <SignIn />
+        </Route>
+        <Route exact path="/signup">
+          <SignUp />
+        </Route>
         <Route exact path="/paths/:id" children={<SinglePath />} />
         <Route exact path="/">
           <Home />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }
