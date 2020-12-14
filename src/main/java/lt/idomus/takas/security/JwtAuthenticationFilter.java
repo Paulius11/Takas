@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -34,24 +33,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        try {
-            String jwt = getJwtFromRequest(request);
-            String token = StringUtils.removeStart(Optional.ofNullable(jwt).orElse(""), "Bearer").trim();
 
-            if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+        String jwt = getJwtFromRequest(request);
+        String token = StringUtils.removeStart(Optional.ofNullable(jwt).orElse(""), "Bearer").trim();
 
-                Long userId = tokenProvider.getUserIdFromJwt(jwt);
-                ArticleUser userDetails = userDetailsService.loadUserById(userId);
-                CustomUserDetails user = new CustomUserDetails(userDetails);
+        if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
-                        user.getAuthorities());
+            Long userId = tokenProvider.getUserIdFromJwt(jwt);
+            ArticleUser userDetails = userDetailsService.loadUserById(userId);
+            CustomUserDetails user = new CustomUserDetails(userDetails);
 
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
-        } catch (Exception e) {
-            log.error("cannot authenticate user ");
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
+                    user.getAuthorities());
+
+            auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
 

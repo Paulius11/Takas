@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static lt.idomus.takas.security.SecurityConstant.SECRET;
 
@@ -23,13 +25,13 @@ public class JwtTokenProvider {
 
         Date expiry = new Date(now.getTime() + expirationInMillisecs);
 
-//        Map<String, Object> claims = new HashMap<>();
-//        claims.put("id", (Long.toString(user.getId())));
-//        claims.put("roles", user.getRoles());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", (Long.toString(user.getId())));
+        claims.put("roles", user.getRoles());
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
-//                .setClaims(claims)
+                .setSubject(user.getId().toString())
+                .setClaims(claims)
                 .setAudience(user.getRoles().toString())
                 .setIssuedAt(now)
                 .setExpiration(expiry)
