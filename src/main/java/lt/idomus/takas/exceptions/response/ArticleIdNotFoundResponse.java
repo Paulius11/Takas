@@ -1,4 +1,4 @@
-package lt.idomus.takas.exceptions;
+package lt.idomus.takas.exceptions.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

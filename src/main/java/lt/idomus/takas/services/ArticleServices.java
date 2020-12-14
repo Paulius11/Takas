@@ -2,7 +2,7 @@ package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
 import lt.idomus.takas.doa.ArticleRepository;
-import lt.idomus.takas.exceptions.ArticleIdNotFoundException;
+import lt.idomus.takas.exceptions.exception.ArticleIdNotFoundException;
 import lt.idomus.takas.model.Article;
 import org.springframework.stereotype.Service;
 
