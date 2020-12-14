@@ -20,30 +20,39 @@ public class UserService {
     private final RoleRepository repository;
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
-
+    private final RoleRepository roleRepository;
     //Later cache this role so it would save load on server
-    private final Role userRole = repository.findByRole("USER");
 
     public CreateUserDTO createUser(CreateUserDTO userForm) {
 
         ArticleUser user = new ArticleUser();
 
-        try {
-            if (!userForm.getPassword().equals(userForm.getConfirmPassword()))
-                throw new PasswordDontMatchException("Password's doesn't match!");
 
+
+
+            if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
+                throw new PasswordDontMatchException("Password's doesn't match!");
+            }
+            //Hashing passwords
+
+
+            Role userRole = repository.findByRole("USER");
+            if (userRole == null) {
+                Role role = new Role();
+                role.setRole("USER");
+                userRole = role;
+                roleRepository.save(role);
+            }
             user.setUsername(userForm.getUsername());
-            user.setFullName(userForm.getFullname());
+            user.setFullName(userForm.getFullName());
             user.setPassword(encoder.encode(userForm.getPassword()));
             user.setRoles(Set.of(userRole));
 
             userRepository.save(user);
-        } catch (Exception e) {
-            throw new UserAlreadyExistsException("User already exists with that username!");
-        }
-        //Hashing password return Dto with masked password
-        userForm.setPassword(encoder.encode(userForm.getPassword()));
-        userForm.setConfirmPassword(encoder.encode(userForm.getPassword()));
+
+        userForm.setPassword("");
+        userForm.setConfirmPassword("");
+
 
         return userForm;
     }
