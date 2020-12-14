@@ -11,7 +11,7 @@ public class CreateUserDTO {
 
     private String password;
 
-    private String fullname;
+    private String fullName;
 
     private String confirmPassword;
 
