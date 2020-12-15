@@ -6,6 +6,7 @@ import lt.idomus.takas.model.Article;
 import lt.idomus.takas.services.ArticleServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ public class ArticleController {
 
 
     private final ArticleServices articleServices;
-
 
 
     @GetMapping
@@ -44,6 +44,8 @@ public class ArticleController {
         return new ResponseEntity<Article>(articleServices.createArticle(article), HttpStatus.CREATED);
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id) {
         articleServices.deleteArticle(id);
