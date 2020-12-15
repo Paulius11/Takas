@@ -9,6 +9,5 @@ import lombok.ToString;
 @ToString
 public class JwtLoginSuccessResponse {
 
-    private boolean success;
-    private String token;
+    private String jwt;
 }

@@ -43,15 +43,7 @@ public class UserController {
 
         if (request == null) return new ResponseEntity<String>("Empty body cannot be passed", HttpStatus.BAD_REQUEST);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = provider.generateToken(authentication);
-
-        return ResponseEntity.ok(new JwtLoginSuccessResponse(true, jwt));
+        return ResponseEntity.ok(userService.loginAttempt(request));
     }
 
 }
