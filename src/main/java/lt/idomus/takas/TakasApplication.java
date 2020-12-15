@@ -2,13 +2,19 @@ package lt.idomus.takas;
 
 import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.doa.ArticleRepository;
+import lt.idomus.takas.doa.RoleRepository;
+import lt.idomus.takas.doa.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.model.Article;
+import lt.idomus.takas.model.ArticleUser;
+import lt.idomus.takas.model.Role;
 import lt.idomus.takas.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Set;
 
 @SpringBootApplication
 @Slf4j
@@ -25,7 +31,7 @@ public class TakasApplication {
      * @param articleRepository access task data
      */
     @Bean
-    public CommandLineRunner demo(ArticleRepository articleRepository, UserService service) {
+    public CommandLineRunner demo(ArticleRepository articleRepository, RoleRepository roleRepo, UserRepository userRepo) {
         return (args) ->
         {
             log.info("Starting Command line runner");
@@ -42,13 +48,21 @@ public class TakasApplication {
             articleRepository.save(Article.builder().title("Something Cool").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(false).rating(2).difficulty("easy").region("Klaipėda park").length(6.1).image("https://images.unsplash.com/photo-1595514807053-2c594370091a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80").build());
 
 
-            CreateUserDTO dto =  new CreateUserDTO();
-            dto.setFullName("admin");
-            dto.setUsername("admin@admin.com");
-            dto.setPassword("admin123");
-            dto.setConfirmPassword("admin123");
+            Role userRole = new Role();
+            userRole.setRole("USER");
+            roleRepo.save(userRole);
 
-            service.createUser(dto);
+            Role adminRole = new Role();
+            adminRole.setRole("ADMIN");
+            roleRepo.save(adminRole);
+
+            ArticleUser adminUser = new ArticleUser();
+            adminUser.setFullName("admin");
+            adminUser.setUsername("admin@admin.com");
+            adminUser.setPassword("admin123");
+            adminUser.setRoles(Set.of(userRole, adminRole));
+
+            userRepo.save(adminUser);
 
         };
     }
