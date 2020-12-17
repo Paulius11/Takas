@@ -1,5 +1,7 @@
-package lt.idomus.takas.security;
+package lt.idomus.takas.config;
 
+import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
+import lt.idomus.takas.security.JwtAuthenticationFilter;
 import lt.idomus.takas.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -71,6 +73,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //HOME_PATH is defined in SecurityConstant class
                 .antMatchers(HOME_PATH).permitAll()
                 .antMatchers(USER_PATH).permitAll()
+                // Permit swagger
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
