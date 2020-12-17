@@ -49,33 +49,37 @@ public class UserService {
 
     public CreateUserDTO createUser(CreateUserDTO userForm) {
 
-        ArticleUser user = new ArticleUser();
+        try {
+            ArticleUser user = new ArticleUser();
 
 
-        if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
-            throw new PasswordDontMatchException("Password's doesn't match!");
+            if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
+                throw new PasswordDontMatchException("Password's doesn't match!");
+            }
+            //Hashing passwords
+
+
+            Role userRole = repository.findByRole("USER");
+            if (userRole == null) {
+                Role role = new Role();
+                role.setRole("USER");
+                userRole = role;
+                roleRepository.save(role);
+            }
+            user.setUsername(userForm.getUsername());
+            user.setFullName(userForm.getFullName());
+            user.setPassword(encoder.encode(userForm.getPassword()));
+            user.setRoles(Set.of(userRole));
+
+            userRepository.save(user);
+
+            userForm.setPassword("");
+            userForm.setConfirmPassword("");
+
+
+            return userForm;
+        } catch (Exception e) {
+            throw new UserAlreadyExistsException("Username is already taken");
         }
-        //Hashing passwords
-
-
-        Role userRole = repository.findByRole("USER");
-        if (userRole == null) {
-            Role role = new Role();
-            role.setRole("USER");
-            userRole = role;
-            roleRepository.save(role);
-        }
-        user.setUsername(userForm.getUsername());
-        user.setFullName(userForm.getFullName());
-        user.setPassword(encoder.encode(userForm.getPassword()));
-        user.setRoles(Set.of(userRole));
-
-        userRepository.save(user);
-
-        userForm.setPassword("");
-        userForm.setConfirmPassword("");
-
-
-        return userForm;
     }
 }
