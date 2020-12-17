@@ -28,6 +28,13 @@ import static lt.idomus.takas.security.SecurityConstant.USER_PATH;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String[] SWAGGER_PATH = {"/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**"};
+    public static final String H2_PATH = "/h2-console/**";
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
@@ -74,17 +81,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HOME_PATH).permitAll()
                 .antMatchers(USER_PATH).permitAll()
                 // Permit swagger
-                .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**").permitAll()
+                .antMatchers(SWAGGER_PATH).permitAll()
+                .antMatchers(H2_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
+
+        http.headers().frameOptions().disable(); // for H2-Console showing in browser
     }
 }
