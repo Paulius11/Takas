@@ -25,19 +25,22 @@ public class ArticleController {
 
     private final ArticleServices articleServices;
 
-
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping
     public List<Article> articleList() {
 
         return articleServices.getAllArticles();
     }
 
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
 
         return new ResponseEntity<Article>(articleServices.getArticleById(id), HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<?> createArticle(@RequestBody Article article) {
 
@@ -53,4 +56,10 @@ public class ArticleController {
     }
     // TODO:Add update mapping, DTOS, validation
 
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> updateArticle(@PathVariable Long id, Article article) {
+
+        return new ResponseEntity<Article>(articleServices.updateArticle(id,article), HttpStatus.OK);
+    }
 }

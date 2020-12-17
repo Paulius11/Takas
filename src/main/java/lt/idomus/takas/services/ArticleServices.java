@@ -55,4 +55,11 @@ public class ArticleServices {
         }
     }
 
+    public Article updateArticle(Long id, Article article) {
+
+        Article articleToBeUpdated = getArticleById(id);
+
+
+        return articleRepository.save(article);
+    }
 }
