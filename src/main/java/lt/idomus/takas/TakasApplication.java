@@ -13,6 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class TakasApplication {
      * @param articleRepository access task data
      */
     @Bean
-    public CommandLineRunner demo(ArticleRepository articleRepository, RoleRepository roleRepo, UserRepository userRepo) {
+    public CommandLineRunner demo(ArticleRepository articleRepository, RoleRepository roleRepo, UserRepository userRepo, PasswordEncoder encoder) {
         return (args) ->
         {
             log.info("Starting Command line runner");
@@ -59,7 +60,7 @@ public class TakasApplication {
             ArticleUser adminUser = new ArticleUser();
             adminUser.setFullName("admin");
             adminUser.setUsername("admin@admin.com");
-            adminUser.setPassword("admin123");
+            adminUser.setPassword(encoder.encode("admin123"));
             adminUser.setRoles(Set.of(userRole, adminRole));
 
             userRepo.save(adminUser);

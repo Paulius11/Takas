@@ -6,16 +6,19 @@ import lt.idomus.takas.model.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static lt.idomus.takas.security.SecurityConstant.SECRET;
+import static lt.idomus.takas.security.SecurityConstant.expirationInMillisecs;
 
 @Component
 public class JwtTokenProvider {
 
-    final long expirationInMillisecs = 3600000;
 
     public String generateToken(Authentication authentication) {
 
@@ -35,7 +38,7 @@ public class JwtTokenProvider {
                 .setAudience(user.getRoles().toString())
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .signWith(SignatureAlgorithm.HS512,SECRET)
                 .compact();
     }
 
