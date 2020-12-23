@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
+import java.util.Set;
+
 @SpringBootApplication
 @Slf4j
 public class TakasApplication {
@@ -33,6 +35,7 @@ public class TakasApplication {
      */
     @Bean
     public CommandLineRunner demo(ArticleRepository articleRepository, RoleRepository roleRepo, UserRepository userRepo, PasswordEncoder encoder) {
+
         return (args) ->
         {
             log.info("Starting Command line runner");
@@ -61,6 +64,7 @@ public class TakasApplication {
             adminUser.setFullName("admin");
             adminUser.setUsername("admin@admin.com");
             adminUser.setPassword(encoder.encode("admin123"));
+
             adminUser.setRoles(Set.of(userRole, adminRole));
 
             userRepo.save(adminUser);

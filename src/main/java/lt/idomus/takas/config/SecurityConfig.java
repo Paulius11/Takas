@@ -1,5 +1,7 @@
-package lt.idomus.takas.security;
+package lt.idomus.takas.config;
 
+import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
+import lt.idomus.takas.security.JwtAuthenticationFilter;
 import lt.idomus.takas.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +28,13 @@ import static lt.idomus.takas.security.SecurityConstant.USER_PATH;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String[] SWAGGER_PATH = {"/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**"};
+    public static final String H2_PATH = "/h2-console/**";
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
@@ -66,11 +75,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //HOME_PATH is defined in SecurityConstant class
                 .antMatchers(HOME_PATH).permitAll()
                 .antMatchers(USER_PATH).permitAll()
+                // Permit swagger
+                .antMatchers(SWAGGER_PATH).permitAll()
+                .antMatchers(H2_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
+
+        http.headers().frameOptions().disable(); // for H2-Console showing in browser
     }
 }
