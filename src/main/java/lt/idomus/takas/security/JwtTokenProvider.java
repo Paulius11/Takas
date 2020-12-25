@@ -6,9 +6,6 @@ import lt.idomus.takas.model.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,16 +35,15 @@ public class JwtTokenProvider {
                 .setAudience(user.getRoles().toString())
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS512,SECRET)
+                .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
     }
 
     public boolean validateToken(String token) throws InvalidTokenException {
         try {
-            Jwts.parser()
-                    .setSigningKey(SECRET)
-                    .parseClaimsJws(token);
-            return true;
+            //Parse Jwt claims and check if expiration date is not before now
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
             throw new InvalidTokenException("Invalid token", e);
         }
@@ -58,4 +54,5 @@ public class JwtTokenProvider {
         String id = (String) claim.get("id");
         return Long.parseLong(id);
     }
+
 }
