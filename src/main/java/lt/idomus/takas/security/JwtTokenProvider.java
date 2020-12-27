@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static lt.idomus.takas.security.SecurityConstant.SECRET;
+import static lt.idomus.takas.security.SecurityConstant.expirationInMillisecs;
 
 @Component
 public class JwtTokenProvider {
 
-    final long expirationInMillisecs = 3600000;
 
     public String generateToken(Authentication authentication) {
 
@@ -27,7 +27,7 @@ public class JwtTokenProvider {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", (Long.toString(user.getId())));
-        claims.put("roles", user.getRoles());
+
 
         return Jwts.builder()
                 .setSubject(user.getId().toString())
@@ -41,10 +41,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) throws InvalidTokenException {
         try {
-            Jwts.parser()
-                    .setSigningKey(SECRET)
-                    .parseClaimsJws(token);
-            return true;
+            //Parse Jwt claims and check if expiration date is not before now
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+            return !claimsJws.getBody().getExpiration().before(new Date());
         } catch (ExpiredJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
             throw new InvalidTokenException("Invalid token", e);
         }
@@ -55,4 +54,5 @@ public class JwtTokenProvider {
         String id = (String) claim.get("id");
         return Long.parseLong(id);
     }
+
 }
