@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class ArticleController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<?> updateArticle(@PathVariable Long id, Article article) {
+    public ResponseEntity<?> updateArticle(@PathVariable Long id,@RequestBody @Valid Article article) {
 
         return new ResponseEntity<Article>(articleServices.updateArticle(id,article), HttpStatus.OK);
     }

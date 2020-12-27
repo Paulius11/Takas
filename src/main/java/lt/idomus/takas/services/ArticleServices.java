@@ -68,7 +68,16 @@ public class ArticleServices {
 
         Article articleToBeUpdated = getArticleById(id);
 
-        articleRepository.save(article);
-        return article;
+        articleToBeUpdated.setTitle(article.getTitle());
+        articleToBeUpdated.setDescription(article.getDescription());
+        articleToBeUpdated.setFeatured(article.isFeatured());
+        articleToBeUpdated.setDifficulty(article.getDifficulty());
+        articleToBeUpdated.setImage(article.getImage());
+        articleToBeUpdated.setLength(article.getLength());
+        articleToBeUpdated.setRating(article.getRating());
+        articleToBeUpdated.setRegion(article.getRegion());
+
+        return articleRepository.save(articleToBeUpdated);
+
     }
 }
