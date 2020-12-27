@@ -2,8 +2,10 @@ package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
 import lt.idomus.takas.doa.ArticleRepository;
+import lt.idomus.takas.exceptions.exception.ArticleDoesntExistException;
 import lt.idomus.takas.exceptions.exception.ArticleIdNotFoundException;
 import lt.idomus.takas.model.Article;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,19 +49,27 @@ public class ArticleServices {
     }
 
     public void deleteArticle(Long articleId) {
+        Article article;
+        try {
+            Article articleById = getArticleById(articleId);
+            article = articleById;
+            if (article == null) {
+                throw new ArticleIdNotFoundException("Cannot delete Article with ID: '" + article.getId() + "' Article doesn't exist");
+            }
+            articleRepository.delete(articleById);
 
-        Article article = getArticleById(articleId);
-
-        if (article == null) {
-            throw new ArticleIdNotFoundException("Cannot delete Article with ID: '" + article.getId() + "' Article doesn't exist");
+        } catch (Exception e) {
+            throw new ArticleDoesntExistException("Article with such ID doesn't exist!");
         }
+
+
     }
 
     public Article updateArticle(Long id, Article article) {
 
         Article articleToBeUpdated = getArticleById(id);
 
-
-        return articleRepository.save(article);
+        articleRepository.save(article);
+        return article;
     }
 }
