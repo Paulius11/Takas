@@ -77,14 +77,21 @@ class ArticleServicesTest {
     @Test
     void updateArticle() {
         Article article = Article.builder().id(1L).title("Create test").description("test").region("Test region").build();
-        services.createArticle(article);
 
-        article.setTitle("Updated title");
-        article.setDescription("Updated desc");
+        when(services.createArticle(article)).thenReturn(article);
+//
+//        Article article1 = Article.builder().id(1L).title("UPDATED").description("UPDATED").region("Test region").build();
+//
+//
+//        when(services.updateArticle(1L, article1)).thenReturn(article1);
+//        Article updateArticle = services.updateArticle(1L, article1);
+        article.setDescription("UPDATED DESC");
+        article.setTitle("TITLE UPDT");
+        when(services.getArticleById(1L)).thenReturn(article);
+        Article art = services.getArticleById(1L);
 
-        Article updateArticle = services.updateArticle(1L, article);
 
-        assertEquals(article.getTitle(), updateArticle.getTitle());
-        assertEquals(article.getDescription(), updateArticle.getDescription());
+        assertEquals(article.getTitle(), art.getTitle());
+        assertEquals(article.getDescription(), art.getDescription());
     }
 }
