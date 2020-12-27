@@ -49,11 +49,10 @@ public class ArticleServices {
     }
 
     public void deleteArticle(Long articleId) {
-        Article article;
         try {
             Article articleById = getArticleById(articleId);
-            article = articleById;
-            if (article == null) {
+
+            if (articleById == null) {
                 throw new ArticleIdNotFoundException("Cannot delete Article with ID: '" + article.getId() + "' Article doesn't exist");
             }
             articleRepository.delete(articleById);
