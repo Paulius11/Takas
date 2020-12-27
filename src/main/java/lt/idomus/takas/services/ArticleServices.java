@@ -53,7 +53,7 @@ public class ArticleServices {
             Article articleById = getArticleById(articleId);
 
             if (articleById == null) {
-                throw new ArticleIdNotFoundException("Cannot delete Article with ID: '" + article.getId() + "' Article doesn't exist");
+                throw new ArticleIdNotFoundException("Cannot delete Article with ID: '" + articleById.getId() + "' Article doesn't exist");
             }
             articleRepository.delete(articleById);
 
