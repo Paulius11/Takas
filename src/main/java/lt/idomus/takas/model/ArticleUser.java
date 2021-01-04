@@ -3,13 +3,12 @@ package lt.idomus.takas.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lt.idomus.takas.enums.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -23,13 +22,12 @@ public class ArticleUser {
     private Long id;
     @Column(unique = true)
     private String username;
-    private String fullName;
+    private String email;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+
+    private Role roles;
+    private String[] authority;
 
 
     @CreatedDate
@@ -41,8 +39,9 @@ public class ArticleUser {
     public ArticleUser(ArticleUser articleUser) {
         this.id = articleUser.getId();
         this.username = articleUser.getUsername();
-        this.fullName = articleUser.getFullName();
+        this.email = articleUser.getEmail();
         this.password = articleUser.getPassword();
         this.roles = articleUser.getRoles();
+        this.authority = articleUser.getRoles().getAuthorities();
     }
 }
