@@ -1,7 +1,6 @@
 package lt.idomus.takas.controllers;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.doa.ArticleRepository;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.services.ArticleServices;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
@@ -19,21 +17,18 @@ import java.util.List;
 @AllArgsConstructor
 public class ArticleController {
 
-    /**
-     * Returns demo data
-     */
-
 
     private final ArticleServices articleServices;
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('article:read')")
     @GetMapping
     public List<Article> articleList() {
 
         return articleServices.getAllArticles();
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+
+    @PreAuthorize("hasAnyAuthority('article:read')")
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
 
@@ -41,7 +36,7 @@ public class ArticleController {
     }
 
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('article:update')")
     @PostMapping("/create")
     public ResponseEntity<?> createArticle(@RequestBody Article article) {
 
@@ -49,7 +44,7 @@ public class ArticleController {
     }
 
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('article:delete')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id) {
         articleServices.deleteArticle(id);
@@ -58,9 +53,9 @@ public class ArticleController {
     // TODO:Add update mapping, DTOS, validation
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<?> updateArticle(@PathVariable Long id,@RequestBody @Valid Article article) {
+    @PreAuthorize("hasAnyAuthority('article:update')")
+    public ResponseEntity<?> updateArticle(@PathVariable Long id, @RequestBody @Valid Article article) {
 
-        return new ResponseEntity<Article>(articleServices.updateArticle(id,article), HttpStatus.OK);
+        return new ResponseEntity<Article>(articleServices.updateArticle(id, article), HttpStatus.OK);
     }
 }

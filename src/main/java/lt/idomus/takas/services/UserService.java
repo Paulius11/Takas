@@ -1,7 +1,6 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.doa.RoleRepository;
 import lt.idomus.takas.doa.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
@@ -9,7 +8,6 @@ import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.JwtLoginSuccessResponse;
 import lt.idomus.takas.model.LoginRequest;
-import lt.idomus.takas.model.Role;
 import lt.idomus.takas.security.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,16 +16,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import static lt.idomus.takas.enums.Role.ROLE_USER;
 
 @Service
 @AllArgsConstructor
 public class UserService {
 
-    private final RoleRepository repository;
+
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
-    private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider provider;
 
@@ -58,18 +55,11 @@ public class UserService {
             }
             //Hashing passwords
 
-
-            Role userRole = repository.findByRole("USER");
-            if (userRole == null) {
-                Role role = new Role();
-                role.setRole("USER");
-                userRole = role;
-                roleRepository.save(role);
-            }
             user.setUsername(userForm.getUsername());
-            user.setFullName(userForm.getFullName());
+            user.setEmail(userForm.getEmail());
             user.setPassword(encoder.encode(userForm.getPassword()));
-            user.setRoles(Set.of(userRole));
+            user.setRoles(ROLE_USER);
+            user.setAuthority(ROLE_USER.getAuthorities());
 
             userRepository.save(user);
 

@@ -2,22 +2,17 @@ package lt.idomus.takas;
 
 import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.doa.ArticleRepository;
-import lt.idomus.takas.doa.RoleRepository;
 import lt.idomus.takas.doa.UserRepository;
-import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticleUser;
-import lt.idomus.takas.model.Role;
-import lt.idomus.takas.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Set;
+import static lt.idomus.takas.enums.Role.ROLE_ADMIN;
 
-import java.util.Set;
 
 @SpringBootApplication
 @Slf4j
@@ -34,7 +29,7 @@ public class TakasApplication {
      * @param articleRepository access task data
      */
     @Bean
-    public CommandLineRunner demo(ArticleRepository articleRepository, RoleRepository roleRepo, UserRepository userRepo, PasswordEncoder encoder) {
+    public CommandLineRunner demo(ArticleRepository articleRepository, UserRepository userRepo, PasswordEncoder encoder) {
 
         return (args) ->
         {
@@ -52,20 +47,13 @@ public class TakasApplication {
             articleRepository.save(Article.builder().title("Something Cool").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(false).rating(2).difficulty("easy").region("Klaipėda park").length(6.1).image("https://images.unsplash.com/photo-1595514807053-2c594370091a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80").build());
 
 
-            Role userRole = new Role();
-            userRole.setRole("USER");
-            roleRepo.save(userRole);
-
-            Role adminRole = new Role();
-            adminRole.setRole("ADMIN");
-            roleRepo.save(adminRole);
-
             ArticleUser adminUser = new ArticleUser();
-            adminUser.setFullName("admin");
-            adminUser.setUsername("admin@admin.com");
+            adminUser.setEmail("admin@admin.com");
+            adminUser.setUsername("admin");
             adminUser.setPassword(encoder.encode("admin123"));
 
-            adminUser.setRoles(Set.of(userRole, adminRole));
+            adminUser.setRoles(ROLE_ADMIN);
+            adminUser.setAuthority(ROLE_ADMIN.getAuthorities());
 
             userRepo.save(adminUser);
 
