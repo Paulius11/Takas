@@ -2,6 +2,7 @@ package lt.idomus.takas.config;
 
 import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
 import lt.idomus.takas.security.JwtAuthenticationFilter;
+import lt.idomus.takas.services.CustomOAuth2UserService;
 import lt.idomus.takas.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.security.Principal;
 
 import static lt.idomus.takas.security.SecurityConstant.HOME_PATH;
 import static lt.idomus.takas.security.SecurityConstant.USER_PATH;
@@ -43,10 +46,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
+
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -65,11 +76,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
+                .oauth2Login().userInfoEndpoint().and()
+        .successHandler(oAuth2LoginSuccessHandler);
+        http
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 //HOME_PATH is defined in SecurityConstant class
@@ -78,6 +93,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Permit swagger
                 .antMatchers(SWAGGER_PATH).permitAll()
                 .antMatchers(H2_PATH).permitAll()
+                // Oauth2
+                .antMatchers("/", "/error", "/webjars/**").permitAll()
+                .mvcMatchers("/user").permitAll()
+                .mvcMatchers("/user_details").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
@@ -85,6 +104,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable();
 
+
+
         http.headers().frameOptions().disable(); // for H2-Console showing in browser
     }
+
 }

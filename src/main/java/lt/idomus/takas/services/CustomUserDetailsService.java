@@ -27,6 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         return user.map(CustomUserDetails::new).get();
     }
 
+    public UserDetails loadUserByEmail(String s) throws UsernameNotFoundException {
+
+        Optional<ArticleUser> user = repository.findByEmail(s);
+        if (user.isEmpty()) throw new UsernameNotFoundException("Username not found with email'" + s + "' ");
+
+        return user.map(CustomUserDetails::new).get();
+    }
+
     @Transactional
     public ArticleUser loadUserById(Long id) {
 

@@ -16,6 +16,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static lt.idomus.takas.enums.Role.ROLE_USER;
 
 @Service
@@ -44,20 +46,23 @@ public class UserService {
     }
 
 
-    public CreateUserDTO createUser(CreateUserDTO userForm) {
+    public CreateUserDTO createUser(CreateUserDTO userForm, boolean oauth2User) {
 
         try {
             ArticleUser user = new ArticleUser();
 
+            if(!oauth2User){
+                //Hashing passwords
+                if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
+                    throw new PasswordDontMatchException("Password's doesn't match!");
+                }
+                user.setPassword(encoder.encode(userForm.getPassword()));
 
-            if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
-                throw new PasswordDontMatchException("Password's doesn't match!");
             }
-            //Hashing passwords
+
 
             user.setUsername(userForm.getUsername());
             user.setEmail(userForm.getEmail());
-            user.setPassword(encoder.encode(userForm.getPassword()));
             user.setRoles(ROLE_USER);
             user.setAuthority(ROLE_USER.getAuthorities());
 
@@ -71,5 +76,14 @@ public class UserService {
         } catch (Exception e) {
             throw new UserAlreadyExistsException("Username is already taken");
         }
+    }
+
+
+
+    public Optional<ArticleUser> getUserInfo(Authentication authentication) {
+        Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
+        // hide password field
+        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+        return userData;
     }
 }
