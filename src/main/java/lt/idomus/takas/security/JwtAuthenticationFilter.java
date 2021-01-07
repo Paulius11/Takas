@@ -69,22 +69,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
         } catch (Exception e) {
+            if(authentication != null) {
+                if (!authentication.isAuthenticated()) {
+                    System.out.println("Logging jwt usual user");
+                    if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
-            if (!authentication.isAuthenticated()) {
-                System.out.println("Logging jwt usual user");
-                if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+                        Long userId = tokenProvider.getUserIdFromJwt(jwt);
+                        ArticleUser userDetails = userDetailsService.loadUserById(userId);
+                        CustomUserDetails user = new CustomUserDetails(userDetails);
 
-                    Long userId = tokenProvider.getUserIdFromJwt(jwt);
-                    ArticleUser userDetails = userDetailsService.loadUserById(userId);
-                    CustomUserDetails user = new CustomUserDetails(userDetails);
+                        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
+                                user.getAuthorities());
 
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
-                            user.getAuthorities());
-
-                    auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                        auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    }
                 }
             }
+
             filterChain.doFilter(request, response);
         }
         }
