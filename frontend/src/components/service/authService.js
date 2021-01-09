@@ -1,14 +1,19 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
+axios.interceptors.request.use((config) => {
+  config.headers.authorization = getToken();
+  return config;
+});
+
 export const login = (details) => {
   try {
     axios
       .post("http://localhost:8080/api/user/login", details)
-      .then((res) => storeToken(res.data.jwt));
-    //redirect after storing token
+      .then((res) => storeToken(res.data.jwt))
+      .then(() => window.location.replace("/paths"));
   } catch (err) {
-    //needs to do something with errors
+    console.log(err);
   }
 };
 

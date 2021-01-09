@@ -4,7 +4,7 @@ import "./SignUp.css";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { getArticleById, login } from "../service/authService";
-import Axios from "axios";
+import axios from "axios";
 
 function SignIn() {
   const [show, setShow] = useState(false);
