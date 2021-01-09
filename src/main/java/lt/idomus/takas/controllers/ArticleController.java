@@ -20,7 +20,7 @@ public class ArticleController {
 
     private final ArticleServices articleServices;
 
-    @PreAuthorize("hasAnyAuthority('article:read')")
+
     @GetMapping
     public List<Article> articleList() {
 
