@@ -3,7 +3,6 @@ package lt.idomus.takas.controllers;
 import lombok.AllArgsConstructor;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.EmptyFormException;
-import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.LoginRequest;
 import lt.idomus.takas.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -11,10 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @AllArgsConstructor
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api/user")
 public class UserController {
 
