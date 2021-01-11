@@ -7,8 +7,14 @@ import ClearIcon from "@material-ui/icons/Clear";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 function SignUp() {
+  //Show is for the eye icon to show/hide password
   const [show, setShow] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Valid and invalid for icons and text to change
   const valid = (item, v_icon, inv_icon) => {
     let text = document.querySelector(`#${item}`);
     text.style.opacity = "1";
@@ -30,7 +36,7 @@ function SignUp() {
     let invalid_icon = document.querySelector(`#${item}  .${inv_icon}`);
     invalid_icon.style.opacity = "1";
   };
-
+  //Check password for capital letter, number and length
   const handlePasswordChange = (e) => {
     const password = e.target.value;
 
@@ -52,8 +58,24 @@ function SignUp() {
     }
   };
 
+  // Function to see if passwords match
+  const passwordsMatch = (e) => {
+    const confirmPassword = e.target.value;
+
+    if (password !== "" && password === confirmPassword) {
+      valid("match", "check", "clear");
+    } else {
+      invalid("match", "check", "clear");
+    }
+  };
+
+  //Funtions for show/hide
   const showHidePassword = () => {
     setShow(!show);
+  };
+
+  const showHidePasswordConfirm = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -67,7 +89,11 @@ function SignUp() {
             <input
               type={show ? "text" : "password"}
               placeholder="Enter you password"
-              onChange={handlePasswordChange}
+              //Checking password and setting up value
+              onChange={(e) => {
+                handlePasswordChange(e);
+                setPassword(e.target.value);
+              }}
             />
             {show ? (
               <VisibilityIcon
@@ -81,7 +107,28 @@ function SignUp() {
               />
             )}
           </div>
-
+          <div>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => {
+                passwordsMatch(e);
+                setConfirmPassword(e.target.value);
+              }}
+            />
+            {showConfirmPassword ? (
+              <VisibilityIcon
+                className="visability"
+                onClick={showHidePasswordConfirm}
+              />
+            ) : (
+              <VisibilityOffIcon
+                className="visability"
+                onClick={showHidePasswordConfirm}
+              />
+            )}
+          </div>
           <div className="icons" style={{ display: "flex" }}>
             <p id="capital">
               <ClearIcon className="clear icon" />
@@ -101,6 +148,13 @@ function SignUp() {
               <ClearIcon className="clear icon" />
               <CheckIcon className="check icon" />
               <span> More then 8 characters</span>
+            </p>
+          </div>
+          <div className="icons" style={{ display: "flex" }}>
+            <p id="match">
+              <ClearIcon className="clear icon" />
+              <CheckIcon className="check icon" />
+              <span>Passwords match</span>
             </p>
           </div>
           <button>Sign up</button>
