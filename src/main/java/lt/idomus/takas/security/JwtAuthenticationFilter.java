@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .getAuthentication();
 
         try {
-            Map<String , Object> userDetails = ((DefaultOidcUser)authentication.getPrincipal()).getAttributes();
+            Map<String, Object> userDetails = ((DefaultOidcUser) authentication.getPrincipal()).getAttributes();
             String name = (String) userDetails.get("name");
             String email = (String) userDetails.get("email");
             String givenName = (String) userDetails.get("given_name");
@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
         } catch (Exception e) {
-            if(authentication != null) {
+            if (authentication != null) {
                 if (!authentication.isAuthenticated()) {
                     System.out.println("Logging jwt usual user");
                     if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
@@ -89,7 +89,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         }
-        }
+    }
 
 
     private String getJwtFromRequest(HttpServletRequest request) {

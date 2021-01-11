@@ -1,8 +1,8 @@
 package lt.idomus.takas;
 
 import lombok.extern.slf4j.Slf4j;
-import lt.idomus.takas.doa.ArticleRepository;
-import lt.idomus.takas.doa.UserRepository;
+import lt.idomus.takas.repository.ArticleRepository;
+import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticleUser;
 import org.springframework.boot.CommandLineRunner;

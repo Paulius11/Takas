@@ -1,7 +1,7 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.doa.UserRepository;
+import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;

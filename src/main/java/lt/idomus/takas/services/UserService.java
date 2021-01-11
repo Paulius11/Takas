@@ -1,7 +1,7 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.doa.UserRepository;
+import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
 import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
@@ -9,6 +9,7 @@ import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.JwtLoginSuccessResponse;
 import lt.idomus.takas.model.LoginRequest;
 import lt.idomus.takas.security.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,10 +26,14 @@ import static lt.idomus.takas.enums.Role.ROLE_USER;
 public class UserService {
 
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider provider;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenProvider provider;
 
 
     public JwtLoginSuccessResponse loginAttempt(LoginRequest request) {
@@ -51,7 +56,7 @@ public class UserService {
         try {
             ArticleUser user = new ArticleUser();
 
-            if(!oauth2User){
+            if (!oauth2User) {
                 //Hashing passwords
                 if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
                     throw new PasswordDontMatchException("Password's doesn't match!");
@@ -77,7 +82,6 @@ public class UserService {
             throw new UserAlreadyExistsException("Username is already taken");
         }
     }
-
 
 
     public Optional<ArticleUser> getUserInfo(Authentication authentication) {

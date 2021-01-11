@@ -20,7 +20,7 @@ public class ArticleController {
 
     private final ArticleServices articleServices;
 
-    @PreAuthorize("hasAnyAuthority('article:read')")
+
     @GetMapping
     public List<Article> articleList() {
 
@@ -36,7 +36,7 @@ public class ArticleController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('article:update')")
+    @PreAuthorize("hasAnyAuthority('article:create')")
     @PostMapping("/create")
     public ResponseEntity<?> createArticle(@RequestBody Article article) {
 

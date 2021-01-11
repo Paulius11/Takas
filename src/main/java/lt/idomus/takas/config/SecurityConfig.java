@@ -1,5 +1,6 @@
 package lt.idomus.takas.config;
 
+import lombok.AllArgsConstructor;
 import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
 import lt.idomus.takas.security.JwtAuthenticationFilter;
 import lt.idomus.takas.services.CustomOAuth2UserService;
@@ -7,20 +8,17 @@ import lt.idomus.takas.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.security.Principal;
-
-import static lt.idomus.takas.security.SecurityConstant.HOME_PATH;
-import static lt.idomus.takas.security.SecurityConstant.USER_PATH;
+import static lt.idomus.takas.security.SecurityConstant.*;
 
 @EnableWebSecurity
 @Configuration
@@ -29,6 +27,7 @@ import static lt.idomus.takas.security.SecurityConstant.USER_PATH;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String[] SWAGGER_PATH = {"/v2/api-docs",
@@ -38,26 +37,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/webjars/**"};
     public static final String H2_PATH = "/h2-console/**";
+
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
-
     @Autowired
     private CustomUserDetailsService userDetailsService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
-
-
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -76,11 +69,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .oauth2Login().userInfoEndpoint().and()
-        .successHandler(oAuth2LoginSuccessHandler);
+                .oauth2Login().userInfoEndpoint()
+                .and()
+                .successHandler(oAuth2LoginSuccessHandler);
         http
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
 //                .and()
 //                .sessionManagement()
@@ -90,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //HOME_PATH is defined in SecurityConstant class
                 .antMatchers(HOME_PATH).permitAll()
                 .antMatchers(USER_PATH).permitAll()
+                .antMatchers(HttpMethod.GET, GET_ALL_ARTICLE_LIST).permitAll()
                 // Permit swagger
                 .antMatchers(SWAGGER_PATH).permitAll()
                 .antMatchers(H2_PATH).permitAll()
@@ -103,7 +97,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
-
 
 
         http.headers().frameOptions().disable(); // for H2-Console showing in browser

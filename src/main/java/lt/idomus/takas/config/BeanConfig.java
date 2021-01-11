@@ -1,6 +1,6 @@
 package lt.idomus.takas.config;
 
-import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
+import lt.idomus.takas.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +12,11 @@ public class BeanConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
     }
 
 }
