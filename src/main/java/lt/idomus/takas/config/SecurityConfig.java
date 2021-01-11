@@ -1,5 +1,6 @@
 package lt.idomus.takas.config;
 
+import lombok.AllArgsConstructor;
 import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
 import lt.idomus.takas.security.JwtAuthenticationFilter;
 import lt.idomus.takas.services.CustomOAuth2UserService;
@@ -14,11 +15,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.security.Principal;
 
 import static lt.idomus.takas.security.SecurityConstant.*;
 
@@ -29,6 +27,7 @@ import static lt.idomus.takas.security.SecurityConstant.*;
         jsr250Enabled = true,
         prePostEnabled = true
 )
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String[] SWAGGER_PATH = {"/v2/api-docs",
@@ -38,19 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/webjars/**"};
     public static final String H2_PATH = "/h2-console/**";
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    private final CustomUserDetailsService userDetailsService;
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
-
-    @Autowired
-    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {

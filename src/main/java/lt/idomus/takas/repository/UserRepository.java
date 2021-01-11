@@ -1,4 +1,4 @@
-package lt.idomus.takas.doa;
+package lt.idomus.takas.repository;
 
 import lt.idomus.takas.model.ArticleUser;
 import org.springframework.data.jpa.repository.JpaRepository;

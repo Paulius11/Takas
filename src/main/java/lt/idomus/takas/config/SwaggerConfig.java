@@ -1,4 +1,4 @@
-package lt.idomus.takas;
+package lt.idomus.takas.config;
 
 
 import org.springframework.context.annotation.Bean;

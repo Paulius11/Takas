@@ -1,11 +1,10 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.doa.ArticleRepository;
+import lt.idomus.takas.repository.ArticleRepository;
 import lt.idomus.takas.exceptions.exception.ArticleDoesntExistException;
 import lt.idomus.takas.exceptions.exception.ArticleIdNotFoundException;
 import lt.idomus.takas.model.Article;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

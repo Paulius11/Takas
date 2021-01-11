@@ -1,7 +1,7 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.doa.UserRepository;
+import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
 import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
@@ -51,7 +51,7 @@ public class UserService {
         try {
             ArticleUser user = new ArticleUser();
 
-            if(!oauth2User){
+            if (!oauth2User) {
                 //Hashing passwords
                 if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
                     throw new PasswordDontMatchException("Password's doesn't match!");
@@ -77,7 +77,6 @@ public class UserService {
             throw new UserAlreadyExistsException("Username is already taken");
         }
     }
-
 
 
     public Optional<ArticleUser> getUserInfo(Authentication authentication) {
