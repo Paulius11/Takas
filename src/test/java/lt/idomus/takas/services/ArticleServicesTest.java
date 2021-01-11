@@ -1,7 +1,8 @@
 package lt.idomus.takas.services;
 
-import lt.idomus.takas.doa.ArticleRepository;
+import lt.idomus.takas.config.OAuth2LoginSuccessHandler;
 import lt.idomus.takas.model.Article;
+import lt.idomus.takas.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,15 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ExtendWith(SpringExtension.class)
 class ArticleServicesTest {
 
     @MockBean
     private ArticleRepository repository;
-
     @Mock
     private ArticleServices services;
+
+    @MockBean
+    private CustomOAuth2UserService userService;
+    @MockBean
+    private OAuth2LoginSuccessHandler handler;
 
     @Test
     @DisplayName("Return all articles test")
