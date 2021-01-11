@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.model.ArticleUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    private final UserRepository userRepository;
-    private final UserService userService;
-    private final CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private  UserRepository userRepository;
+    @Autowired
+    private  UserService userService;
+    @Autowired
+    private  CustomUserDetailsService customUserDetailsService;
 
 
     public void manageUser(Map<String, Object> userDetails) {

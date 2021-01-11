@@ -38,19 +38,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**"};
     public static final String H2_PATH = "/h2-console/**";
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
-
-    private final CustomUserDetailsService userDetailsService;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .successHandler(oAuth2LoginSuccessHandler);
         http
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
 //                .and()
 //                .sessionManagement()
