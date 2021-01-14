@@ -12,6 +12,8 @@ function PathPager() {
   if (sorted[page]) {
     return (
       <div className="pathPager">
+        {/* Checking the page number and hiding/display button,
+         Array of arrays */}
         <PathList paths={sorted[page]} />
         {sorted.length > 1 && (
           <article>

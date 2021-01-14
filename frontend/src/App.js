@@ -26,6 +26,7 @@ function App() {
         <Route exact path="/signup">
           <SignUp />
         </Route>
+        {/*For the children part https://reactrouter.com/web/example/url-params */}
         <Route exact path="/paths/:id" children={<SinglePath />} />
         <Route exact path="/">
           <Home />
