@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+
+    restart: always
+    environment:
+      MYSQL_DATABASE: takas
+      MYSQL_USER: takas
+      MYSQL_PASSWORD: takas123
+      MYSQL_ROOT_PASSWORD: takas123
+    networks:
+      - net_work
+    volumes:
+      - db-data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    depends_on:
+      - db
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/takas?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: takas
+      SPRING_DATASOURCE_PASSWORD: takas123
+    networks:
+      - net_work
+
+networks:
+  net_work:
+
+volumes:
+  db-data:
