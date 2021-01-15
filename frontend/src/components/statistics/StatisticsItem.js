@@ -10,6 +10,7 @@ function StatisticsItem({ Icon, number, text }) {
       <div className="statisticsItem__icon">{Icon && <Icon />}</div>
       <div className="statisticsItem__text">
         <h1>
+          {/* Count up change the number from 0 to the number you want */}
           <CountUp
             start={focus ? 0 : null}
             end={number}
@@ -17,6 +18,7 @@ function StatisticsItem({ Icon, number, text }) {
             redraw={true}
           >
             {({ countUpRef }) => (
+              //  When user reach this part of the page the CountUp starts
               <VisibilitySensor
                 onChange={(isVisible) => {
                   if (isVisible) {
