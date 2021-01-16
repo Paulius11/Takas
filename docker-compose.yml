@@ -33,6 +33,15 @@ services:
     networks:
       - net_work
 
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    networks:
+      - net_work
 networks:
   net_work:
 
