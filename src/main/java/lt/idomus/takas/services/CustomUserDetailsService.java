@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Service
@@ -32,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<ArticleUser> user = repository.findByEmail(s);
         if (user.isEmpty()) throw new UsernameNotFoundException("Username not found with email'" + s + "' ");
 
-        return user.map(CustomUserDetails::new).get();
+        return user.map(user1 -> new CustomUserDetails(user1)).get();
     }
 
     @Transactional

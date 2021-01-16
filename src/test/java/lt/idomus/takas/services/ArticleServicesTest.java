@@ -1,6 +1,7 @@
 package lt.idomus.takas.services;
 
-import lt.idomus.takas.config.OAuth2LoginSuccessHandler;
+import lt.idomus.takas.oauth.OAuth2UserService;
+import lt.idomus.takas.oauth.OAuth2LoginSuccessHandler;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +28,7 @@ class ArticleServicesTest {
     private ArticleServices services;
 
     @MockBean
-    private CustomOAuth2UserService userService;
+    private OAuth2UserService userService;
     @MockBean
     private OAuth2LoginSuccessHandler handler;
 
