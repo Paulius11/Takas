@@ -37,7 +37,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
-        log.info("Running " + this.getClass().getSimpleName());
+        log.debug("Running " + this.getClass().getSimpleName());
 
         Map<String, Object> userDetails = null;
         try {
@@ -46,16 +46,17 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             e.printStackTrace();
         }
         OAuthAttributes attributes = OAuthAttributes.of(userDetails);
-        logger.info(attributes.getName());
+        logger.debug(attributes.getAttributes());
+        logger.debug(attributes.getName());
 
         ArticleUser loadedUser = customOAuth2UserService.manageUser(attributes);
-
 
         String generatedJwtToken = provider.generateOauth2Token(authentication);
         int maxAge = 7 * 24 * 60 * 60; // maxAge - 7 days
 
 
         CookieUtils.addCookie(response, "jwt", generatedJwtToken, maxAge);
+
 
         /* Get cookie from frontend
          * "successfulLoginRedirectUrl" cookie name set from frontend

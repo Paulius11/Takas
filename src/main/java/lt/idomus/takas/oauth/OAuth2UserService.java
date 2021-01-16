@@ -24,10 +24,13 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
 
     public ArticleUser manageUser(OAuthAttributes auth) {
+        log.debug("Running " + this.getClass().getSimpleName());
         Optional<ArticleUser> userEmailInDB = userRepository.findByEmail(auth.getEmail());
         if (userEmailInDB.isPresent()) {
             log.info("Loading user from database");
-            return userEmailInDB.get();
+            ArticleUser articleUser = userEmailInDB.get();
+            log.debug(articleUser);
+            return articleUser;
         }
         log.info("Writing user to database");
         ArticleUser articleUser = auth.toEntity();

@@ -1,5 +1,6 @@
 package lt.idomus.takas.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.SerializationUtils;
 
 import javax.servlet.http.Cookie;
@@ -7,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Optional;
-
+@Slf4j
 public class CookieUtils {
 
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
@@ -16,6 +17,7 @@ public class CookieUtils {
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
+                    log.debug("Getting cookie name: '{}'", name);
                     return Optional.of(cookie);
                 }
             }
@@ -25,6 +27,8 @@ public class CookieUtils {
     }
 
     public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+        log.debug("Adding cookie name: '{}'", name);
+        log.debug("Adding cookie value: '{}'", value);
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
@@ -33,6 +37,7 @@ public class CookieUtils {
     }
 
     public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+        log.debug("Deleting cookie name: '{}'", name);
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie: cookies) {

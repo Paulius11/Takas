@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        log.info("Running " + this.getClass().getSimpleName());
+        log.debug("Running " + this.getClass().getSimpleName());
         String jwt = getJwtFromRequest(request);
         String token = StringUtils.removeStart(Optional.ofNullable(jwt).orElse(""), "Bearer").trim();
         Authentication authentication = SecurityContextHolder.getContext()
