@@ -22,6 +22,7 @@ public class OAuthAttributes {
     private String email;
     private String picture;
     private String className;
+    private String roles;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey,
@@ -93,6 +94,7 @@ public class OAuthAttributes {
     public ArticleUser toEntity() {
         return ArticleUser.builder()
                 .OAuth(true)
+                .OAuthID(id)
                 .username(name)
                 .email(email)
                 .roles(Role.ROLE_USER)

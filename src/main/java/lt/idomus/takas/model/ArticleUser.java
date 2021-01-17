@@ -41,7 +41,7 @@ public class ArticleUser{
     // Oauth2 data
     @Column(name = "OAuth2")
     private boolean OAuth;
-    @Column(name = "OAuth2_ID")
+    @Column(name = "OAuth2_ID", unique = true)
     private String OAuthID;
 
 
