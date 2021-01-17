@@ -22,7 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static lt.idomus.takas.security.SecurityConstant.*;
 
 
-
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(

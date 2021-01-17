@@ -2,21 +2,11 @@ package lt.idomus.takas.security;
 
 import io.jsonwebtoken.*;
 import lt.idomus.takas.exceptions.exception.InvalidTokenException;
-import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.CustomUserDetails;
-import lt.idomus.takas.oauth.OAuthAttributes;
-import lt.idomus.takas.services.UserService;
-import org.apache.catalina.UserDatabase;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.tags.ArgumentTag;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

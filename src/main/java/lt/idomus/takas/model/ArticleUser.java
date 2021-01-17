@@ -8,9 +8,7 @@ import lt.idomus.takas.enums.Role;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.Date;
 
 @Data
@@ -18,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Builder
-public class ArticleUser{
+public class ArticleUser {
 
     public ArticleUser(ArticleUser articleUser) {
         this.id = articleUser.getId();
@@ -56,10 +54,10 @@ public class ArticleUser{
     private Date updated_at;
 
     /*
-    * Here we use update to map elements
-    * */
+     * Here we use update to map elements
+     * */
     public ArticleUser update(String username, String email) {
-        this.username = username ;
+        this.username = username;
         this.email = email;
         return this;
     }

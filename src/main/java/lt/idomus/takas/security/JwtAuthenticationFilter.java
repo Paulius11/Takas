@@ -59,9 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             logger.info("user:password logging flow");
             if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
-                        Long userId = tokenProvider.getUserIdFromJwt(jwt);
-                        ArticleUser userDetails = userDetailsService.loadUserById(userId);
-                        CustomUserDetails user = new CustomUserDetails(userDetails);
+                Long userId = tokenProvider.getUserIdFromJwt(jwt);
+                ArticleUser userDetails = userDetailsService.loadUserById(userId);
+                CustomUserDetails user = new CustomUserDetails(userDetails);
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
                         user.getAuthorities());

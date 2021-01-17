@@ -1,6 +1,5 @@
 package lt.idomus.takas.controllers;
 
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OAuth2Controller {
 
     @GetMapping("/loginUnsuccessful")
-    public String unsuccessful(){
+    public String unsuccessful() {
         return "Please try again...";
     }
 
@@ -24,13 +23,13 @@ public class OAuth2Controller {
         OAuth2User user = getCurrentUser();
         log.info(user);
         return "Hello " + user.getAttributes().get("name") + ". Your email is " + user.getAttributes().get("email")
-                + " and your profile picture is <img src='"+user.getAttributes().get("picture")+"' /> <br />"
+                + " and your profile picture is <img src='" + user.getAttributes().get("picture") + "' /> <br />"
                 + "<a href='/logout'>logout</a>";
     }
 
 
     public OAuth2User getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return ((OAuth2AuthenticationToken)auth).getPrincipal();
+        return ((OAuth2AuthenticationToken) auth).getPrincipal();
     }
 }

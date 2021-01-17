@@ -1,16 +1,15 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.CustomUserDetails;
+import lt.idomus.takas.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 @Service

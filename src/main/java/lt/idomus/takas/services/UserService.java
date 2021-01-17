@@ -1,13 +1,13 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
 import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.JwtLoginSuccessResponse;
 import lt.idomus.takas.model.LoginRequest;
+import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
