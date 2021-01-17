@@ -27,13 +27,15 @@ public class CookieUtils {
         return Optional.empty();
     }
 
-    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+    public static void addCookie(HttpServletResponse response, String name, String value, Long maxAge) {
+//        int maxAge = 7 * 24 * 60 * 60; // maxAge - 7 days
         log.debug("Adding cookie name: '{}'", name);
         log.debug("Adding cookie value: '{}'", value);
+        log.debug("Cookie maxAge: '{}'",maxAge);
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
+        cookie.setMaxAge(Math.toIntExact(maxAge));
         response.addCookie(cookie);
     }
 

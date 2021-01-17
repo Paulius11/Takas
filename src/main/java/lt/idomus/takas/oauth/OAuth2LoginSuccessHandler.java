@@ -3,6 +3,7 @@ package lt.idomus.takas.oauth;
 import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.security.JwtTokenProvider;
+import lt.idomus.takas.security.SecurityConstant;
 import lt.idomus.takas.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -52,10 +53,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         ArticleUser loadedUser = customOAuth2UserService.manageUser(attributes);
 
         String generatedJwtToken = provider.generateOauth2Token(loadedUser);
-        int maxAge = 7 * 24 * 60 * 60; // maxAge - 7 days
 
 
-        CookieUtils.addCookie(response, "jwt", generatedJwtToken, maxAge);
+
+        CookieUtils.addCookie(response, "jwt", generatedJwtToken, SecurityConstant.EXPIRATION_IN_MILLISECS);
 
 
         /* Get cookie from frontend
