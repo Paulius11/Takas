@@ -93,11 +93,12 @@ public class OAuthAttributes {
     public ArticleUser toEntity() {
         return ArticleUser.builder()
                 .OAuth(true)
-                .OAuthId(id)
                 .username(name)
                 .email(email)
                 .roles(Role.ROLE_USER)
                 .authority(Role.ROLE_USER.getAuthorities())
                 .build();
     }
+
+
 }

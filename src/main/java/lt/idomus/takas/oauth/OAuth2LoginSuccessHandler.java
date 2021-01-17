@@ -51,7 +51,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         ArticleUser loadedUser = customOAuth2UserService.manageUser(attributes);
 
-        String generatedJwtToken = provider.generateOauth2Token(authentication);
+        String generatedJwtToken = provider.generateOauth2Token(loadedUser);
         int maxAge = 7 * 24 * 60 * 60; // maxAge - 7 days
 
 

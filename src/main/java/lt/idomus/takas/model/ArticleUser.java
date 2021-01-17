@@ -42,7 +42,7 @@ public class ArticleUser{
     @Column(name = "OAuth2")
     private boolean OAuth;
     @Column(name = "OAuth2_ID")
-    private String OAuthId;
+    private String OAuthID;
 
 
     private Role roles;

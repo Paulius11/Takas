@@ -90,4 +90,11 @@ public class UserService {
         userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
         return userData;
     }
+
+    public Optional<ArticleUser> getUserInfo(String OauthId) {
+        Optional<ArticleUser> userData = userRepository.findByOAuthID(OauthId);
+        // hide password field
+        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+        return userData;
+    }
 }
