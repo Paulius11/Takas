@@ -5,6 +5,7 @@ import lombok.Getter;
 import lt.idomus.takas.enums.Role;
 import lt.idomus.takas.model.ArticleUser;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 
 import java.util.Map;
@@ -51,6 +52,10 @@ public class OAuthAttributes {
         ;*/
     private static OAuthAttributes ofAuthentication(Authentication authentication) {
         if (authentication == null) {
+            return null;
+        }
+        if (!(authentication instanceof  DefaultOidcUser)) {
+            // Prevent cast exception
             return null;
         }
         Map<String, Object> attributes = ((DefaultOidcUser) authentication.getPrincipal()).getAttributes();

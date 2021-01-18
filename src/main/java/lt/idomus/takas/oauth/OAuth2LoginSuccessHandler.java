@@ -29,6 +29,7 @@ import java.util.Optional;
  **/
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    public static final String FRONTEND_SUCCESSFUL_LOGIN_REDIRECT_URL = "successfulLoginRedirectUrl";
     @Autowired
     private JwtTokenProvider provider;
 
@@ -62,14 +63,12 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         /* Get cookie from frontend
          * "successfulLoginRedirectUrl" cookie name set from frontend
          * this is url to be redirected   */
-        Optional<Cookie> redirectUrl = CookieUtils.getCookie(request, "successfulLoginRedirectUrl");
+        Optional<Cookie> redirectUrl = CookieUtils.getCookie(request, FRONTEND_SUCCESSFUL_LOGIN_REDIRECT_URL);
 
         if (redirectUrl.isPresent()) {
             //TODO: use Base64?
             String url = URLDecoder.decode(redirectUrl.get().getValue(), "utf-8");
-            log.debug("Getting redirect url");
-            log.debug("redirectUrl: " + url);
-            log.debug("redirecting");
+            log.debug("redirectUrl: {}", url);
             setDefaultTargetUrl(url);
         }
         super.onAuthenticationSuccess(request, response, authentication);

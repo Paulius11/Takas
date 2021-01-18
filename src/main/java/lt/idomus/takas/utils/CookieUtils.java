@@ -34,7 +34,7 @@ public class CookieUtils {
         log.debug("Cookie maxAge: '{}'",maxAge);
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
         cookie.setMaxAge(Math.toIntExact(maxAge));
         response.addCookie(cookie);
     }
