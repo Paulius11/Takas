@@ -69,7 +69,13 @@ public class JwtTokenProvider {
 
     public Long getUserIdFromJwt(String token) {
         Claims claim = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-        String id = (String) claim.get("id");
+
+        String id = null;
+        try {
+            id = (String) claim.get("id");
+        } catch (Exception e) {
+            return Long.valueOf(claim.get("id").toString());
+        }
         return Long.parseLong(id);
     }
 
