@@ -3,6 +3,7 @@ package lt.idomus.takas.oauth;
 import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.security.JwtTokenProvider;
+import lt.idomus.takas.security.SecurityConstant;
 import lt.idomus.takas.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,7 @@ import java.util.Optional;
  **/
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    public static final String FRONTEND_SUCCESSFUL_LOGIN_REDIRECT_URL = "successfulLoginRedirectUrl";
     @Autowired
     private JwtTokenProvider provider;
 
@@ -51,24 +53,22 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         ArticleUser loadedUser = customOAuth2UserService.manageUser(attributes);
 
-        String generatedJwtToken = provider.generateOauth2Token(authentication);
-        int maxAge = 7 * 24 * 60 * 60; // maxAge - 7 days
+        String generatedJwtToken = provider.generateOauth2Token(loadedUser);
 
 
-        CookieUtils.addCookie(response, "jwt", generatedJwtToken, maxAge);
+
+        CookieUtils.addCookie(response, "jwt", generatedJwtToken, SecurityConstant.EXPIRATION_IN_MILLISECS);
 
 
         /* Get cookie from frontend
          * "successfulLoginRedirectUrl" cookie name set from frontend
          * this is url to be redirected   */
-        Optional<Cookie> redirectUrl = CookieUtils.getCookie(request, "successfulLoginRedirectUrl");
+        Optional<Cookie> redirectUrl = CookieUtils.getCookie(request, FRONTEND_SUCCESSFUL_LOGIN_REDIRECT_URL);
 
         if (redirectUrl.isPresent()) {
             //TODO: use Base64?
             String url = URLDecoder.decode(redirectUrl.get().getValue(), "utf-8");
-            log.debug("Getting redirect url");
-            log.debug("redirectUrl: " + url);
-            log.debug("redirecting");
+            log.debug("redirectUrl: {}", url);
             setDefaultTargetUrl(url);
         }
         super.onAuthenticationSuccess(request, response, authentication);

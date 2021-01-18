@@ -21,11 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static lt.idomus.takas.security.SecurityConstant.*;
 
+
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
+        securedEnabled = true, // @Secured(ROLE_ADMIN)
+        jsr250Enabled = true, // @RolesAllowed(ROLE_ADMIN, ROLES_USER)
         prePostEnabled = true
 )
 @AllArgsConstructor
@@ -73,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+                .and()
                 .authorizeRequests()
                 //HOME_PATH is defined in SecurityConstant class
                 .antMatchers(HOME_PATH).permitAll()
@@ -87,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/user").permitAll()
                 .mvcMatchers("/user_details").permitAll()
                 .anyRequest().authenticated()
-            .and()
+                .and()
                 .cors()
                 .and()
                 .csrf().disable()

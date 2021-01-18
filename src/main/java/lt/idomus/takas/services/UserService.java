@@ -1,13 +1,13 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
 import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.JwtLoginSuccessResponse;
 import lt.idomus.takas.model.LoginRequest;
+import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -86,6 +86,13 @@ public class UserService {
 
     public Optional<ArticleUser> getUserInfo(Authentication authentication) {
         Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
+        // hide password field
+        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+        return userData;
+    }
+
+    public Optional<ArticleUser> getUserInfo(String OauthId) {
+        Optional<ArticleUser> userData = userRepository.findByOAuthID(OauthId);
         // hide password field
         userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
         return userData;

@@ -47,21 +47,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         OAuthAttributes attributes = OAuthAttributes.of(authentication);
         if (!token.isEmpty()) {
             // When jwt is sent
-            filterChain.doFilter(request, response);
-            return;
-        }
-        if (authentication == null) {
-            // If user is not logged with google or signed in
-            filterChain.doFilter(request, response);
-            return;
-        }
-        if (attributes.getClassName().equals("UsernamePasswordAuthenticationToken")) {
             logger.info("user:password logging flow");
             if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
-                        Long userId = tokenProvider.getUserIdFromJwt(jwt);
-                        ArticleUser userDetails = userDetailsService.loadUserById(userId);
-                        CustomUserDetails user = new CustomUserDetails(userDetails);
+                Long userId = tokenProvider.getUserIdFromJwt(jwt);
+                ArticleUser userDetails = userDetailsService.loadUserById(userId);
+                CustomUserDetails user = new CustomUserDetails(userDetails);
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null,
                         user.getAuthorities());
@@ -70,7 +61,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 filterChain.doFilter(request, response);
                 return;
-            }
+        }
+        if (authentication == null) {
+            // If user is not logged with google or signed in
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
         }
         filterChain.doFilter(request, response);
     }

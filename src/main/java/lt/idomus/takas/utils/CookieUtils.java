@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Optional;
+
 @Slf4j
 public class CookieUtils {
 
@@ -26,13 +27,15 @@ public class CookieUtils {
         return Optional.empty();
     }
 
-    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+    public static void addCookie(HttpServletResponse response, String name, String value, Long maxAge) {
+//        int maxAge = 7 * 24 * 60 * 60; // maxAge - 7 days
         log.debug("Adding cookie name: '{}'", name);
         log.debug("Adding cookie value: '{}'", value);
+        log.debug("Cookie maxAge: '{}'",maxAge);
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
+        cookie.setHttpOnly(false);
+        cookie.setMaxAge(Math.toIntExact(maxAge));
         response.addCookie(cookie);
     }
 
@@ -40,7 +43,7 @@ public class CookieUtils {
         log.debug("Deleting cookie name: '{}'", name);
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie: cookies) {
+            for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
                     cookie.setValue("");
                     cookie.setPath("/");

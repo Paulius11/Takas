@@ -5,13 +5,10 @@ import lombok.Getter;
 import lt.idomus.takas.enums.Role;
 import lt.idomus.takas.model.ArticleUser;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import springfox.documentation.builders.OAuthBuilder;
 
-import java.math.BigInteger;
 import java.util.Map;
-import java.util.Optional;
 
 @Getter
 public class OAuthAttributes {
@@ -22,10 +19,11 @@ public class OAuthAttributes {
     private String email;
     private String picture;
     private String className;
+    private String roles;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey,
-                           String name, String email, String picture, String className, String sub){
+                           String name, String email, String picture, String className, String sub) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
@@ -36,22 +34,28 @@ public class OAuthAttributes {
     }
 
     // User information returned by OAuth2User is Map, so each value must be converted
-    public static OAuthAttributes of (String registrationId, String userNameAttributeName,Map<String, Object> attributes){
+    public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
         return ofGoogle(userNameAttributeName, attributes);
     }
 
-    public static OAuthAttributes of(Map<String, Object> attributes){
+    public static OAuthAttributes of(Map<String, Object> attributes) {
         return ofGoogle(attributes);
     }
-    public static OAuthAttributes of(Authentication authentication){
+
+    public static OAuthAttributes of(Authentication authentication) {
         return ofAuthentication(authentication);
     }
-/*  Usage
-    Authentication authentication = SecurityContextHolder.getContext()
-    OAuthAttributes attributes = OAuthAttributes.of(authentication);
-    ;*/
+
+    /*  Usage
+        Authentication authentication = SecurityContextHolder.getContext()
+        OAuthAttributes attributes = OAuthAttributes.of(authentication);
+        ;*/
     private static OAuthAttributes ofAuthentication(Authentication authentication) {
-        if (authentication == null){
+        if (authentication == null) {
+            return null;
+        }
+        if (!(authentication instanceof  DefaultOidcUser)) {
+            // Prevent cast exception
             return null;
         }
         Map<String, Object> attributes = ((DefaultOidcUser) authentication.getPrincipal()).getAttributes();
@@ -64,7 +68,7 @@ public class OAuthAttributes {
                 .build();
     }
 
-    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes){
+    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -73,12 +77,13 @@ public class OAuthAttributes {
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
-     /*
-        Usage:
-        var userDetails = ((DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAttributes();
-        OAuthAttributes attributes = OAuthAttributes.of(userDetails);
-     */
-    private static OAuthAttributes ofGoogle(Map<String, Object> attributes){
+
+    /*
+       Usage:
+       var userDetails = ((DefaultOidcUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAttributes();
+       OAuthAttributes attributes = OAuthAttributes.of(userDetails);
+    */
+    private static OAuthAttributes ofGoogle(Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .sub((String) attributes.get("sub"))
                 .name((String) attributes.get("name"))
@@ -89,15 +94,16 @@ public class OAuthAttributes {
     }
 
 
-
     public ArticleUser toEntity() {
         return ArticleUser.builder()
                 .OAuth(true)
-                .OAuthId(id)
+                .OAuthID(id)
                 .username(name)
                 .email(email)
                 .roles(Role.ROLE_USER)
                 .authority(Role.ROLE_USER.getAuthorities())
                 .build();
     }
+
+
 }

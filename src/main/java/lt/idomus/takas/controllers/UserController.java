@@ -38,7 +38,7 @@ public class UserController {
         return ResponseEntity.ok(userService.loginAttempt(request));
     }
 
-    @GetMapping("/user")
+    @GetMapping("/details")
     public ResponseEntity<?> getUserInfo(Authentication auth) {
         if (auth == null) return new ResponseEntity<String>("No authentication detected", HttpStatus.BAD_REQUEST);
         return ResponseEntity.ok(userService.getUserInfo(auth));

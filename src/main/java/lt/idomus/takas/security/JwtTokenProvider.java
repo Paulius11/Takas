@@ -2,39 +2,33 @@ package lt.idomus.takas.security;
 
 import io.jsonwebtoken.*;
 import lt.idomus.takas.exceptions.exception.InvalidTokenException;
+import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.model.CustomUserDetails;
-import org.apache.catalina.UserDatabase;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static lt.idomus.takas.security.SecurityConstant.SECRET;
-import static lt.idomus.takas.security.SecurityConstant.expirationInMillisecs;
+import static lt.idomus.takas.security.SecurityConstant.EXPIRATION_IN_MILLISECS;
 
 @Component
 public class JwtTokenProvider {
 
-
-    public String generateOauth2Token(Authentication authentication) {
-        var user = (DefaultOidcUser) authentication.getPrincipal();
+    public String generateOauth2Token(ArticleUser articleUser) {
         Date now = new Date(System.currentTimeMillis());
-        Date expiry = new Date(now.getTime() + expirationInMillisecs);
+        Date expiry = new Date(now.getTime() + EXPIRATION_IN_MILLISECS);
 
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", (articleUser.getId()));
 
-        //TODO add userID
-        // claims.put("id", (Long.toString(user.getId())));
+
         return Jwts.builder()
-                .setSubject("user.getId().toString()")
+                .setSubject(String.valueOf(articleUser.getId()))
                 .setClaims(claims)
-                .setAudience("user.getRoles().toString()")
+                .setAudience(String.valueOf(articleUser.getRoles()))
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
@@ -47,7 +41,7 @@ public class JwtTokenProvider {
 
         Date now = new Date(System.currentTimeMillis());
 
-        Date expiry = new Date(now.getTime() + expirationInMillisecs);
+        Date expiry = new Date(now.getTime() + EXPIRATION_IN_MILLISECS);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", (user.getId()));
