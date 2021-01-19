@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lt.idomus.takas.enums.Role;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -47,10 +49,10 @@ public class ArticleUser {
     private String[] authority;
 
 
-    @CreatedDate
+    @CreationTimestamp
     private Date created_at;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private Date updated_at;
 
     /*
