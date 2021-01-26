@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static lt.idomus.takas.enums.Role.ROLE_ADMIN;
+import static lt.idomus.takas.enums.Role.ROLE_USER;
 
 
 @SpringBootApplication

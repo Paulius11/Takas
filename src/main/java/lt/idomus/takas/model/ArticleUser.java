@@ -44,7 +44,7 @@ public class ArticleUser {
     @Column(name = "OAuth2_ID", unique = true)
     private String OAuthID;
 
-
+    @Enumerated(EnumType.STRING)
     private Role roles;
     private String[] authority;
 
