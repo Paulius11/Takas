@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         OAuthAttributes attributes = OAuthAttributes.of(authentication);
-        if (!token.isEmpty()) {
+        if (!token.isEmpty() && !token.equals("null")) {
             // When jwt is sent
             logger.info("user:password logging flow");
             if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
