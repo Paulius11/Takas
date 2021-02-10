@@ -52,11 +52,17 @@ public class TakasApplication {
             adminUser.setEmail("admin@admin.com");
             adminUser.setUsername("admin");
             adminUser.setPassword(encoder.encode("admin123"));
-
             adminUser.setRoles(ROLE_ADMIN);
             adminUser.setAuthority(ROLE_ADMIN.getAuthorities());
-
             userRepo.save(adminUser);
+
+            ArticleUser regularUser = ArticleUser.builder()
+                    .username("user")
+                    .password(encoder.encode("user"))
+                    .roles(ROLE_USER)
+                    .authority(ROLE_USER.getAuthorities())
+                    .build();
+            userRepo.save(regularUser);
 
         };
     }

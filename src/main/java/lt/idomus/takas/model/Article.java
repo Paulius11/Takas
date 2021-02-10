@@ -25,6 +25,7 @@ public class Article {
     private String region;
     private double length;
     private String image;
+    private String username;
 
 
 }

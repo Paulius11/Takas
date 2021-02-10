@@ -17,7 +17,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler
-    public ResponseEntity<?> notFoundByIdException(ArticleIdNotFoundException exception, WebRequest request) {
+    public ResponseEntity<?> notFoundByIdException(ArticleCreateException exception, WebRequest request) {
 
         ArticleIdNotFoundResponse response = new ArticleIdNotFoundResponse(exception.getMessage());
 

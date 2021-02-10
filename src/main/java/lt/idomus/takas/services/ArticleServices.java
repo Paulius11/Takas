@@ -1,12 +1,18 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
+import lt.idomus.takas.exceptions.exception.ArticleCreateException;
 import lt.idomus.takas.exceptions.exception.ArticleDoesntExistException;
-import lt.idomus.takas.exceptions.exception.ArticleIdNotFoundException;
 import lt.idomus.takas.model.Article;
+import lt.idomus.takas.model.ArticlePost;
 import lt.idomus.takas.repository.ArticleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +24,6 @@ public class ArticleServices {
 
 
     public List<Article> getAllArticles() {
-
         return articleRepository.findAll();
     }
 
@@ -28,31 +33,54 @@ public class ArticleServices {
 
         if (article.isEmpty()) {
 
-            throw new ArticleIdNotFoundException("Article was not found with ID: '" + id + "'");
+            throw new ArticleCreateException("Article was not found with ID: '" + id + "'");
         } else
             return article.get();
     }
 
-    public Article createArticle(Article article) {
+    public Article createArticle(ArticlePost postArticle, Authentication authentication ) {
 
         try {
 
-            return articleRepository.save(article);
+            // Creating article when data is fetched from http  POST method
+            // To avoid displaying id in swagger
+            System.out.println(authentication);
+
+            Article newArticle =
+                Article.builder()
+                    .title(postArticle.getTitle())
+                    .description(postArticle.getDescription())
+                    .featured(postArticle.isFeatured())
+                    .rating(postArticle.getRating())
+                    .difficulty(postArticle.getDifficulty())
+                    .region(postArticle.getRegion())
+                    .length(postArticle.getLength())
+                    .image(postArticle.getImage())
+                    .username(authentication.getName())
+                .build();
+
+            return articleRepository.save(newArticle);
 
         } catch (Exception e) {
 
-            throw new ArticleIdNotFoundException("Article exists with ID: '" + article.getId() + "'");
+            throw new ArticleCreateException("Cant create new article: " + postArticle);
         }
-
-
     }
+
+    public Article createSuggestion(ArticlePost article) {
+        // Here articles are saved when users are created, they are not displayed in main page
+        // without approval of admin
+        //TODO
+        return null;
+    }
+
 
     public void deleteArticle(Long articleId) {
         try {
             Article articleById = getArticleById(articleId);
 
             if (articleById == null) {
-                throw new ArticleIdNotFoundException("Cannot delete Article with ID: '" + articleId + "' Article doesn't exist");
+                throw new ArticleCreateException("Cannot delete Article with ID: '" + articleId + "' Article doesn't exist");
             }
             articleRepository.delete(articleById);
 
@@ -79,4 +107,6 @@ public class ArticleServices {
         return articleRepository.save(articleToBeUpdated);
 
     }
+
+
 }
