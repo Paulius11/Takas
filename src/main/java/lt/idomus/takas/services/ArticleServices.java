@@ -6,14 +6,9 @@ import lt.idomus.takas.exceptions.exception.ArticleDoesntExistException;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticlePost;
 import lt.idomus.takas.repository.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,30 +44,29 @@ public class ArticleServices {
 
     /**
      * This method creates new articles
-     * @param postArticle post method data from frontend
+     *
+     * @param postArticle    post method data from frontend
      * @param authentication authentication data passed from controller
      * @return json data as response
      */
-    public Article createArticle(ArticlePost postArticle, Authentication authentication ) {
+    public Article createArticle(ArticlePost postArticle, Authentication authentication) {
 
         try {
-
             // Creating article when data is fetched from http  POST method
             // To avoid displaying id in swagger
-
             Article newArticle =
-                Article.builder()
-                    .title(postArticle.getTitle())
-                    .description(postArticle.getDescription())
-                    .featured(postArticle.isFeatured())
-                    .rating(postArticle.getRating())
-                    .difficulty(postArticle.getDifficulty())
-                    .region(postArticle.getRegion())
-                    .length(postArticle.getLength())
-                    .image(postArticle.getImage())
-                    .username(authentication.getName())
-                    .published(true)
-                .build();
+                    Article.builder()
+                            .title(postArticle.getTitle())
+                            .description(postArticle.getDescription())
+                            .featured(postArticle.isFeatured())
+                            .rating(postArticle.getRating())
+                            .difficulty(postArticle.getDifficulty())
+                            .region(postArticle.getRegion())
+                            .length(postArticle.getLength())
+                            .image(postArticle.getImage())
+                            .username(authentication.getName())
+                            .published(true)
+                            .build();
 
             return articleRepository.save(newArticle);
 
@@ -83,17 +77,15 @@ public class ArticleServices {
     }
 
     /**
-     * Users cant create articles, but they won't be displayed before approving
-     * @param postArticle
-     * @param authentication
-     * @return
+     * Create draft article.
+     * this article won't be displayed  before approving by user with required rights
+     *
+     * @param postArticle    post method data from frontend
+     * @param authentication authentication data passed from controller
+     * @return json data as response
      */
-    public Article createSuggestion(ArticlePost postArticle, Authentication authentication ) {
-        // Here articles are saved when users are created, they are not displayed in main page
-        // without approval of admin
-
+    public Article createSuggestion(ArticlePost postArticle, Authentication authentication) {
         try {
-
             Article newArticle =
                     Article.builder()
                             .title(postArticle.getTitle())
@@ -107,11 +99,8 @@ public class ArticleServices {
                             .username(authentication.getName())
                             .published(false)
                             .build();
-
             return articleRepository.save(newArticle);
-
         } catch (Exception e) {
-
             throw new ArticleCreateException("Cant create new article: " + postArticle);
         }
     }
