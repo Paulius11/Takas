@@ -29,7 +29,14 @@ public class ArticleController {
 
     @GetMapping
     public List<Article> articleList() {
-        return articleServices.getAllArticles();
+        return articleServices.getPublishedArticles();
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('article:approve')")
+    @GetMapping("/unpublished")
+    public List<Article> getUnpublishedArticles() {
+        return articleServices.getNotPublishedArticles();
     }
 
 
@@ -49,8 +56,8 @@ public class ArticleController {
 
     @PreAuthorize("hasAnyAuthority('article:offer')")
     @PostMapping("/createSuggestion")
-    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article) {
-        return new ResponseEntity<Article>(articleServices.createSuggestion(article), HttpStatus.CREATED);
+    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, Authentication authentication) {
+        return new ResponseEntity<Article>(articleServices.createSuggestion(article, authentication), HttpStatus.CREATED);
     }
 
 

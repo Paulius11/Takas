@@ -15,5 +15,6 @@ public class ArticlePost {
     private double length;
     private String image;
     private String username;
+    boolean published;
 
 }

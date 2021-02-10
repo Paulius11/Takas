@@ -26,6 +26,7 @@ public class Article {
     private double length;
     private String image;
     private String username;
+    private boolean published;
 
 
 }
