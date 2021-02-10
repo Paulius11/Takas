@@ -34,13 +34,7 @@ import static lt.idomus.takas.security.SecurityConstant.*;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static final String[] SWAGGER_PATH = {"/v2/api-docs",
-            "/configuration/ui",
-            "/swagger-resources/**",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"};
-    public static final String H2_PATH = "/h2-console/**";
+
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
