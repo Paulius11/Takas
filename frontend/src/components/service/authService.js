@@ -6,10 +6,10 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-export const login = (details) => {
+export const login = (username, password) => {
   try {
     axios
-      .post("http://localhost:8080/api/user/login", details)
+      .post("http://localhost:8080/api/user/login", username, password)
       .then((res) => storeToken(res.data.jwt))
       .then(() => window.location.replace("/paths"));
   } catch (err) {
