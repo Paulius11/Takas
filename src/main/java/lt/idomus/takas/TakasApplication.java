@@ -57,6 +57,7 @@ public class TakasApplication {
             userRepo.save(adminUser);
 
             ArticleUser regularUser = ArticleUser.builder()
+                    .email("user@gmail.com")
                     .username("user")
                     .password(encoder.encode("user"))
                     .roles(ROLE_USER)
