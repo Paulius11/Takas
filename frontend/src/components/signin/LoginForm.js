@@ -1,15 +1,43 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Formik, Form } from "formik";
 import TextField from "./TextField";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import * as Yup from "yup";
 import "./FormStyle.css";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { login } from "../service/authService";
+import { publicFetch } from "./../../utils/fetch";
+import SuccessMessage from "./SuccessMessage";
+import { AuthContext } from "../../context/AuthContext";
 
 function LoginForm() {
+  const authContext = useContext(AuthContext);
   const [show, setShow] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState();
+  const [loginError, setLoginError] = useState();
+  const [redirectOnLogin, setRedirectOnLogin] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+
+  //Function for user login
+  const submitCredentials = async (credentials) => {
+    try {
+      setLoginLoading(true);
+      const { data } = await publicFetch.post(`login`, credentials);
+      authContext.setAuthState(data);
+      setLoginSuccess(data.message);
+      setLoginError(null);
+      setTimeout(() => {
+        setRedirectOnLogin(true);
+      }, 1000);
+      console.log(data);
+    } catch (error) {
+      setLoginLoading(false);
+      const { data } = error.response;
+      setLoginError(data.message);
+      setLoginSuccess(null);
+    }
+  };
 
   const showHidePassword = () => {
     setShow(!show);
@@ -27,43 +55,47 @@ function LoginForm() {
   });
 
   return (
-    <Formik
-      initialValues={{
-        username: "",
-        password: "",
-      }}
-      onSubmit={(values) => login(values)}
-      validationSchema={validate}
-    >
-      {(formik) => (
-        <div className="registration">
-          <Form>
-            <TextField placeholder="username" name="username" type="text" />
-
-            <TextField
-              placeholder="password"
-              name="password"
-              type={show ? "text" : "password"}
-            />
-            {show ? (
-              <VisibilityIcon
-                className="visabilitya"
-                onClick={showHidePassword}
+    <>
+      {redirectOnLogin && <Redirect to="/user-profile" />}
+      <Formik
+        initialValues={{
+          username: "",
+          password: "",
+        }}
+        onSubmit={(values) => submitCredentials(values)}
+        validationSchema={validate}
+      >
+        {(formik) => (
+          <div className="registration">
+            <Form>
+              {loginSuccess && <SuccessMessage successMessage={loginSuccess} />}
+              {loginError && <p>{loginError}</p>}
+              <TextField placeholder="username" name="username" type="text" />
+              <TextField
+                placeholder="password"
+                name="password"
+                type={show ? "text" : "password"}
               />
-            ) : (
-              <VisibilityOffIcon
-                className="visabilitya"
-                onClick={showHidePassword}
-              />
-            )}
-            <button type="submit">Login</button>
-            <p>
-              Don't have an account? <Link to="/signup">Sign Up</Link>
-            </p>
-          </Form>
-        </div>
-      )}
-    </Formik>
+              {show ? (
+                <VisibilityIcon
+                  className="visabilitya"
+                  onClick={showHidePassword}
+                />
+              ) : (
+                <VisibilityOffIcon
+                  className="visabilitya"
+                  onClick={showHidePassword}
+                />
+              )}
+              <button type="submit">Login</button>
+              <p>
+                Don't have an account? <Link to="/signup">Sign Up</Link>
+              </p>
+            </Form>
+          </div>
+        )}
+      </Formik>
+    </>
   );
 }
 

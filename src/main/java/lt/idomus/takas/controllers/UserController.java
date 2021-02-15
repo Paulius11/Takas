@@ -29,7 +29,7 @@ public class UserController {
         }
 
         CreateUserDTO user = userService.createUser(userForm, false);
-        return new ResponseEntity<CreateUserDTO>(user, HttpStatus.OK);
+        return new ResponseEntity<CreateUserDTO>(user,HttpStatus.OK);
     }
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody ArticleUserDetailsPost userDetailsPost, Authentication authentication,

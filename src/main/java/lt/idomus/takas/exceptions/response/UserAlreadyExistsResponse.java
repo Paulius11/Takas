@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UserAlreadyExistsResponse {
-    private String response;
+    private String message;
 }
