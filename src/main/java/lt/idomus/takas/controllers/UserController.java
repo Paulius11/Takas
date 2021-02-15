@@ -3,6 +3,8 @@ package lt.idomus.takas.controllers;
 import lombok.AllArgsConstructor;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.EmptyFormException;
+import lt.idomus.takas.model.ArticleUser;
+import lt.idomus.takas.model.ArticleUserDetailsPost;
 import lt.idomus.takas.model.LoginRequest;
 import lt.idomus.takas.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -29,7 +31,17 @@ public class UserController {
         CreateUserDTO user = userService.createUser(userForm, false);
         return new ResponseEntity<CreateUserDTO>(user, HttpStatus.OK);
     }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody ArticleUserDetailsPost userDetailsPost, Authentication authentication,
+                                        @RequestHeader(value="Authorization") String headerStr) {
+        if (userDetailsPost == null) {
+            throw new EmptyFormException("Cannot pass empty form!");
+        }
+        ArticleUser user = userService.updateUser(userDetailsPost, authentication);
+        return new ResponseEntity<ArticleUser>(user, HttpStatus.OK);
+    }
 
+    //oauth2
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest request) {
 
@@ -39,9 +51,11 @@ public class UserController {
     }
 
     @GetMapping("/details")
-    public ResponseEntity<?> getUserInfo(Authentication auth) {
+
+    public ResponseEntity<?> getUserInfo(Authentication auth,
+                                         @RequestHeader(value="Authorization") String headerStr) {
         if (auth == null) return new ResponseEntity<String>("No authentication detected", HttpStatus.BAD_REQUEST);
-        return ResponseEntity.ok(userService.getUserInfo(auth));
+        return ResponseEntity.ok(userService.getUserDetails(auth));
     }
 
 }
