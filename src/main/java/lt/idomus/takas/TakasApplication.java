@@ -66,7 +66,7 @@ public class TakasApplication {
                     .email("user@gmail.com")
                     .username("user")
                     .favorites(new HashSet<>(List.of(1)))
-                    .password(encoder.encode("user"))
+                    .password(encoder.encode("user1234"))
                     .roles(ROLE_USER)
                     .authority(ROLE_USER.getAuthorities())
                     .build();
