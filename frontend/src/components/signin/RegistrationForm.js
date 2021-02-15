@@ -1,21 +1,48 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import TextField from "./TextField";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import * as Yup from "yup";
 import "./FormStyle.css";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { publicFetch } from "./../../utils/fetch";
+import SuccessMessage from "./SuccessMessage";
 
 function RegistrationForm() {
   const [show, setShow] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState();
+  const [signupError, setSignupError] = useState();
+  const [redirectOnLogin, setRedirectOnLogin] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
+  //Hiding password
   const showHidePassword = () => {
     setShow(!show);
   };
   const showHidePasswordConfirm = () => {
     setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  //Create user
+  const submitCredentials = async (credentials) => {
+    try {
+      setLoginLoading(true);
+      const { data } = await publicFetch.post(`register`, credentials);
+
+      setSignupSuccess(data.message);
+      setSignupError("");
+
+      setTimeout(() => {
+        setRedirectOnLogin(true);
+      }, 700);
+    } catch (error) {
+      setLoginLoading(false);
+      const { data } = error.response;
+      setSignupError(data.message);
+      setSignupSuccess("");
+    }
   };
 
   //Field validation with yup
@@ -37,63 +64,67 @@ function RegistrationForm() {
       .required("Confirm password is required"),
   });
   return (
-    <Formik
-      initialValues={{
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      }}
-      onSubmit={() => console.log("Success")}
-      validationSchema={validate}
-    >
-      {(formik) => (
-        <div className="registration">
-          <Form>
-            <TextField placeholder="username" name="username" type="text" />
-            <TextField placeholder="email" name="email" type="email" />
+    <>
+      {redirectOnLogin && <Redirect to="/signin" />}
+      <Formik
+        initialValues={{
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        onSubmit={(values) => submitCredentials(values)}
+        validationSchema={validate}
+      >
+        {(formik) => (
+          <div className="registration">
+            <Form>
+              {signupSuccess && <SuccessMessage text={signupSuccess} />}
+              {signupError && <p>{signupError}</p>}
+              <TextField placeholder="username" name="username" type="text" />
+              <TextField placeholder="email" name="email" type="email" />
+              <TextField
+                placeholder="password"
+                name="password"
+                type={show ? "text" : "password"}
+              />
+              {show ? (
+                <VisibilityIcon
+                  className="visabilitya"
+                  onClick={showHidePassword}
+                />
+              ) : (
+                <VisibilityOffIcon
+                  className="visabilitya"
+                  onClick={showHidePassword}
+                />
+              )}
+              <TextField
+                placeholder="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+              />
 
-            <TextField
-              placeholder="password"
-              name="password"
-              type={show ? "text" : "password"}
-            />
-            {show ? (
-              <VisibilityIcon
-                className="visabilitya"
-                onClick={showHidePassword}
-              />
-            ) : (
-              <VisibilityOffIcon
-                className="visabilitya"
-                onClick={showHidePassword}
-              />
-            )}
-            <TextField
-              placeholder="confirmPassword"
-              name="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
-            />
-
-            {showConfirmPassword ? (
-              <VisibilityIcon
-                className="visabilitya"
-                onClick={showHidePasswordConfirm}
-              />
-            ) : (
-              <VisibilityOffIcon
-                className="visabilitya"
-                onClick={showHidePasswordConfirm}
-              />
-            )}
-            <button type="submit">Sign Up</button>
-            <p>
-              Have an account? <Link to="/signin">Sign In</Link>
-            </p>
-          </Form>
-        </div>
-      )}
-    </Formik>
+              {showConfirmPassword ? (
+                <VisibilityIcon
+                  className="visabilitya"
+                  onClick={showHidePasswordConfirm}
+                />
+              ) : (
+                <VisibilityOffIcon
+                  className="visabilitya"
+                  onClick={showHidePasswordConfirm}
+                />
+              )}
+              <button type="submit">Sign Up</button>
+              <p>
+                Have an account? <Link to="/signin">Sign In</Link>
+              </p>
+            </Form>
+          </div>
+        )}
+      </Formik>
+    </>
   );
 }
 

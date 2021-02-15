@@ -47,7 +47,11 @@ public class UserService {
 
         String jwt = provider.generateToken(authentication);
 
-        return new JwtLoginSuccessResponse(jwt);
+        Optional<ArticleUser> user = userRepository.findByUsername(authentication.getName());
+        // hide password field
+        user.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+
+        return new JwtLoginSuccessResponse(jwt, "Authentication successful!", user);
     }
 
 

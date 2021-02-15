@@ -27,7 +27,7 @@ public class UserController {
         }
 
         CreateUserDTO user = userService.createUser(userForm, false);
-        return new ResponseEntity<CreateUserDTO>(user, HttpStatus.OK);
+        return new ResponseEntity<CreateUserDTO>(user,HttpStatus.OK);
     }
 
     @PostMapping("/login")
