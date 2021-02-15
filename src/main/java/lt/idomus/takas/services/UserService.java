@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
 import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
-import lt.idomus.takas.model.ArticleUser;
-import lt.idomus.takas.model.JwtLoginSuccessResponse;
-import lt.idomus.takas.model.LoginRequest;
+import lt.idomus.takas.model.*;
 import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +36,8 @@ public class UserService {
 
     public JwtLoginSuccessResponse loginAttempt(LoginRequest request) {
 
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -59,17 +55,13 @@ public class UserService {
 
         try {
             ArticleUser user = new ArticleUser();
-
             if (!oauth2User) {
                 //Hashing passwords
                 if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
                     throw new PasswordDontMatchException("Password's doesn't match!");
                 }
                 user.setPassword(encoder.encode(userForm.getPassword()));
-
             }
-
-
             user.setUsername(userForm.getUsername());
             user.setEmail(userForm.getEmail());
             user.setRoles(ROLE_USER);
@@ -80,7 +72,6 @@ public class UserService {
             userForm.setPassword("");
             userForm.setConfirmPassword("");
 
-
             return userForm;
         } catch (Exception e) {
             throw new UserAlreadyExistsException("Username is already taken");
@@ -88,17 +79,27 @@ public class UserService {
     }
 
 
-    public Optional<ArticleUser> getUserInfo(Authentication authentication) {
+    public Optional<ArticleUser> getUserDetails(Authentication authentication) {
         Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
-        // hide password field
-        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+        userData.ifPresent(articleUser -> articleUser.setPassword("hidden")); // hide password field
         return userData;
     }
 
     public Optional<ArticleUser> getUserInfo(String OauthId) {
         Optional<ArticleUser> userData = userRepository.findByOAuthID(OauthId);
-        // hide password field
-        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));    // hide password field
+
         return userData;
+    }
+
+    public ArticleUser updateUser(ArticleUserDetailsPost editedArticleUser, Authentication authentication) {
+        Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
+        if (userData.isPresent()){
+            userData.get().setFavorites(editedArticleUser.getFavorites());
+            return userRepository.save(userData.get());
+        }
+        // TODO: update, kad paimtu tik t1 userį, kuris prisijungęs
+        // TODO: user/id atnaudiną userį tik adminas
+        return null;
     }
 }

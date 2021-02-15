@@ -12,6 +12,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -38,6 +41,15 @@ public class ArticleUser {
     private String email;
     private String password;
 
+    private HashSet<Integer> favorites;
+
+    @CreationTimestamp
+    private Date created_at;
+
+    @UpdateTimestamp
+    private Date updated_at;
+
+
     // Oauth2 data
     @Column(name = "OAuth2")
     private boolean OAuth;
@@ -48,12 +60,6 @@ public class ArticleUser {
     private Role roles;
     private String[] authority;
 
-
-    @CreationTimestamp
-    private Date created_at;
-
-    @UpdateTimestamp
-    private Date updated_at;
 
     /*
      * Here we use update to map elements
