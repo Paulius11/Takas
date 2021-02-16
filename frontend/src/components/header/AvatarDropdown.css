@@ -1,0 +1,48 @@
+.avatarButton {
+  color: #fff;
+  padding: 5px 20px;
+  display: flex;
+  align-items: center;
+  background-color: #f44336;
+  border-radius: 30px;
+  width: 110px;
+}
+
+.avatarButton > div > p {
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  color: #1c2237;
+}
+
+.dropdownItem:hover {
+  color: #f44336;
+}
+
+.dropdownItem > p {
+  margin-left: 5px;
+  font-weight: 500;
+}
+
+.dropdownContent {
+  margin-top: 5px;
+  position: absolute;
+  background-color: #fff;
+  padding: 5px 16px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px #555;
+  box-shadow: 0 0 5px #555;
+}
+
+.dropdownContent > div {
+  margin: 5px 0;
+}
+
+.relative {
+  position: relative;
+}
