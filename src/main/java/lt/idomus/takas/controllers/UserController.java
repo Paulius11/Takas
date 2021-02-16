@@ -9,6 +9,7 @@ import lt.idomus.takas.model.LoginRequest;
 import lt.idomus.takas.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ public class UserController {
         return new ResponseEntity<CreateUserDTO>(user, HttpStatus.OK);
     }
     @PutMapping("/update")
+    // TODO: add authority
     public ResponseEntity<?> updateUser(@RequestBody ArticleUserDetailsPost userDetailsPost, Authentication authentication,
                                         @RequestHeader(value="Authorization") String headerStr) {
         if (userDetailsPost == null) {
@@ -51,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/details")
-
+    // TODO: add authority
     public ResponseEntity<?> getUserInfo(Authentication auth,
                                          @RequestHeader(value="Authorization") String headerStr) {
         if (auth == null) return new ResponseEntity<String>("No authentication detected", HttpStatus.BAD_REQUEST);

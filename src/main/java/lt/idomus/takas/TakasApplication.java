@@ -51,7 +51,6 @@ public class TakasApplication {
             articleRepository.save(Article.builder().title("Wild Cherry").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(false).rating(3).difficulty("hard").region("Vilnius park").length(91.1).image("https://www.hikespeak.com/img/Oregon/Forest_Park/Wildwood_Trail_Forest_Park_Portland_hike_5405.jpg").published(true).build());
             articleRepository.save(Article.builder().title("Dogwood").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(false).rating(5).difficulty("medium").region("Vilnius park").length(19.1).image("https://www.hikespeak.com/img/Oregon/Forest_Park/Wildwood_Trail_Forest_Park_Portland_hike_5405.jpg").published(true).build());
             articleRepository.save(Article.builder().title("Something Cool").description("Lorem ipsum dolor sit amet, consectetur adipiscing elit").featured(false).rating(2).difficulty("easy").region("Klaipėda park").length(6.1).image("https://images.unsplash.com/photo-1595514807053-2c594370091a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80").published(false).build());
-            Article article = new Article();
 
             ArticleUser adminUser = new ArticleUser();
             adminUser.setEmail("admin@admin.com");
