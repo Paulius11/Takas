@@ -5,10 +5,8 @@ import lt.idomus.takas.oauth.OAuth2LoginSuccessHandler;
 import lt.idomus.takas.security.JwtAuthenticationEntryPoint;
 import lt.idomus.takas.security.JwtAuthenticationFilter;
 import lt.idomus.takas.services.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,12 +14,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static lt.idomus.takas.security.SecurityConstant.*;
+import static lt.idomus.takas.constant.SecurityConstant.*;
 
 
 @EnableWebSecurity
@@ -36,16 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final PasswordEncoder passwordEncoder;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Override
@@ -74,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //HOME_PATH is defined in SecurityConstant class
                 .antMatchers(HOME_PATH).permitAll()
                 .antMatchers(USER_PATH).permitAll()
-                .antMatchers(HttpMethod.GET, GET_ALL_ARTICLE_LIST).permitAll()
+                .antMatchers(GET_ALL_ARTICLE_LIST).permitAll()
                 // Permit swagger
                 .antMatchers(SWAGGER_PATH).permitAll()
                 .antMatchers(H2_PATH).permitAll()

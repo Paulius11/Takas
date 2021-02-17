@@ -3,14 +3,14 @@ package lt.idomus.takas.oauth;
 import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.security.JwtTokenProvider;
-import lt.idomus.takas.security.SecurityConstant;
+import lt.idomus.takas.constant.SecurityConstant;
 import lt.idomus.takas.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @Slf4j
-@Service
+@Configuration
 /**
  * This file is loaded after successful oauth2 logging
  **/

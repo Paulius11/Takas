@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static lt.idomus.takas.security.SecurityConstant.SECRET;
-import static lt.idomus.takas.security.SecurityConstant.EXPIRATION_IN_MILLISECS;
+import static lt.idomus.takas.constant.SecurityConstant.SECRET;
+import static lt.idomus.takas.constant.SecurityConstant.EXPIRATION_IN_MILLISECS;
 
 @Component
 public class JwtTokenProvider {
