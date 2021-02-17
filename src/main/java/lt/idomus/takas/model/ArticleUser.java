@@ -7,14 +7,10 @@ import lombok.NoArgsConstructor;
 import lt.idomus.takas.enums.Role;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -60,13 +56,4 @@ public class ArticleUser {
     private Role roles;
     private String[] authority;
 
-
-    /*
-     * Here we use update to map elements
-     * */
-    public ArticleUser update(String username, String email) {
-        this.username = username;
-        this.email = email;
-        return this;
-    }
 }
