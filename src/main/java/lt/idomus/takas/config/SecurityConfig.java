@@ -24,8 +24,8 @@ import static lt.idomus.takas.constant.SecurityConstant.*;
 @Configuration
 @EnableGlobalMethodSecurity(
         securedEnabled = true, // @Secured(ROLE_ADMIN)
-        jsr250Enabled = true, // @RolesAllowed(ROLE_ADMIN, ROLES_USER)
-        prePostEnabled = true
+        jsr250Enabled = true, //  @RolesAllowed(ROLE_ADMIN, ROLES_USER)
+        prePostEnabled = true //  enable @PreAuthorize annotations
 )
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
