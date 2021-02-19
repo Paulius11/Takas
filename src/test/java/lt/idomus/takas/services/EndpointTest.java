@@ -25,7 +25,7 @@ public class EndpointTest {
     }
     @Test
     @DisplayName("Display all articles with authorization")
-    @WithMockUser(username = "paul") // Skipping authorization only testing authorization
+    @WithMockUser(username = "paul") // Skipping authentication only testing authorization
     void testDisplayArticlesAuthorized() throws Exception {
         mockMvc.perform(get("/api/article/"))
                 .andExpect(status().isOk());
