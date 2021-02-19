@@ -73,6 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/error", "/webjars/**").permitAll()
                 .mvcMatchers("/user").permitAll()
                 .mvcMatchers("/user_details").permitAll()
+                // actuator
+                .mvcMatchers("/beans/**").permitAll()
+                .mvcMatchers("/health/**").permitAll()
+                .mvcMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()

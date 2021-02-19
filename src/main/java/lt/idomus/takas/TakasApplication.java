@@ -8,13 +8,12 @@ import lt.idomus.takas.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static lt.idomus.takas.enums.Role.ROLE_ADMIN;
 import static lt.idomus.takas.enums.Role.ROLE_USER;
@@ -24,7 +23,7 @@ import static lt.idomus.takas.enums.Role.ROLE_USER;
 @Slf4j
 public class TakasApplication {
 
-
+    private static ApplicationContext applicationContext;
     public static void main(String[] args) {
         SpringApplication.run(TakasApplication.class, args);
     }
