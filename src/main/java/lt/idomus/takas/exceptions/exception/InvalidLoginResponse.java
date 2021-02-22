@@ -1,28 +1,16 @@
 package lt.idomus.takas.exceptions.exception;
 
+
+import lombok.Data;
+
+@Data
 public class InvalidLoginResponse {
 
-    private String username;
-    private String password;
+    private String message;
 
     public InvalidLoginResponse() {
-        this.username = "Invalid ussername";
-        this.password = "invalid password;";
+        this.message = "Invalid username or password";
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
