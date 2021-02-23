@@ -1,16 +1,16 @@
 import React from "react";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import PathPager from "../components/paths/PathPager";
+import SignUp from "../components/signin/SignUp";
 
-function Paths() {
+function SignUpPage() {
   return (
     <div>
       <Header />
-      <PathPager />
+      <SignUp />
       <Footer />
     </div>
   );
 }
 
-export default Paths;
+export default SignUpPage;

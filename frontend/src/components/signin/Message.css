@@ -1,0 +1,21 @@
+.success__container {
+  background-color: rgba(58, 177, 157, 0.3);
+  border: 1px solid #3ab19d;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.success__container > h4,
+.error__container > h4 {
+  color: #fff;
+  padding: 5px 0;
+}
+
+.error__container {
+  background-color: rgba(250, 107, 96, 0.877);
+  border: 1px solid #b90d0d;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}

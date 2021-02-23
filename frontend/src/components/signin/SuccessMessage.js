@@ -1,5 +1,5 @@
 import React from "react";
-import "./SuccessMessage.css";
+import "./Message.css";
 
 function SuccessMessage({ successMessage }) {
   return (
