@@ -3,12 +3,16 @@ import { AuthContext } from "../../context/AuthContext";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Icon from "@material-ui/core/Icon";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import "./AvatarDropdown.css";
+import { Link } from "react-router-dom";
+import * as ROUTES from "./../../utils/routes";
 
 const DropdownItem = ({ item }) => (
   <button className="dropdownItem" onClick={item.onClick}>
-    <Icon> {item.icon}</Icon>
-    <p>{item.title}</p>
+    <Link to={item.path}>
+      <Icon> {item.icon}</Icon> <p>{item.title}</p>
+    </Link>
   </button>
 );
 
@@ -34,9 +38,15 @@ const AvatarDropdown = () => {
 
   const dropdownItems = [
     {
+      title: "Profile",
+      icon: <AccountCircleOutlinedIcon />,
+      path: ROUTES.USER_PROFILE,
+    },
+    {
       title: "Log Out",
       icon: <ExitToAppIcon />,
       onClick: auth.logout,
+      path: "",
     },
   ];
 

@@ -6,6 +6,7 @@ import TrackChangesRoundedIcon from "@material-ui/icons/TrackChangesRounded";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
 import { AuthContext } from "../../context/AuthContext";
 import AvatarDropdown from "./AvatarDropdown";
+import * as ROUTES from "./../../utils/routes";
 
 function Header() {
   const [click, setClick] = useState(false);
@@ -32,7 +33,11 @@ function Header() {
   return (
     <div className="header">
       <div className="header__container container">
-        <Link to="/" className="header__logo" onClick={closeMobileMenu}>
+        <Link
+          to={ROUTES.HOME}
+          className="header__logo"
+          onClick={closeMobileMenu}
+        >
           <TrackChangesRoundedIcon fontSize="large" className="header__icon" />
           Site Name
         </Link>
@@ -45,42 +50,18 @@ function Header() {
           )}
         </div>
         <ul className={click ? "header__menu active" : "header__menu"}>
-          {/* Check is user authenticated and is an admin, then show the
-          navigation item */}
-          {authContext.isAuthenticated() &&
-          authContext.authState.user.roles === "ROLE_ADMIN" ? (
-            <li className="header__item">
-              <Link
-                to="/admin-panel"
-                className="header__links"
-                onClick={closeMobileMenu}
-              >
-                Admin Panel
-              </Link>
-            </li>
-          ) : null}
-          {/* Check is user authenticated and simple user, then show the
-          navigation item */}
-          {authContext.isAuthenticated() &&
-          authContext.authState.user.roles === "ROLE_USER" ? (
-            <li className="header__item">
-              <Link
-                to="/user-profile"
-                className="header__links"
-                onClick={closeMobileMenu}
-              >
-                User Panel
-              </Link>
-            </li>
-          ) : null}
           <li className="header__item">
-            <Link to="/" className="header__links" onClick={closeMobileMenu}>
+            <Link
+              to={ROUTES.HOME}
+              className="header__links"
+              onClick={closeMobileMenu}
+            >
               Home
             </Link>
           </li>
           <li className="header__item">
             <Link
-              to="/paths"
+              to={ROUTES.PATHS}
               className="header__links"
               onClick={closeMobileMenu}
             >
@@ -88,12 +69,20 @@ function Header() {
             </Link>
           </li>
           <li className="header__item">
-            <Link to="/" className="header__links" onClick={closeMobileMenu}>
+            <Link
+              to={ROUTES.HOME}
+              className="header__links"
+              onClick={closeMobileMenu}
+            >
               Featured
             </Link>
           </li>
           <li className="header__item">
-            <Link to="/" className="header__links" onClick={closeMobileMenu}>
+            <Link
+              to={ROUTES.HOME}
+              className="header__links"
+              onClick={closeMobileMenu}
+            >
               Contact us
             </Link>
           </li>
@@ -105,14 +94,14 @@ function Header() {
               <li className="header__button">
                 {button ? (
                   <Link
-                    to="/signup"
+                    to={ROUTES.SIGN_UP}
                     className="header__buttonLink"
                     onClick={closeMobileMenu}
                   >
                     <button className="header__buttonSignUp">Sign Up</button>
                   </Link>
                 ) : (
-                  <Link to="/signup" className="header__buttonLink">
+                  <Link to={ROUTES.SIGN_UP} className="header__buttonLink">
                     <button className="header__buttonSignUpMobile">
                       Sign Up
                     </button>
@@ -122,14 +111,14 @@ function Header() {
               <li className="header__button">
                 {button ? (
                   <Link
-                    to="/signin"
+                    to={ROUTES.SIGN_IN}
                     className="header__buttonLink"
                     onClick={closeMobileMenu}
                   >
                     <button className="header__buttonSignUp">Login</button>
                   </Link>
                 ) : (
-                  <Link to="/signin" className="header__buttonLink">
+                  <Link to={ROUTES.SIGN_IN} className="header__buttonLink">
                     <button className="header__buttonSignUpMobile">
                       Login
                     </button>
@@ -138,6 +127,20 @@ function Header() {
               </li>
             </>
           )}
+          {/* Check is user authenticated and is an admin, then show the
+          navigation item */}
+          {authContext.isAuthenticated() &&
+          authContext.authState.user.roles === "ROLE_ADMIN" ? (
+            <li className="header__admin">
+              <Link
+                to={ROUTES.ADMIN_PANEL}
+                className="header__links"
+                onClick={closeMobileMenu}
+              >
+                A-Panel
+              </Link>
+            </li>
+          ) : null}
         </ul>
       </div>
     </div>

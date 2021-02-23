@@ -8,6 +8,8 @@ import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { publicFetch } from "./../../utils/fetch";
 import SuccessMessage from "./SuccessMessage";
+import ErrorMessage from "./ErrorMessage";
+import * as ROUTES from "./../../utils/routes";
 
 function RegistrationForm() {
   const [show, setShow] = useState(false);
@@ -79,8 +81,10 @@ function RegistrationForm() {
         {(formik) => (
           <div className="registration">
             <Form>
-              {signupSuccess && <SuccessMessage text={signupSuccess} />}
-              {signupError && <p>{signupError}</p>}
+              {signupSuccess && (
+                <SuccessMessage successMessage={signupSuccess} />
+              )}
+              {signupError && <ErrorMessage errorMessage={signupError} />}
               <TextField placeholder="username" name="username" type="text" />
               <TextField placeholder="email" name="email" type="email" />
               <TextField
@@ -100,7 +104,7 @@ function RegistrationForm() {
                 />
               )}
               <TextField
-                placeholder="confirmPassword"
+                placeholder="confirm password"
                 name="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
               />
@@ -118,7 +122,7 @@ function RegistrationForm() {
               )}
               <button type="submit">Sign Up</button>
               <p>
-                Have an account? <Link to="/signin">Sign In</Link>
+                Have an account? <Link to={ROUTES.SIGN_IN}>Sign In</Link>
               </p>
             </Form>
           </div>
