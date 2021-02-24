@@ -6,10 +6,11 @@ import * as Yup from "yup";
 import "./FormStyle.css";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import { login } from "../service/authService";
 import { publicFetch } from "./../../utils/fetch";
 import SuccessMessage from "./SuccessMessage";
 import { AuthContext } from "../../context/AuthContext";
+import ErrorMessage from "./ErrorMessage";
+import * as ROUTES from "./../../utils/routes";
 
 function LoginForm() {
   const authContext = useContext(AuthContext);
@@ -69,7 +70,7 @@ function LoginForm() {
           <div className="registration">
             <Form>
               {loginSuccess && <SuccessMessage successMessage={loginSuccess} />}
-              {loginError && <p>{loginError}</p>}
+              {loginError && <ErrorMessage errorMessage={loginError} />}
               <TextField placeholder="username" name="username" type="text" />
               <TextField
                 placeholder="password"
@@ -89,7 +90,7 @@ function LoginForm() {
               )}
               <button type="submit">Login</button>
               <p>
-                Don't have an account? <Link to="/signup">Sign Up</Link>
+                Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
               </p>
             </Form>
           </div>

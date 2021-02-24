@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 const { Provider } = AuthContext;
@@ -8,7 +9,7 @@ const { Provider } = AuthContext;
 const AuthProvider = ({ children }) => {
   const history = useHistory();
 
-  const jwt = localStorage.getItem("token");
+  const jwt = Cookies.get("token");
   const user = localStorage.getItem("user");
 
   const [authState, setAuthState] = useState({
@@ -17,7 +18,7 @@ const AuthProvider = ({ children }) => {
   });
 
   const setAuthInfo = ({ jwt, user }) => {
-    localStorage.setItem("token", jwt);
+    Cookies.set("token", jwt);
     localStorage.setItem("user", JSON.stringify(user));
 
     setAuthState({
@@ -27,7 +28,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    Cookies.remove("token");
     localStorage.removeItem("user");
 
     setAuthState({});
@@ -35,11 +36,17 @@ const AuthProvider = ({ children }) => {
   };
 
   const isAuthenticated = () => {
-    // const decoded_token = jwt_decode(jwt);
-    if (!authState.jwt) {
-      return false;
+    try {
+      if (authState.jwt !== undefined) {
+        const decoded = jwt_decode(authState.jwt);
+        if (!authState.jwt && Date.now() >= decoded.exp * 1000) {
+          return false;
+        }
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
     }
-    return true;
   };
 
   const isAdmin = () => {
