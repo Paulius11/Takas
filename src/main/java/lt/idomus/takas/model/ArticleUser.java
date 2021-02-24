@@ -36,7 +36,6 @@ public class ArticleUser {
     private String username;
     private String email;
     private String password;
-
     private HashSet<Integer> favorites;
 
     @CreationTimestamp
@@ -56,4 +55,12 @@ public class ArticleUser {
     private Role roles;
     private String[] authority;
 
+
+    public void addToFavorites(Integer articleId) {
+        favorites.add(articleId);
+    }
+
+    public void removeFromFavorites(Integer articleId) {
+        favorites.remove(articleId);
+    }
 }

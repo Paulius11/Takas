@@ -8,13 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
@@ -26,12 +23,16 @@ public class ArticleController {
     private final ArticleServices articleServices;
 
 
-
     @GetMapping
     public List<Article> articleList() {
         return articleServices.getPublishedArticles();
     }
 
+    @PreAuthorize("hasAnyAuthority('admin', 'moderator')")
+    @GetMapping("/all")
+    public List<Article> articleListAll() {
+        return articleServices.getAllArticles();
+    }
 
     @PreAuthorize("hasAnyAuthority('article:approve')")
     @GetMapping("/unpublished")
@@ -49,8 +50,9 @@ public class ArticleController {
 
 
     @PreAuthorize("hasAnyAuthority('article:create')")
-    @PostMapping("/create" )
-    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication,
+                                           @RequestHeader(value = "Authorization") String headerStr) {
         return new ResponseEntity<Article>(articleServices.createArticle(article, authentication), HttpStatus.CREATED);
     }
 

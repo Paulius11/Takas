@@ -1,32 +1,40 @@
 package lt.idomus.takas.services;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lt.idomus.takas.constant.NameConstants;
 import lt.idomus.takas.dto.CreateUserDTO;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
-import lt.idomus.takas.exceptions.exception.UserAlreadyExistsException;
+import lt.idomus.takas.exceptions.exception.UserCreationError;
+import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticleUser;
-import lt.idomus.takas.model.ArticleUserDetailsPost;
 import lt.idomus.takas.model.JwtLoginSuccessResponse;
 import lt.idomus.takas.model.LoginRequest;
+import lt.idomus.takas.repository.ArticleRepository;
 import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.security.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
 import static lt.idomus.takas.enums.Role.ROLE_USER;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService {
 
 
     private final UserRepository userRepository;
+    private final ArticleRepository articleRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider provider;
@@ -34,18 +42,25 @@ public class UserService {
 
     public JwtLoginSuccessResponse loginAttempt(LoginRequest request) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        String jwt = provider.generateToken(authentication);
 
-        Optional<ArticleUser> user = userRepository.findByUsername(authentication.getName());
-        // hide password field
-        user.ifPresent(articleUser -> articleUser.setPassword("hidden"));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new JwtLoginSuccessResponse(jwt, "Authentication successful!", user);
+            String jwt = provider.generateToken(authentication);
+
+            Optional<ArticleUser> user = userRepository.findByUsername(authentication.getName());
+
+            user.ifPresent(articleUser -> articleUser.setPassword("hidden")); // hide password field
+
+            return new JwtLoginSuccessResponse(jwt, NameConstants.LOGIN_AUTHENTICATED, user);
+
+        } catch (AuthenticationException e) {
+            return new JwtLoginSuccessResponse(NameConstants.LOGIN_UNAUTHENTICATED);
+        }
     }
 
 
@@ -71,16 +86,21 @@ public class UserService {
             userForm.setConfirmPassword("");
 
             return userForm;
+        } catch (ConstraintViolationException e) {
+            //TODO: kodėl nepagauna šitos exception'o
+            throw new UserCreationError("Duplicate username");
         } catch (Exception e) {
-            throw new UserAlreadyExistsException("Username is already taken");
+            log.error(String.format("User creation error: %s", e.getCause()));
+            throw new UserCreationError("Registration error ");
         }
     }
 
 
     public Optional<ArticleUser> getUserDetails(Authentication authentication) {
-        Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
+        Optional<ArticleUser> userData = Optional.ofNullable(userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found")));
         userData.ifPresent(articleUser -> articleUser.setPassword("hidden")); // hide password field
         return userData;
+
     }
 
     public Optional<ArticleUser> getUserInfo(String OauthId) {
@@ -90,14 +110,27 @@ public class UserService {
         return userData;
     }
 
-    public ArticleUser updateUser(ArticleUserDetailsPost editedArticleUser, Authentication authentication) {
-        Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
-        if (userData.isPresent()){
-            userData.get().setFavorites(editedArticleUser.getFavorites());
-            return userRepository.save(userData.get());
+    public boolean favoritesAdd(Long articleID, Authentication authentication, boolean remove) {
+        Optional<Article> article = articleRepository.findById(articleID);
+        if (article.isPresent()) {
+            Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
+            if (userData.isPresent()) {
+                if (remove) {
+                    userData.get().removeFromFavorites(Math.toIntExact(articleID));
+                } else {
+                    userData.get().addToFavorites(Math.toIntExact(articleID));
+                }
+                ArticleUser save = userRepository.save(userData.get());
+                log.debug("Favorite list updated: " + save.getFavorites());
+                return true;
+            } else {
+                log.debug("User not found!");
+                return false;
+            }
         }
-        // TODO: update, kad paimtu tik t1 userį, kuris prisijungęs
-        // TODO: user/id atnaudiną userį tik adminas
-        return null;
+        log.debug("Article not found with provided id");
+        return false;
     }
+
+
 }

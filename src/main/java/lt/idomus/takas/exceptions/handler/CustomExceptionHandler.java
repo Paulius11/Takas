@@ -41,7 +41,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> userAlreadyExistsException(UserAlreadyExistsException exception, WebRequest request) {
+    public ResponseEntity<?> userAlreadyExistsException(UserCreationError exception, WebRequest request) {
 
         UserAlreadyExistsResponse response = new UserAlreadyExistsResponse(exception.getMessage());
 

@@ -14,4 +14,8 @@ public class JwtLoginSuccessResponse {
     private String jwt;
     private String message;
     private Optional<ArticleUser> user;
+
+    public JwtLoginSuccessResponse(String message) {
+        this.message = message;
+    }
 }
