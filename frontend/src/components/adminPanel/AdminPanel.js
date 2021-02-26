@@ -1,83 +1,72 @@
-import axios from "axios";
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { PathContext } from "../../context/PathProvider";
-import Cookies from "js-cookie";
+import React from "react";
+import AdminSidebar from "./AdminSidebar";
+import { Route } from "react-router-dom";
 
-axios.interceptors.request.use((config) => {
-  config.headers.authorization = "Bearer " + Cookies.get("token");
-  return config;
-});
+// Example components
+const AdminHome = () => {
+  return (
+    <div style={{ flex: 0.8 }}>
+      <h1>Admin Home</h1>
+    </div>
+  );
+};
+
+const DashboardStatistics = () => {
+  return (
+    <div style={{ flex: 0.8 }}>
+      <h1>Statistics</h1>
+    </div>
+  );
+};
+
+const DashboardSettings = () => {
+  return (
+    <div style={{ flex: 0.8 }}>
+      <h1>Settings</h1>
+    </div>
+  );
+};
+
+const DataUsers = () => {
+  return (
+    <div style={{ flex: 0.8 }}>
+      <h1>Users</h1>
+    </div>
+  );
+};
+
+const DataPaths = () => {
+  return (
+    <div style={{ flex: 0.8 }}>
+      <h1>Paths</h1>
+    </div>
+  );
+};
 
 function AdminPanel() {
-  const { paths } = useContext(PathContext);
-  const initialState = {
-    title: "",
-    description: "",
-  };
-
-  const [newPath, setNewPath] = useState(initialState);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewPath({ ...newPath, [name]: value });
-  };
-
-  const handlePathSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:8080/api/article/create", newPath)
-      .then((response) => {
-        setNewPath({
-          title: response.data.title,
-          description: response.data.description,
-        });
-      })
-      .catch((error) => {
-        console.log("Error - " + error);
-      });
-  };
-
   return (
-    <>
-      <h1>Add Path</h1>
-      <form>
-        <h5>Path title</h5>
-        <input
-          type="text"
-          placeholder="Enter path name"
-          value={newPath.title || ""}
-          onChange={handleInputChange}
-          name="title"
-        />
-        <h5>Description</h5>
-        <textarea
-          type="text"
-          placeholder="Enter the description"
-          value={newPath.description || ""}
-          onChange={handleInputChange}
-          name="description"
-        />
-        <div>
-          <button
-            style={{ background: "red" }}
-            type="submit"
-            onClick={handlePathSubmit}
-          >
-            Add
-          </button>
-        </div>
-      </form>
-      {paths.map((path) => {
-        return (
-          <p key={path.id}>
-            {path.id}: {path.title}
-          </p>
-        );
-      })}
-      <h1>Admin panel</h1>
-      <Link to="/">Website</Link>
-    </>
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
+      <AdminSidebar />
+      <Route path="/admin-panel/admin-home">
+        <AdminHome />
+      </Route>
+      <Route path="/admin-panel/dashboard/statistics">
+        <DashboardStatistics />
+      </Route>
+      <Route path="/admin-panel/dashboard/settings">
+        <DashboardSettings />
+      </Route>
+      <Route path="/admin-panel/data/users">
+        <DataUsers />
+      </Route>
+      <Route path="/admin-panel/data/paths">
+        <DataPaths />
+      </Route>
+    </div>
   );
 }
 
