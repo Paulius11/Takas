@@ -42,7 +42,7 @@ public class UserController {
 
         JwtLoginSuccessResponse jwtResponse = userService.loginAttempt(loginRequest);
         if (jwtResponse.getMessage().equals(NameConstants.LOGIN_UNAUTHENTICATED)) {
-            var response = new CustomMessage(NameConstants.LOGIN_UNAUTHENTICATED).json();
+            var response = new CustomMessage(NameConstants.LOGIN_UNAUTHENTICATED);
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
         return ResponseEntity.ok(jwtResponse);
@@ -74,16 +74,11 @@ public class UserController {
     @PostMapping("/favorite/{articleID}")
     public ResponseEntity<?> addToFavorites(@PathVariable Long articleID, Authentication authentication,
                                             @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
-
-        log.debug("Article id: " + articleID);
-
-        boolean userFavorites = userService.favoritesAdd(articleID, authentication, false);
-        log.debug("Add to fav response: " + userFavorites);
-
-        if (userFavorites) {
-            return new ResponseEntity<>(RESPONSE_OK, HttpStatus.OK);
+        var userFavorites = userService.favoritesAdd(articleID, authentication, false);
+        if (userFavorites.isStatus()) {
+            return new ResponseEntity<>(userFavorites, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(RESPONSE_ERROR, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(userFavorites, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -98,15 +93,11 @@ public class UserController {
     public ResponseEntity<?> deleteFromFavorites(@PathVariable Long articleID, Authentication authentication,
                                                  @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
 
-        log.debug("Article id: " + articleID);
-
-        boolean userFavorites = userService.favoritesAdd(articleID, authentication, true);
-        log.debug("Add to fav response: " + userFavorites);
-
-        if (userFavorites) {
-            return new ResponseEntity<>(RESPONSE_OK, HttpStatus.OK);
+        CustomMessage<?> userFavorites = userService.favoritesAdd(articleID, authentication, true);
+        if (userFavorites.isStatus()) {
+            return new ResponseEntity<>(userFavorites, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(RESPONSE_ERROR, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(userFavorites, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -124,13 +115,13 @@ public class UserController {
                                          @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
 
         if (authentication == null) {
-            var response = new CustomMessage("No authentication detected").json();
+            var response = new CustomMessage<>("No authentication detected");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 
         Optional<ArticleUser> userDetails = userService.getUserDetails(authentication);
         if (userDetails.isEmpty()) {
-            var response = new CustomMessage("User nor found").json();
+            var response = new CustomMessage<>("User nor found");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(userDetails);
