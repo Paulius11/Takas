@@ -130,20 +130,22 @@ public class UserService {
                 response.setMessage("User not found!");
                 response.setStatus(false);
             }
-            log.debug(""+response);
+            log.debug("" + response);
             return response;
         }
-        log.debug("Article not found with provided id");
+        response.setMessage("Article not found with provided id");
         response.setStatus(false);
         return response;
     }
 
 
-    public ArticleUser updateUser(ArticleUserDetailsPost userDetailsPost, Long userID) {
+    public CustomMessage<?> updateUser(ArticleUserDetailsPost userDetailsPost, Long userID) {
         Optional<ArticleUser> userDataDB_ = userRepository.findById(userID);
+        CustomMessage<?> response = new CustomMessage<>();
+        log.debug("" + userDetailsPost);
         if (userDataDB_.isPresent()) {
             var userDataDB = userDataDB_.get();
-            if (userDataDB.getFavorites() != null) {
+            if (userDetailsPost.getFavorites() != null) {
                 userDataDB.setFavorites(userDetailsPost.getFavorites());
             }
             if (userDetailsPost.getEmail() != null) {
@@ -153,14 +155,32 @@ public class UserService {
             if (userDetailsPost.getRole() != null) {
                 userDataDB.setRoles(userDetailsPost.getRole());
             }
-
-            return userRepository.save(userDataDB);
+            ArticleUser save = userRepository.save(userDataDB);
+            save.setPassword("hidden");     //TODO: DEBUG remove in production?
+            response.add("data", save); //TODO: DEBUG remove in production?
+            response.setMessage("User updated!");
+            response.setStatus(true);
+            return response;
         }
-        return null;
+        response.setStatus(false);
+        response.setMessage("Failed to update user!");
+        return response;
 
     }
 
-    public Optional<ArticleUser> getUser(Long userId) {
-        return userRepository.findById(userId);
+    public CustomMessage<Object> getUser(Long userId) {
+        var response = new CustomMessage<>();
+        Optional<ArticleUser> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            response.setMessage("User found!");
+            response.setStatus(true);
+
+            user.ifPresent(x -> x.setPassword("hidden")); //TODO: DEBUG remove in production?
+            response.add("data", user);               //TODO: DEBUG remove in production?
+        } else {
+            response.setMessage("User not found");
+            response.setStatus(false);
+        }
+        return response;
     }
 }
