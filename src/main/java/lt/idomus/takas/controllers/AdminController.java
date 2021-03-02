@@ -1,10 +1,16 @@
 package lt.idomus.takas.controllers;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lt.idomus.takas.exceptions.exception.CustomMessage;
+import lt.idomus.takas.model.ArticleUserDetailsPost;
 import lt.idomus.takas.services.UserService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
@@ -16,19 +22,36 @@ public class AdminController {
     private final UserService userService;
 
     /**
-     * User can change his own information User information
+     * Change user data
      * @param userDetailsPost
-     * @param authentication
-     * @param headerStr
-     * @return
+     * @param userId user ID
+     * @param headerStr Authentication string
+     * @return user response message if change is successful
      */
 
-//    TODO: add admin controller
-//    @PutMapping("/updateUser")
-//    public ResponseEntity<?> updateUser(@RequestBody ArticleUserDetailsPost userDetailsPost, Authentication authentication,
-//                                        @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
-//        ArticleUser user = userService.favoriteAdd(userDetailsPost, authentication);
-//        return new ResponseEntity<ArticleUser>(user, HttpStatus.OK);
-//    }
+    @ApiOperation(value = "Change user data", notes = "Change user data based on userID.")
+    @PreAuthorize("hasAnyAuthority('admin')")
+    @PostMapping("/user/{userId}")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody ArticleUserDetailsPost userDetailsPost,
+                                        @PathVariable Long userId,
+                                        @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+        CustomMessage<?> response = userService.updateUser(userDetailsPost, userId);
+        if (response.isStatus()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAnyAuthority('admin')")
+    public ResponseEntity<?> getUser(@PathVariable Long userId,
+                                        @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+        CustomMessage<Object> response = userService.getUser(userId);
+        if (response.isStatus()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
 
 }
