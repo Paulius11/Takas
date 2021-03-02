@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lt.idomus.takas.constant.NameConstants;
 import lt.idomus.takas.dto.CreateUserDTO;
+import lt.idomus.takas.exceptions.exception.CustomMessage;
 import lt.idomus.takas.exceptions.exception.PasswordDontMatchException;
 import lt.idomus.takas.exceptions.exception.UserCreationError;
-import lt.idomus.takas.model.Article;
-import lt.idomus.takas.model.ArticleUser;
-import lt.idomus.takas.model.JwtLoginSuccessResponse;
-import lt.idomus.takas.model.LoginRequest;
+import lt.idomus.takas.model.*;
 import lt.idomus.takas.repository.ArticleRepository;
 import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.security.JwtTokenProvider;
@@ -110,7 +108,9 @@ public class UserService {
         return userData;
     }
 
-    public boolean favoritesAdd(Long articleID, Authentication authentication, boolean remove) {
+    public CustomMessage<Number> favoritesAdd(Long articleID, Authentication authentication, boolean remove) {
+        CustomMessage<Number> response = new CustomMessage<>();
+
         Optional<Article> article = articleRepository.findById(articleID);
         if (article.isPresent()) {
             Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());
@@ -122,15 +122,45 @@ public class UserService {
                 }
                 ArticleUser save = userRepository.save(userData.get());
                 log.debug("Favorite list updated: " + save.getFavorites());
-                return true;
+                response.setMessage("Favorites updated!");
+                response.add("articleID", articleID);
+                response.add("size", save.getFavorites().size());
+                response.setStatus(true);
             } else {
-                log.debug("User not found!");
-                return false;
+                response.setMessage("User not found!");
+                response.setStatus(false);
             }
+            log.debug(""+response);
+            return response;
         }
         log.debug("Article not found with provided id");
-        return false;
+        response.setStatus(false);
+        return response;
     }
 
 
+    public ArticleUser updateUser(ArticleUserDetailsPost userDetailsPost, Long userID) {
+        Optional<ArticleUser> userDataDB_ = userRepository.findById(userID);
+        if (userDataDB_.isPresent()) {
+            var userDataDB = userDataDB_.get();
+            if (userDataDB.getFavorites() != null) {
+                userDataDB.setFavorites(userDetailsPost.getFavorites());
+            }
+            if (userDetailsPost.getEmail() != null) {
+                userDataDB.setEmail(userDetailsPost.getEmail());
+            }
+
+            if (userDetailsPost.getRole() != null) {
+                userDataDB.setRoles(userDetailsPost.getRole());
+            }
+
+            return userRepository.save(userDataDB);
+        }
+        return null;
+
+    }
+
+    public Optional<ArticleUser> getUser(Long userId) {
+        return userRepository.findById(userId);
+    }
 }
