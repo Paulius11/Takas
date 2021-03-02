@@ -42,11 +42,37 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Get custom user data
+     * @param userId user id
+     * @param headerStr string for authentication
+     * @return user data
+     */
+
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyAuthority('admin')")
     public ResponseEntity<?> getUser(@PathVariable Long userId,
                                         @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
         CustomMessage<Object> response = userService.getUser(userId);
+        if (response.isStatus()){
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+
+    /**
+     * Delete user
+     * @param userId user id
+     * @param headerStr string for authentication
+     * @return message
+     */
+
+    @DeleteMapping("/delete/{userId}")
+    @PreAuthorize("hasAnyAuthority('admin')")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId,
+                                     @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+        CustomMessage<Object> response = userService.deleteUser(userId);
         if (response.isStatus()){
             return new ResponseEntity<>(response, HttpStatus.OK);
         }

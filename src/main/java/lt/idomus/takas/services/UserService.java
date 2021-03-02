@@ -183,4 +183,19 @@ public class UserService {
         }
         return response;
     }
+
+    public CustomMessage<Object> deleteUser(Long userId) {
+        var response = new CustomMessage<>();
+        Optional<ArticleUser> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+
+            response.setMessage(String.format("User '%d' deleted!", userId));
+            response.setStatus(true);
+        } else {
+            response.setMessage(String.format("User '%d' not found!", userId));
+            response.setStatus(false);
+        }
+        return response;
+    }
 }

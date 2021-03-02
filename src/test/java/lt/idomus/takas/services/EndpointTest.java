@@ -198,18 +198,23 @@ public class EndpointTest {
 
         /*
 
-             /api/admin/update/user/{userId}
+             /api/admin/delete/{userId}
         */
 
     @Test
     @DisplayName("Test guest user trying update user details")
-    void testUnsuccessfulChangeUser() throws Exception {
+    void testUnsuccessfulUserDelete() throws Exception {
         mockMvc.perform
                 (
-                        put("/api/admin/update/user/1")
+                        delete("/api/admin/update/user/1")
                 )                .andExpect(status().isUnauthorized());
 
     }
+
+            /*
+             /api/user/register
+        */
+
 
 //    @Test
 //    @DisplayName("Test demo user adding items to favorites")
