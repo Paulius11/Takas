@@ -184,10 +184,20 @@ public class UserService {
         return response;
     }
 
-    public CustomMessage<Object> deleteUser(Long userId) {
+    public CustomMessage<Object> deleteUser(Long userId, Authentication authentication) {
+        // get logger user id
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        var loggedUserID = principal.getId();
+
         var response = new CustomMessage<>();
         Optional<ArticleUser> user = userRepository.findById(userId);
+        log.debug("userID:" + userId + " : "+ user);
         if (user.isPresent()) {
+            if (loggedUserID.equals(userId)) {
+                response.setMessage("You can't delete yourself!");
+                response.setStatus(true);
+                return response;
+            }
             userRepository.delete(user.get());
 
             response.setMessage(String.format("User '%d' deleted!", userId));

@@ -8,6 +8,7 @@ import lt.idomus.takas.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -70,9 +71,9 @@ public class AdminController {
 
     @DeleteMapping("/delete/{userId}")
     @PreAuthorize("hasAnyAuthority('admin')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId,
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId, Authentication authentication,
                                      @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
-        CustomMessage<Object> response = userService.deleteUser(userId);
+        CustomMessage<Object> response = userService.deleteUser(userId, authentication);
         if (response.isStatus()){
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
