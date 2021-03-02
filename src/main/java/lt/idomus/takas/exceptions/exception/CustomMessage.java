@@ -11,10 +11,10 @@ import java.util.HashMap;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomMessage<T> {
+public class CustomMessage<Obejct> {
     private String message;
     private boolean status;
-    private HashMap<String, T> data = new HashMap<>();
+    private HashMap<String, Obejct> data = new HashMap<>();
 
     public CustomMessage(String message) {
         this.message = message;
@@ -24,7 +24,9 @@ public class CustomMessage<T> {
         return new Gson().toJson(this);
     }
 
-    public void add(String key, T t){
-        this.data.put(key, t);
+    public void add(String key, Object t){
+        this.data.put(key, (Obejct) t);
     }
+
+
 }

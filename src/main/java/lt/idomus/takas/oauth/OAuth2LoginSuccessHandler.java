@@ -57,7 +57,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
 
 
-        CookieUtils.addCookie(response, "jwt", generatedJwtToken, SecurityConstant.EXPIRATION_IN_MILLISECS);
+        CookieUtils.addCookie(response, "jwt", generatedJwtToken, SecurityConstant.EXPIRATION_IN_MILLISECONDS);
 
 
         /* Get cookie from frontend
