@@ -34,6 +34,7 @@ public class ArticleUser {
     private Long id;
     @Column(unique = true)
     private String username;
+    @Column(unique = true)
     private String email;
     private String password;
     private HashSet<Integer> favorites;
