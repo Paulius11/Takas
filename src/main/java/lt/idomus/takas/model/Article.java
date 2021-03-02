@@ -19,7 +19,7 @@ public class Article {
     private String title;
     private String description;
     private boolean featured;
-    private int rating;
+    private double rating;
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
     @Enumerated(EnumType.STRING)
