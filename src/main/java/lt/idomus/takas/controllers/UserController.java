@@ -37,7 +37,7 @@ public class UserController {
      *          else display error message
      */
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest
     ) {
 
         JwtLoginSuccessResponse jwtResponse = userService.loginAttempt(loginRequest);
