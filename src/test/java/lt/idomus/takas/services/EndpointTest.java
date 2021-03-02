@@ -163,9 +163,9 @@ public class EndpointTest {
                 .andExpect(jsonPath("$.message").exists())
                 .andExpect(jsonPath("$.message.size()", is(4)))
                 .andExpect(jsonPath("$.message").isArray())
-                .andExpect(jsonPath("$.message", hasItem(CreateUserDTO.PASSWORD_LEN_VIOLATION_MESSAGE)))
-                .andExpect(jsonPath("$.message", hasItem(CreateUserDTO.EMAIL_VIOLATION_MESSAGE)))
-                .andExpect(jsonPath("$.message", hasItem(CreateUserDTO.USERNAME_EMPTY_VIOLATION_MESSAGE)))
+                .andExpect(jsonPath("$.message", hasItem(NameConstants.PASSWORD_LEN_VIOLATION_MESSAGE)))
+                .andExpect(jsonPath("$.message", hasItem(NameConstants.EMAIL_VIOLATION_MESSAGE)))
+                .andExpect(jsonPath("$.message", hasItem(NameConstants.USERNAME_EMPTY_VIOLATION_MESSAGE)))
         ;
 
     }
@@ -181,14 +181,35 @@ public class EndpointTest {
         void testUnsuccessfulAddingToFavorites() throws Exception {
             mockMvc.perform
                     (
-                            put("/api/user/favorite/1")
+                            post("/api/user/favorite/1")
                     )                .andExpect(status().isBadRequest());
+            // try incorrect patch POST method
+            mockMvc.perform
+                    (
+                            patch("/api/user/favorite/1")
+                    )                .andExpect(status().isMethodNotAllowed());
 
             mockMvc.perform
                     (
                             delete("/api/user/favorite/a")
                     )                .andExpect(status().isBadRequest());
         }
+
+
+        /*
+
+             /api/admin/update/user/{userId}
+        */
+
+    @Test
+    @DisplayName("Test guest user trying update user details")
+    void testUnsuccessfulChangeUser() throws Exception {
+        mockMvc.perform
+                (
+                        put("/api/admin/update/user/1")
+                )                .andExpect(status().isUnauthorized());
+
+    }
 
 //    @Test
 //    @DisplayName("Test demo user adding items to favorites")
