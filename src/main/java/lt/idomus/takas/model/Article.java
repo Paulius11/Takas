@@ -1,6 +1,8 @@
 package lt.idomus.takas.model;
 
 import lombok.*;
+import lt.idomus.takas.enums.Difficulty;
+import lt.idomus.takas.enums.Region;
 
 import javax.persistence.*;
 
@@ -18,8 +20,10 @@ public class Article {
     private String description;
     private boolean featured;
     private int rating;
-    private String difficulty;
-    private String region;
+    @Enumerated(EnumType.STRING)
+    private Difficulty difficulty;
+    @Enumerated(EnumType.STRING)
+    private Region region;
     private double length;
     private String image;
     private String username;

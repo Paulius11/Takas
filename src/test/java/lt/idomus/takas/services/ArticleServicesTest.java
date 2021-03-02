@@ -1,9 +1,9 @@
 package lt.idomus.takas.services;
 
-import lt.idomus.takas.model.ArticlePost;
-import lt.idomus.takas.oauth.OAuth2UserService;
-import lt.idomus.takas.oauth.OAuth2LoginSuccessHandler;
+import lt.idomus.takas.enums.Region;
 import lt.idomus.takas.model.Article;
+import lt.idomus.takas.oauth.OAuth2LoginSuccessHandler;
+import lt.idomus.takas.oauth.OAuth2UserService;
 import lt.idomus.takas.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -38,8 +37,8 @@ class ArticleServicesTest {
     void getAllArticles() {
 
         when(services.getAllArticles()).thenReturn(List.of(
-                Article.builder().id(1L).title("Title test").description("test").region("Test region").build(),
-                Article.builder().id(2L).title("Another title test").description("another test").region("Another test region").build()));
+                Article.builder().id(1L).title("Title test").description("test").region(Region.KAUNAS).build(),
+                Article.builder().id(2L).title("Another title test").description("another test").region(Region.VILNIUS).build()));
 
         assertEquals(2, services.getAllArticles().size());
         verify(services, times(1)).getAllArticles();
@@ -48,7 +47,7 @@ class ArticleServicesTest {
     @Test
     @DisplayName("Get article by id test")
     void getArticleById() {
-        Article article = Article.builder().id(1L).title("Find by Id test").description("test").region("Test region").build();
+        Article article = Article.builder().id(1L).title("Find by Id test").description("test").region(Region.KLAIPĖDA).build();
         when(services.getArticleById(1L)).thenReturn(article);
 
         Article articleFindByIdTest = services.getArticleById(1L);
