@@ -24,7 +24,7 @@ import java.util.Optional;
 @Slf4j
 public class UserController {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
+
     public static final String RESPONSE_OK = new CustomMessage("Favorites updated!").json();
     private final UserService userService;
     public static final String RESPONSE_ERROR = new CustomMessage("Error user or article not found!").json();
@@ -71,9 +71,9 @@ public class UserController {
      * @param authentication
      * @return if successful return .json string with http ok status, else return not found
      */
-    @PutMapping("/favorite/{articleID}")
+    @PostMapping("/favorite/{articleID}")
     public ResponseEntity<?> addToFavorites(@PathVariable Long articleID, Authentication authentication,
-                                            @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+                                            @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
 
         log.debug("Article id: " + articleID);
 
@@ -96,7 +96,7 @@ public class UserController {
      */
     @DeleteMapping("/favorite/{articleID}")
     public ResponseEntity<?> deleteFromFavorites(@PathVariable Long articleID, Authentication authentication,
-                                                 @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+                                                 @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
 
         log.debug("Article id: " + articleID);
 
@@ -121,7 +121,7 @@ public class UserController {
      */
     @GetMapping("/details")
     public ResponseEntity<?> getUserInfo(Authentication authentication,
-                                         @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+                                         @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
 
         if (authentication == null) {
             var response = new CustomMessage("No authentication detected").json();
@@ -136,5 +136,7 @@ public class UserController {
         return ResponseEntity.ok(userDetails);
 
     }
+
+//    TODO: method for user to change his own details
 
 }

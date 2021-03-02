@@ -1,6 +1,8 @@
 package lt.idomus.takas.controllers;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lt.idomus.takas.constant.NameConstants;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticlePost;
 import lt.idomus.takas.services.ArticleServices;
@@ -24,54 +26,57 @@ public class ArticleController {
 
 
     @GetMapping
+//    TODO paaiskinimas
     public List<Article> articleList() {
         return articleServices.getPublishedArticles();
     }
 
-    @PreAuthorize("hasAnyAuthority('admin', 'moderator')")
     @GetMapping("/all")
+    @ApiOperation(value = "Get all articles", notes = "See all articles, accessible for moderators.")
+    @PreAuthorize("hasAnyAuthority('moderator')")
     public List<Article> articleListAll() {
         return articleServices.getAllArticles();
     }
 
-    @PreAuthorize("hasAnyAuthority('article:approve')")
+
     @GetMapping("/unpublished")
+    @ApiOperation(value = "Get unpublished articles", notes = "See unpublished articles, accessible for moderators.")
+    @PreAuthorize("hasAnyAuthority('moderator')")
     public List<Article> getUnpublishedArticles() {
         return articleServices.getNotPublishedArticles();
     }
 
-
-    @PreAuthorize("hasAnyAuthority('article:read')")
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasAnyAuthority('article:read')")
     public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
 
         return new ResponseEntity<Article>(articleServices.getArticleById(id), HttpStatus.OK);
     }
 
-
-    @PreAuthorize("hasAnyAuthority('article:create')")
     @PostMapping("/create")
+    @PreAuthorize("hasAnyAuthority('article:create')")
     public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication,
-                                           @RequestHeader(value = "Authorization") String headerStr) {
+                                           @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
         return new ResponseEntity<Article>(articleServices.createArticle(article, authentication), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAnyAuthority('article:offer')")
     @PostMapping("/createSuggestion")
-    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, Authentication authentication) {
+    @PreAuthorize("hasAnyAuthority('article:offer')")
+    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, Authentication authentication,
+                                              @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
         return new ResponseEntity<Article>(articleServices.createSuggestion(article, authentication), HttpStatus.CREATED);
     }
 
-
-    @PreAuthorize("hasAnyAuthority('article:delete')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id) {
+    @PreAuthorize("hasAnyAuthority('article:delete')")
+    public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id,
+                                                  @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
         articleServices.deleteArticle(id);
         return new ResponseEntity<String>("Article with ID: '" + "' has been deleted", HttpStatus.OK);
     }
     // TODO:Add update mapping, DTOS, validation
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('article:update')")
     public ResponseEntity<?> updateArticle(@PathVariable Long id, @RequestBody @Valid Article article) {
 

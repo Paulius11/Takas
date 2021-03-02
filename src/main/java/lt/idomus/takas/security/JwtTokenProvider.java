@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static lt.idomus.takas.constant.SecurityConstant.SECRET;
-import static lt.idomus.takas.constant.SecurityConstant.EXPIRATION_IN_MILLISECS;
+import static lt.idomus.takas.constant.SecurityConstant.EXPIRATION_IN_MILLISECONDS;
 
 @Component
 public class JwtTokenProvider {
 
     public String generateOauth2Token(ArticleUser articleUser) {
         Date now = new Date(System.currentTimeMillis());
-        Date expiry = new Date(now.getTime() + EXPIRATION_IN_MILLISECS);
+        Date expiry = new Date(now.getTime() + EXPIRATION_IN_MILLISECONDS);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", (articleUser.getId()));
@@ -41,7 +41,7 @@ public class JwtTokenProvider {
 
         Date now = new Date(System.currentTimeMillis());
 
-        Date expiry = new Date(now.getTime() + EXPIRATION_IN_MILLISECS);
+        Date expiry = new Date(now.getTime() + EXPIRATION_IN_MILLISECONDS);
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", (user.getId()));
