@@ -108,7 +108,7 @@ public class EndpointTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").exists())
-                .andExpect(jsonPath("$.message[1]", is(NameConstants.PASSWORD_EMPTY_MESSAGE)))
+                .andExpect(jsonPath("$.message.size()", is(2)))
                 .andExpect(jsonPath("$.jwt").doesNotExist())
                 .andExpect(jsonPath("$.user").doesNotExist())
                 .andExpect(status().isBadRequest());
