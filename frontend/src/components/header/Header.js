@@ -26,6 +26,7 @@ function Header() {
 
   useEffect(() => {
     showButton();
+    return () => setClick(false);
   }, []);
 
   window.addEventListener("resize", showButton);

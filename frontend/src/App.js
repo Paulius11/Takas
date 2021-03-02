@@ -68,7 +68,7 @@ const AppRoutes = () => {
           <AuthenticatedRoute exact path={ROUTES.USER_PROFILE}>
             <UserProfilePage />
           </AuthenticatedRoute>
-          <AdmindRoute exact path={ROUTES.ADMIN_PANEL}>
+          <AdmindRoute path="/admin-panel">
             <AdminPage />
           </AdmindRoute>
           <Route exact path={ROUTES.SIGN_IN}>
