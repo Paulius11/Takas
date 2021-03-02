@@ -108,10 +108,10 @@ public class EndpointTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").exists())
-                .andExpect(jsonPath("$.message").value(NameConstants.LOGIN_UNAUTHENTICATED))
+                .andExpect(jsonPath("$.message[1]", is(NameConstants.PASSWORD_EMPTY_MESSAGE)))
                 .andExpect(jsonPath("$.jwt").doesNotExist())
                 .andExpect(jsonPath("$.user").doesNotExist())
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isBadRequest());
 
     }
 
