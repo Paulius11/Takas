@@ -24,40 +24,10 @@ public class ArticleController {
 
     private final ArticleServices articleServices;
 
-
     @GetMapping
-//    TODO paaiskinimas
+    @ApiOperation(value = "Get all unpublished articles", notes = "See all articles, accessible for moderators.")
     public List<Article> articleList() {
         return articleServices.getPublishedArticles();
-    }
-
-    @GetMapping("/all")
-    @ApiOperation(value = "Get all articles", notes = "See all articles, accessible for moderators.")
-    @PreAuthorize("hasAnyAuthority('moderator')")
-    public List<Article> articleListAll() {
-        return articleServices.getAllArticles();
-    }
-
-
-    @GetMapping("/unpublished")
-    @ApiOperation(value = "Get unpublished articles", notes = "See unpublished articles, accessible for moderators.")
-    @PreAuthorize("hasAnyAuthority('moderator')")
-    public List<Article> getUnpublishedArticles() {
-        return articleServices.getNotPublishedArticles();
-    }
-
-    @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyAuthority('article:read')")
-    public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
-
-        return new ResponseEntity<Article>(articleServices.getArticleById(id), HttpStatus.OK);
-    }
-
-    @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('article:create')")
-    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication,
-                                           @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
-        return new ResponseEntity<Article>(articleServices.createArticle(article, authentication), HttpStatus.CREATED);
     }
 
     @PostMapping("/createSuggestion")
@@ -67,8 +37,40 @@ public class ArticleController {
         return new ResponseEntity<Article>(articleServices.createSuggestion(article, authentication), HttpStatus.CREATED);
     }
 
+    //    TODO: bet kas gali matyti id, net ir unpublished data
+    @GetMapping("/get/{id}")
+    @PreAuthorize("hasAnyAuthority('article:read')")
+    public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
+
+        return new ResponseEntity<Article>(articleServices.getArticleById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/private/all")
+    @ApiOperation(value = "Get all articles", notes = "See all articles, accessible for moderators.")
+    @PreAuthorize("hasAnyAuthority('moderator')")
+    public List<Article> articleListAll() {
+        return articleServices.getAllArticles();
+    }
+
+
+    @GetMapping("/private/unpublished")
+    @ApiOperation(value = "Get unpublished articles", notes = "See unpublished articles, accessible for moderators.")
+    @PreAuthorize("hasAnyAuthority('moderator')")
+    public List<Article> getUnpublishedArticles() {
+        return articleServices.getNotPublishedArticles();
+    }
+
+
+    @PostMapping("/private/create")
+    @PreAuthorize("hasAnyAuthority('moderator')")
+    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication,
+                                           @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+        return new ResponseEntity<Article>(articleServices.createArticle(article, authentication), HttpStatus.CREATED);
+    }
+
+
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('article:delete')")
+    @PreAuthorize("hasAnyAuthority('moderator')")
     public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id,
                                                   @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
         articleServices.deleteArticle(id);
@@ -77,9 +79,8 @@ public class ArticleController {
     // TODO:Add update mapping, DTOS, validation
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('article:update')")
+    @PreAuthorize("hasAnyAuthority('moderator')")
     public ResponseEntity<?> updateArticle(@PathVariable Long id, @RequestBody @Valid Article article) {
-
         return new ResponseEntity<Article>(articleServices.updateArticle(id, article), HttpStatus.OK);
     }
 }
