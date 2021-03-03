@@ -145,6 +145,11 @@ public class UserService {
         log.debug("" + userDetailsPost);
         if (userDataDB_.isPresent()) {
             var userDataDB = userDataDB_.get();
+
+            if (userDetailsPost.getUsername() != null) {
+                userDataDB.setUsername(userDetailsPost.getUsername());
+            }
+
             if (userDetailsPost.getFavorites() != null) {
                 userDataDB.setFavorites(userDetailsPost.getFavorites());
             }
