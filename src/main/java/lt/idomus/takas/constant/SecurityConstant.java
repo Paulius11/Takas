@@ -15,6 +15,10 @@ public class SecurityConstant {
             "/swagger-resources/**",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**"};
+            "/webjars/**",
+//            new swagger 3.0
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
+    };
     public static final String H2_PATH = "/h2-console/**"; // this is required for h2 to work
 }
