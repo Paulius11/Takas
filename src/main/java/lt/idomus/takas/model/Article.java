@@ -29,6 +29,7 @@ public class Article {
     private String username;
     private boolean published;
 
-
+    @OneToOne
+    private ImageUpload imageUpload;
 }
 

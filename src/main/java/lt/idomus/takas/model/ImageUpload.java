@@ -31,6 +31,9 @@ public class ImageUpload {
     @JsonIgnore
     private byte[] data;
 
+    @OneToOne
+    private Article article;
+
     public ImageUpload(String imageName, String contentType, byte[] bytes) {
         this.imageName = imageName;
         this.imageType = contentType;
