@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.Optional;
 
 import static lt.idomus.takas.enums.Role.ROLE_USER;
@@ -97,14 +98,6 @@ public class UserService {
     public Optional<ArticleUser> getUserDetails(Authentication authentication) {
         Optional<ArticleUser> userData = Optional.ofNullable(userRepository.findByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("User not found")));
         userData.ifPresent(articleUser -> articleUser.setPassword("hidden")); // hide password field
-        return userData;
-
-    }
-
-    public Optional<ArticleUser> getUserInfo(String OauthId) {
-        Optional<ArticleUser> userData = userRepository.findByOAuthID(OauthId);
-        userData.ifPresent(articleUser -> articleUser.setPassword("hidden"));    // hide password field
-
         return userData;
     }
 
@@ -212,5 +205,9 @@ public class UserService {
             response.setStatus(false);
         }
         return response;
+    }
+
+    public List<ArticleUser> getAllUsers() {
+        return userRepository.findAll();
     }
 }
