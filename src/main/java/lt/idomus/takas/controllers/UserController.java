@@ -82,7 +82,7 @@ public class UserController {
      * @return if successful return .json string with http ok status, else return not found
      */
     @PostMapping("/favorite/{articleID}")
-    public ResponseEntity<?> addToFavorites(@PathVariable Long articleID, Authentication authentication) {
+    public ResponseEntity<?> addToFavorites(@PathVariable Long articleID, @ApiIgnore Authentication authentication) {
         var userFavorites = userService.favoritesAdd(articleID, authentication, false);
         if (userFavorites.isStatus()) {
             return new ResponseEntity<>(userFavorites, HttpStatus.OK);
@@ -99,7 +99,7 @@ public class UserController {
      * @return if successful return .json string with http ok status, else return not found
      */
     @DeleteMapping("/favorite/{articleID}")
-    public ResponseEntity<?> deleteFromFavorites(@PathVariable Long articleID, Authentication authentication) {
+    public ResponseEntity<?> deleteFromFavorites(@PathVariable Long articleID, @ApiIgnore Authentication authentication) {
 
         CustomMessage<?> userFavorites = userService.favoritesAdd(articleID, authentication, true);
         if (userFavorites.isStatus()) {
