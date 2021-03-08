@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ArticleController {
 
     @PostMapping("/createSuggestion")
     @PreAuthorize("hasAnyAuthority('article:offer')")
-    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, Authentication authentication) {
+    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, @ApiIgnore Authentication authentication) {
         return new ResponseEntity<Article>(articleServices.createSuggestion(article, authentication), HttpStatus.CREATED);
     }
 
@@ -61,7 +62,7 @@ public class ArticleController {
 
     @PostMapping("/private/create")
     @PreAuthorize("hasAnyAuthority('moderator')")
-    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication) {
+    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, @ApiIgnore Authentication authentication) {
         return new ResponseEntity<Article>(articleServices.createArticle(article, authentication), HttpStatus.CREATED);
     }
 
