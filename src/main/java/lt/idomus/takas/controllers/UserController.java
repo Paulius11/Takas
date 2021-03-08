@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +31,14 @@ public class UserController {
     private final UserService userService;
     public static final String RESPONSE_ERROR = new CustomMessage("Error user or article not found!").json();
 
+
+
+
+    //    TODO: rodyti tik reikalingus laukelius
+    @GetMapping("/all")
+    public List<ArticleUser> getAllUserData(){
+        return userService.getAllUsers();
+    }
 
     /***
      *  Here both oauth2 and classic login are being processed
@@ -72,8 +82,7 @@ public class UserController {
      * @return if successful return .json string with http ok status, else return not found
      */
     @PostMapping("/favorite/{articleID}")
-    public ResponseEntity<?> addToFavorites(@PathVariable Long articleID, Authentication authentication,
-                                            @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> addToFavorites(@PathVariable Long articleID, Authentication authentication) {
         var userFavorites = userService.favoritesAdd(articleID, authentication, false);
         if (userFavorites.isStatus()) {
             return new ResponseEntity<>(userFavorites, HttpStatus.OK);
@@ -90,8 +99,7 @@ public class UserController {
      * @return if successful return .json string with http ok status, else return not found
      */
     @DeleteMapping("/favorite/{articleID}")
-    public ResponseEntity<?> deleteFromFavorites(@PathVariable Long articleID, Authentication authentication,
-                                                 @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> deleteFromFavorites(@PathVariable Long articleID, Authentication authentication) {
 
         CustomMessage<?> userFavorites = userService.favoritesAdd(articleID, authentication, true);
         if (userFavorites.isStatus()) {
@@ -106,13 +114,11 @@ public class UserController {
      * Returns user details
      *
      * @param authentication user authentication in context
-     * @param headerStr      string to be used in swagger for authentication
      * @return If user is authenticated return user details
      * else display error message
      */
     @GetMapping("/details")
-    public ResponseEntity<?> getUserInfo(Authentication authentication,
-                                         @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> getUserInfo(@ApiIgnore Authentication authentication) {
 
         if (authentication == null) {
             var response = new CustomMessage<>("No authentication detected");

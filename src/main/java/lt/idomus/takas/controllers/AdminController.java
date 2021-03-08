@@ -2,6 +2,7 @@ package lt.idomus.takas.controllers;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lt.idomus.takas.constant.NameConstants;
 import lt.idomus.takas.exceptions.exception.CustomMessage;
 import lt.idomus.takas.model.ArticleUserDetailsPost;
 import lt.idomus.takas.services.UserService;
@@ -34,8 +35,7 @@ public class AdminController {
     @PreAuthorize("hasAnyAuthority('admin')")
     @PostMapping("/user/{userId}")
     public ResponseEntity<?> updateUser(@Valid @RequestBody ArticleUserDetailsPost userDetailsPost,
-                                        @PathVariable Long userId,
-                                        @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+                                        @PathVariable Long userId) {
         CustomMessage<?> response = userService.updateUser(userDetailsPost, userId);
         if (response.isStatus()){
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -52,8 +52,7 @@ public class AdminController {
 
     @GetMapping("/user/{userId}")
     @PreAuthorize("hasAnyAuthority('admin')")
-    public ResponseEntity<?> getUser(@PathVariable Long userId,
-                                        @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> getUser(@PathVariable Long userId) {
         CustomMessage<Object> response = userService.getUser(userId);
         if (response.isStatus()){
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -71,8 +70,7 @@ public class AdminController {
 
     @DeleteMapping("/delete/{userId}")
     @PreAuthorize("hasAnyAuthority('admin')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId, Authentication authentication,
-                                     @RequestHeader(value = AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId, Authentication authentication) {
         CustomMessage<Object> response = userService.deleteUser(userId, authentication);
         if (response.isStatus()){
             return new ResponseEntity<>(response, HttpStatus.OK);

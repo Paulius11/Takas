@@ -2,7 +2,6 @@ package lt.idomus.takas.controllers;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import lt.idomus.takas.constant.NameConstants;
 import lt.idomus.takas.model.Article;
 import lt.idomus.takas.model.ArticlePost;
 import lt.idomus.takas.services.ArticleServices;
@@ -32,8 +31,7 @@ public class ArticleController {
 
     @PostMapping("/createSuggestion")
     @PreAuthorize("hasAnyAuthority('article:offer')")
-    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, Authentication authentication,
-                                              @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, Authentication authentication) {
         return new ResponseEntity<Article>(articleServices.createSuggestion(article, authentication), HttpStatus.CREATED);
     }
 
@@ -63,16 +61,14 @@ public class ArticleController {
 
     @PostMapping("/private/create")
     @PreAuthorize("hasAnyAuthority('moderator')")
-    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication,
-                                           @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> createArticle(@RequestBody ArticlePost article, Authentication authentication) {
         return new ResponseEntity<Article>(articleServices.createArticle(article, authentication), HttpStatus.CREATED);
     }
 
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('moderator')")
-    public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id,
-                                                  @RequestHeader(value = NameConstants.AUTHORIZATION_HEADER) String headerStr) {
+    public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id) {
         articleServices.deleteArticle(id);
         return new ResponseEntity<String>("Article with ID: '" + "' has been deleted", HttpStatus.OK);
     }
