@@ -64,11 +64,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         if (authentication == null) {
             // If user is not logged with google or signed in
+            log.debug("Auth null");
             filterChain.doFilter(request, response);
             return;
         }
 
 
+        } else {
+            log.debug("Running with token " + token);
         }
         filterChain.doFilter(request, response);
     }
