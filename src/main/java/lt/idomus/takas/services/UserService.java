@@ -103,7 +103,11 @@ public class UserService {
 
     public CustomMessage<Number> favoritesAdd(Long articleID, Authentication authentication, boolean remove) {
         CustomMessage<Number> response = new CustomMessage<>();
-
+        if (authentication == null) {
+            response.setMessage("No authentication");
+            response.setStatus(false);
+            return response;
+        }
         Optional<Article> article = articleRepository.findById(articleID);
         if (article.isPresent()) {
             Optional<ArticleUser> userData = userRepository.findByUsername(authentication.getName());

@@ -182,7 +182,7 @@ public class EndpointTest {
             mockMvc.perform
                     (
                             post("/api/user/favorite/1")
-                    )                .andExpect(status().isBadRequest());
+                    )                .andExpect(status().isNotFound());
             // try incorrect patch POST method
             mockMvc.perform
                     (
