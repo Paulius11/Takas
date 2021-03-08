@@ -10,7 +10,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 //http://springfox.github.io/springfox/docs/current/#changes-in-swagger-ui
@@ -19,13 +18,15 @@ import java.util.List;
 public class SwaggerConfiguration {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String URL = "http://null.com";
+    public static final String EMAIL = "admin@gmail.com";
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("My REST API",
-                "Some custom description of API.",
-                "1.0",
+        return new ApiInfo("Takų API",
+                "Įdomūs takai ir takeliai.",
+                "0.1",
                 "Terms of service",
-                new Contact("Sallo Szrajbman", "www.baeldung.com", "salloszraj@gmail.com"),
+                new Contact("Admin", URL, EMAIL),
                 "License of API",
                 "API license URL",
                 Collections.emptyList());
@@ -35,8 +36,8 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
@@ -58,7 +59,7 @@ public class SwaggerConfiguration {
                 = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
+        return Collections.singletonList(new SecurityReference("JWT", authorizationScopes));
     }
 
 }
