@@ -17,5 +17,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Build with Maven
-      run: mvn clean compile install -DskipTests --file pom.xml
+    - name: Run unit tests
+      run: mvn test --file pom.xml
+
+# Run without tests      
+#     - name: Build with Maven
+#       run: mvn clean compile install -DskipTests --file pom.xml
+
+      
+      
+      
