@@ -17,6 +17,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    @Column(columnDefinition = "varchar(10000)")
     private String description;
     private boolean featured;
     private double rating;
