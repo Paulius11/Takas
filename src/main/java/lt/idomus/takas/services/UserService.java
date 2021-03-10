@@ -177,8 +177,11 @@ public class UserService {
             response.setMessage("User found!");
             response.setStatus(true);
 
-            user.ifPresent(x -> x.setPassword("hidden")); //TODO: DEBUG remove in production?
-            response.add("data", user);               //TODO: DEBUG remove in production?
+            ArticleUserPublic publishUser = new ArticleUserPublic();
+            publishUser.setUsername(user.get().getUsername());
+            publishUser.setFavorites(user.get().getFavorites());
+            publishUser.setCreated_at(user.get().getCreated_at());
+            response.add("data", publishUser);
         } else {
             response.setMessage("User not found");
             response.setStatus(false);
