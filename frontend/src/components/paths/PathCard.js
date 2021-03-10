@@ -46,7 +46,8 @@ function PathCard({
             <FavoriteRoundedIcon /> 14
             <BookmarkRoundedIcon /> 150
           </div>
-          <p>{description}</p>
+          {/* If descprition is longer than 120(can be changed) characters, cut the text */}
+          <p>{description.substring(0, 120)}...</p>
         </div>
       </div>
     </div>

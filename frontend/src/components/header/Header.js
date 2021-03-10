@@ -134,7 +134,7 @@ function Header() {
           authContext.authState.user.roles === "ROLE_ADMIN" ? (
             <li className="header__admin">
               <Link
-                to={ROUTES.ADMIN_PANEL}
+                to={`${ROUTES.ADMIN_PANEL}/admin-home`}
                 className="header__links"
                 onClick={closeMobileMenu}
               >

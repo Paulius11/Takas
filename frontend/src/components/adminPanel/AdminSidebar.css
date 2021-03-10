@@ -1,6 +1,6 @@
 .aSidebar__container {
-  flex: 0.2;
   overflow: auto;
+  height: 100%;
 }
 
 .aSidebar__container::-webkit-scrollbar {

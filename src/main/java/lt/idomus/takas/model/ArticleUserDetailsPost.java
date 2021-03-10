@@ -21,5 +21,5 @@ public class ArticleUserDetailsPost {
 
     private HashSet<Integer> favorites;
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role roles;
 }
