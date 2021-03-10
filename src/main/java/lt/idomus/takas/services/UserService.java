@@ -154,8 +154,8 @@ public class UserService {
                 userDataDB.setEmail(userDetailsPost.getEmail());
             }
 
-            if (userDetailsPost.getRole() != null) {
-                userDataDB.setRoles(userDetailsPost.getRole());
+            if (userDetailsPost.getRoles() != null) {
+                userDataDB.setRoles(userDetailsPost.getRoles());
             }
             ArticleUser save = userRepository.save(userDataDB);
             save.setPassword("hidden");     //TODO: DEBUG remove in production?
