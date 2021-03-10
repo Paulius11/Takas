@@ -29,7 +29,6 @@ public class AdminController {
      *
      * @param userDetailsPost
      * @param userId          user ID
-     * @param headerStr       Authentication string
      * @return user response message if change is successful
      */
 
@@ -49,7 +48,6 @@ public class AdminController {
      * Get custom user data
      *
      * @param userId    user id
-     * @param headerStr string for authentication
      * @return user data
      */
 
@@ -68,7 +66,6 @@ public class AdminController {
      * Delete user
      *
      * @param userId    user id
-     * @param headerStr string for authentication
      * @return message
      */
 
