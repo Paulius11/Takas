@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,14 +30,6 @@ public class UserController {
     private final UserService userService;
     public static final String RESPONSE_ERROR = new CustomMessage("Error user or article not found!").json();
 
-
-
-
-    //    TODO: rodyti tik reikalingus laukelius
-    @GetMapping("/all")
-    public List<ArticleUser> getAllUserData(){
-        return userService.getAllUsers();
-    }
 
     /***
      *  Here both oauth2 and classic login are being processed
