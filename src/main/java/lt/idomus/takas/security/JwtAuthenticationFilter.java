@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .getAuthentication();
         OAuthAttributes attributes = OAuthAttributes.of(authentication);
         if (!token.isEmpty() && !token.equals("null")) {
-            // When jwt is sent
+            log.debug("JWT: " + token);
             logger.info("user:password logging flow");
             if (org.springframework.util.StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
@@ -71,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         } else {
-            log.debug("Running with token " + token);
+            log.debug("No JWT token detected!" + token);
         }
         filterChain.doFilter(request, response);
     }

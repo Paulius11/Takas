@@ -30,19 +30,34 @@ public class ArticleController {
         return articleServices.getPublishedArticles();
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('moderator')")
+    public ResponseEntity<?> updateArticle(@PathVariable Long id, @RequestBody @Valid Article article) {
+        return new ResponseEntity<Article>(articleServices.updateArticle(id, article), HttpStatus.OK);
+    }
+
+    //    TODO: bet kas gali matyti id, net ir unpublished data
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('article:read')")
+    public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
+
+        return new ResponseEntity<Article>(articleServices.getArticleById(id), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('moderator')")
+    public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id) {
+        articleServices.deleteArticle(id);
+        return new ResponseEntity<String>("Article with ID: '" + "' has been deleted", HttpStatus.OK);
+    }
+
+    // TODO:Add update mapping, DTOS, validation
     @PostMapping("/createSuggestion")
     @PreAuthorize("hasAnyAuthority('article:offer')")
     public ResponseEntity<?> createSuggestion(@RequestBody ArticlePost article, @ApiIgnore Authentication authentication) {
         return new ResponseEntity<Article>(articleServices.createSuggestion(article, authentication), HttpStatus.CREATED);
     }
 
-    //    TODO: bet kas gali matyti id, net ir unpublished data
-    @GetMapping("/get/{id}")
-    @PreAuthorize("hasAnyAuthority('article:read')")
-    public ResponseEntity<?> getAllArticleById(@PathVariable Long id) {
-
-        return new ResponseEntity<Article>(articleServices.getArticleById(id), HttpStatus.OK);
-    }
 
     @GetMapping("/private/all")
     @ApiOperation(value = "Get all articles", notes = "See all articles, accessible for moderators.")
@@ -67,17 +82,4 @@ public class ArticleController {
     }
 
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('moderator')")
-    public ResponseEntity<?> deleteArticleArticle(@PathVariable Long id) {
-        articleServices.deleteArticle(id);
-        return new ResponseEntity<String>("Article with ID: '" + "' has been deleted", HttpStatus.OK);
-    }
-    // TODO:Add update mapping, DTOS, validation
-
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('moderator')")
-    public ResponseEntity<?> updateArticle(@PathVariable Long id, @RequestBody @Valid Article article) {
-        return new ResponseEntity<Article>(articleServices.updateArticle(id, article), HttpStatus.OK);
-    }
 }

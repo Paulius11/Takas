@@ -11,6 +11,7 @@ import lt.idomus.takas.model.*;
 import lt.idomus.takas.repository.ArticleRepository;
 import lt.idomus.takas.repository.UserRepository;
 import lt.idomus.takas.security.JwtTokenProvider;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,8 +85,7 @@ public class UserService {
             userForm.setConfirmPassword("");
 
             return userForm;
-        } catch (ConstraintViolationException e) {
-            //TODO: kodėl nepagauna šitos exception'o
+        } catch (DataIntegrityViolationException e) {
             throw new UserCreationError("Duplicate username");
         } catch (Exception e) {
             log.error(String.format("User creation error: %s", e.getCause()));
