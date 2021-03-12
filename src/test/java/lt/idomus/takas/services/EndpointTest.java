@@ -211,6 +211,17 @@ public class EndpointTest {
 
     }
 
+    @Test
+    @DisplayName("Test public used data")
+    void testGetPublicUserData() throws Exception {
+        mockMvc.perform
+                (
+                        get("/api/user/public/1")
+                )                .andExpect(status().isOk());
+
+    }
+
+
             /*
              /api/user/register
         */

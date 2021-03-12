@@ -11,7 +11,6 @@ import lt.idomus.takas.model.LoginRequest;
 import lt.idomus.takas.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -126,8 +125,12 @@ public class UserController {
 
     }
 
-    //    TODO: method for user to change his own details
-    @GetMapping("/user/{userId}")
+    /**
+     *  Get user data base on userid
+     * @param userId user id
+     * @return filtered used data
+     */
+    @GetMapping("/public/{userId}")
     public ResponseEntity<?> getUser(@PathVariable Long userId) {
         CustomMessage<Object> response = userService.getUser(userId);
         if (response.isStatus()) {
