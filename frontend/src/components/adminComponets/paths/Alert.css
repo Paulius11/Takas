@@ -1,0 +1,19 @@
+.alert {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+}
+
+.alert > .MuiSvgIcon-root {
+  margin: 0 10px;
+}
+
+.alert-success {
+  background-color: #edf7ed !important;
+  color: #1e4620 !important;
+}
+
+.alert-danger {
+  background-color: #fdecea !important;
+  color: #611a15 !important;
+}
