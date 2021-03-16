@@ -145,14 +145,18 @@ function PathsList() {
     {
       name: "Region",
       selector: "region",
-      width: "90px",
+      width: "110px",
       sortable: true,
       center: true,
-      cell: (row) => <div>{row.region}</div>,
+      cell: (row) => (
+        <div style={{ textTransform: "capitalize" }}>
+          {row.region.toLowerCase()}
+        </div>
+      ),
     },
     {
       name: "Featured",
-      width: "70px",
+      width: "60px",
       selector: "featured",
       sortable: true,
       center: true,
@@ -168,7 +172,7 @@ function PathsList() {
     },
     {
       name: "Published",
-      width: "70px",
+      width: "60px",
       selector: "published",
       sortable: true,
       center: true,

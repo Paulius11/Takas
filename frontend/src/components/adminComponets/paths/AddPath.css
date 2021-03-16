@@ -92,7 +92,7 @@
   display: inline-block;
   color: #15171c;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 18px;
   margin-left: 5px;
   padding: 10px;
 }
@@ -203,7 +203,8 @@
   margin: 20px 0;
 }
 
-.buttons__container > button {
+.buttons__container > button,
+.buttons__container > a {
   background-color: #0ba360;
   color: #fff;
   padding: 15px 20px;
@@ -212,7 +213,12 @@
   border: 2px solid transparent;
 }
 
-.buttons__container > button:hover {
+.buttons__container > a {
+  text-decoration: none;
+}
+
+.buttons__container > button:hover,
+.buttons__container > a:hover {
   border: 2px solid #0ba360;
   background-color: #fff;
   color: #0b975a;

@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { BASE_URL } from "./../../../utils/URL";
 import "./AddPath.css";
+import Alert from "./Alert";
 
 function AddPath() {
   const initialValue = {
@@ -10,24 +12,41 @@ function AddPath() {
     description: "",
     featured: false,
     length: "",
-    difficulty: "HARD",
+    difficulty: "EASY",
     region: "VILNIUS",
   };
 
   const [newPath, setNewPath] = useState(initialValue);
+  const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
+
+  const showAlert = (show = false, type = "", msg = "") => {
+    setAlert({ show, type, msg });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${BASE_URL}/private/create`, newPath)
-      .then((response) => {
-        setNewPath(response.data);
-        console.log("Success");
-      })
-      .then(() => window.location.replace("/admin-panel/data/paths"))
-      .catch((error) => {
-        console.log("Error - " + error);
-      });
+    if (
+      !newPath.title.trim() ||
+      !newPath.description.trim() ||
+      !newPath.image ||
+      !newPath.length
+    ) {
+      showAlert(true, "danger", "please enter required values");
+    } else {
+      axios
+        .post(`${BASE_URL}/private/create`, newPath)
+        .then((response) => {
+          setNewPath(response.data);
+          showAlert(true, "success", "new path is added successfuly");
+        })
+        .then((response) => {
+          setNewPath(initialValue);
+        })
+        .catch((error) => {
+          console.log("Error - " + error);
+          showAlert(true, "danger", "something went wrong");
+        });
+    }
   };
 
   const handleOnChange = (event) => {
@@ -44,11 +63,12 @@ function AddPath() {
 
   return (
     <div className="addPath__form">
+      {alert.show && <Alert {...alert} removeAlert={showAlert} />}
       <h1>Add path</h1>
       <div className="underline"></div>
       <form onSubmit={handleSubmit}>
         <div className="input__container">
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">Title*</label>
           <input
             id="title"
             type="text"
@@ -59,7 +79,7 @@ function AddPath() {
           />
         </div>
         <div className="input__container image">
-          <label htmlFor="title">Image</label>
+          <label htmlFor="title">Image*</label>
           <input
             id="image"
             type="text"
@@ -76,7 +96,7 @@ function AddPath() {
           />
         </div>
         <div className="input__container">
-          <label htmlFor="length">Length</label>
+          <label htmlFor="length">Length*</label>
           <input
             id="length"
             type="text"
@@ -135,7 +155,7 @@ function AddPath() {
         </div>
         <div className="input__container">
           <label htmlFor="description" className="description__label">
-            Description
+            Description*
           </label>
           <textarea
             id="description"
@@ -152,6 +172,7 @@ function AddPath() {
           <button type="reset" onClick={resetForm}>
             Reset
           </button>
+          <Link to="/admin-panel/data/paths">Paths</Link>
         </div>
       </form>
     </div>
