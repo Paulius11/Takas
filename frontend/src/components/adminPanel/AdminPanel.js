@@ -1,8 +1,10 @@
 import React from "react";
 import AdminSidebar from "./AdminSidebar";
 import { Link, Route } from "react-router-dom";
+
 import UsersList from "../adminComponets/users/UsersList";
 import PathsList from "../adminComponets/paths/PathsList";
+import AddPath from "../adminComponets/paths/AddPath";
 
 // Example components
 const AdminHome = () => {
@@ -55,6 +57,9 @@ function AdminPanel() {
         </Route>
         <Route exact path="/admin-panel/data/paths">
           <PathsList />
+        </Route>
+        <Route exact path="/admin-panel/data/paths/add">
+          <AddPath />
         </Route>
       </div>
     </div>

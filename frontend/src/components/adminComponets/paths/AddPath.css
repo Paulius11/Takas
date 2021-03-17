@@ -1,0 +1,226 @@
+.add__btn > a {
+  background-image: linear-gradient(
+    to right,
+    #0ba360,
+    #3cba92,
+    #30dd8a,
+    #2bb673
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  height: 57px;
+  text-decoration: none;
+  font-size: 20px;
+  background-size: 300% 100%;
+  transition: all 0.4s ease-in-out;
+}
+.add__btn > a:hover {
+  background-position: 100% 0;
+  transition: all 0.4s ease-in-out;
+}
+
+.path__search {
+  height: 40px;
+  width: 260px;
+  border-radius: 3px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 1px solid #e5e5e5;
+  padding: 0 32px 0 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.path__search:focus {
+  outline: none;
+}
+
+.search__button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0da462;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.search__button:hover {
+  background-color: #0b975a;
+  transition: all 0.3s ease-in;
+  color: #fff;
+}
+
+.addPath__form {
+  display: flex;
+  flex-direction: column;
+  background-color: #fdfdfd;
+  width: 94%;
+  margin: 0 auto;
+  margin-top: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.addPath__form > h1 {
+  text-align: center;
+  padding: 10px 0;
+  color: #15171c;
+}
+
+.underline {
+  width: 6rem;
+  height: 0.25rem;
+  background: #0b975a;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.input__container > label {
+  width: 120px;
+  display: inline-block;
+  color: #15171c;
+  font-weight: 500;
+  font-size: 18px;
+  margin-left: 5px;
+  padding: 10px;
+}
+
+.input__container > label.description__label {
+  vertical-align: top;
+}
+
+.input__container > input,
+.input__container > textarea {
+  height: 40px;
+  border: none;
+  background-color: #f1f1f1;
+  color: #15171c;
+  padding-left: 10px;
+  font-size: 16px;
+  border: 2px solid #d8d8d8;
+  border-radius: 3px;
+}
+
+.image {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.image > img {
+  width: 100px;
+  margin-left: 20px;
+  border: 2px solid #0da462;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox > input {
+  width: 20px;
+  background-color: #0b975a;
+}
+
+.input__container > input.title {
+  width: 50%;
+}
+
+.input__container > input.length {
+  width: 70px;
+}
+
+.input__container > textarea.description {
+  margin-top: 10px;
+  width: 70%;
+  padding-top: 10px;
+  height: 200px;
+}
+
+.input__container > input:focus,
+.input__container > textarea:focus {
+  outline: 0;
+  border-bottom: 2px solid transparent;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+}
+
+.checkbox > input:focus {
+  outline: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.radio__toolbar {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.radio__toolbar input[type="radio"] {
+  height: 0;
+  position: fixed;
+  width: 0;
+}
+
+.radio__toolbar label {
+  display: inline-block;
+  background-color: #eee;
+  padding: 8px 16px;
+  font-family: sans-serif, Arial;
+  font-size: 16px;
+  border: 2px solid #0b975a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.radio__toolbar label:hover {
+  background-color: #dfd;
+}
+
+.radio__toolbar input[type="radio"]:checked + label {
+  background-color: rgba(11, 151, 90, 0.6);
+  border-color: #0b975a;
+  color: #fff;
+  cursor: pointer;
+}
+
+.buttons__container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.buttons__container > button,
+.buttons__container > a {
+  background-color: #0ba360;
+  color: #fff;
+  padding: 15px 20px;
+  font-size: 14px;
+  margin-left: 10px;
+  border: 2px solid transparent;
+}
+
+.buttons__container > a {
+  text-decoration: none;
+}
+
+.buttons__container > button:hover,
+.buttons__container > a:hover {
+  border: 2px solid #0ba360;
+  background-color: #fff;
+  color: #0b975a;
+  transition: all 0.2s ease-out;
+}
