@@ -1,9 +1,9 @@
 package lt.idomus.takas.oauth;
 
 import lombok.extern.slf4j.Slf4j;
+import lt.idomus.takas.constant.SecurityConstant;
 import lt.idomus.takas.model.ArticleUser;
 import lt.idomus.takas.security.JwtTokenProvider;
-import lt.idomus.takas.constant.SecurityConstant;
 import lt.idomus.takas.utils.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
