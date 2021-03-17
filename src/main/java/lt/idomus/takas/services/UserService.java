@@ -140,7 +140,9 @@ public class UserService {
         CustomMessage<?> response = new CustomMessage<>();
         log.debug("" + userDetailsPost);
         if (userDataDB_.isPresent()) {
+
             var userDataDB = userDataDB_.get();
+
 
             if (userDetailsPost.getUsername() != null) {
                 userDataDB.setUsername(userDetailsPost.getUsername());
@@ -154,6 +156,14 @@ public class UserService {
             }
 
             if (userDetailsPost.getRoles() != null) {
+                if (adminUntouchable(response, userDataDB)) return response;
+
+                // Can't change admin role
+                if (userDetailsPost.getRoles().name().equals("ROLE_ADMIN")) {
+                    response.setMessage("Only one admin role is possible");
+                    return response;
+                }
+
                 userDataDB.setRoles(userDetailsPost.getRoles());
             }
             ArticleUser save = userRepository.save(userDataDB);
@@ -167,6 +177,15 @@ public class UserService {
         response.setMessage("Failed to update user!");
         return response;
 
+    }
+
+    private boolean adminUntouchable(CustomMessage<?> response, ArticleUser userDataDB) {
+        // Can't modify administrator role
+        if (userDataDB.getRoles().name().equals("ROLE_ADMIN")) {
+            response.setMessage("Can't change role of ADMIN");
+            return true;
+        }
+        return false;
     }
 
     public CustomMessage<Object> getUser(Long userId) {
@@ -201,7 +220,10 @@ public class UserService {
                 response.setMessage("You can't delete yourself!");
                 response.setStatus(true);
                 return response;
+
             }
+
+            if (adminUntouchable(response, user.get())) return response; // Admin cant delete ADMIN ROLE - himself
             userRepository.delete(user.get());
 
             response.setMessage(String.format("User '%d' deleted!", userId));

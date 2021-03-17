@@ -7,7 +7,7 @@ import static lt.idomus.takas.constant.AuthoritiesConstant.*;
 public enum Role {
 
     ROLE_USER(USER_ROLES),
-    MODERATOR(MODERATOR_ROLES),
+    ROLE_MODERATOR(MODERATOR_ROLES),
     ROLE_ADMIN(ADMIN_ROLES);
 
     private List<String> authorities;
