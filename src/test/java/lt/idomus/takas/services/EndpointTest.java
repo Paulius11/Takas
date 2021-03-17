@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -29,15 +31,153 @@ public class EndpointTest {
     @Autowired
     private MockMvc mockMvc;
 
+    public String getJwt(boolean admin) throws Exception {
 
-//    @Before("")
-//    public void setup(){
-//        create users
+
+        String user;
+        String password;
+
+        if (admin) {
+            user = "admin";
+            password = "admin123";
+        } else {
+            user = "user";
+            password = "user1234";
+        }
+
+        MvcResult result = mockMvc.perform(
+                post(LOGIN_URL)
+                        .content(new UserPassword(user, password).json())
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andReturn();
+        String jwtToken = result.getResponse().getContentAsString();
+        return "Bearer " + jwtToken.split("\"")[3];
+
+
+//        MvcResult result = mockMvc.perform(post("/api/users").header("Authorization", base64ForTestUser).contentType(MediaType.APPLICATION_JSON)
+//        .content("{\"userName\":\"testUserDetails\",\"firstName\":\"xxx\",\"lastName\":\"xxx\",\"password\":\"xxx\"}"))
+//        .andDo(MockMvcResultHandlers.print())
+//        .andExpect(status().isBadRequest())
+//        .andReturn();
+
+    }
+
+
+        /*
+
+             /api/admin/
+        */
+
+    @Test
+    @DisplayName("Test guest user trying update user details")
+    void testUnsuccessfulUserDelete() throws Exception {
+        mockMvc.perform
+                (
+                        delete("/api/admin/user/1")
+                ).andExpect(status().isUnauthorized());
+
+    }
+
+
+    @Test
+    @DisplayName("Test successful user delete")
+    void testSuccessfulUserUpdate() throws Exception {
+        String jwt = getJwt(true);
+        mockMvc.perform
+                (
+                        post("/api/admin/user/1")
+                                .header("Authorization", jwt)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{\"email\":\"test@test.lt\"}")
+                )
+                .andExpect(status().isOk());
+    }
+// TODO: fix return json to be at root level
+//        mockMvc.perform
+//                (
+//                        get("/api/admin/user/1")
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .accept(MediaType.APPLICATION_JSON)
+//                )
+//                .andExpect(status().isBadRequest())
+//                .andExpect(jsonPath("$.timestamp").exists())
+//                .andExpect(jsonPath("$.message").exists())
+//                .andExpect(jsonPath("$.message.size()", is(4)))
+//                .andExpect(jsonPath("$.message").isArray())
+//                .andExpect(jsonPath("$.message", hasItem(NameConstants.PASSWORD_LEN_VIOLATION_MESSAGE)))
+//                .andExpect(jsonPath("$.message", hasItem(NameConstants.EMAIL_VIOLATION_MESSAGE)))
+//                .andExpect(jsonPath("$.message", hasItem(NameConstants.USERNAME_EMPTY_VIOLATION_MESSAGE)))
+//                .andExpect(status().isOk());
+//        ;
+//
 //    }
 
 
-    // @WithMockUser(username = "paul") - automatically creates new user.
-    // @WithUserDetails("admin") - uses created username.
+
+
+
+
+        /*
+             /api/user/
+        */
+
+    @Test
+    @DisplayName("Test public used data")
+    void testGetPublicUserData() throws Exception {
+        mockMvc.perform
+                (
+                        get("/api/user/public/1")
+                ).andExpect(status().isOk());
+
+    }
+
+
+    @Test
+    @DisplayName("Users adding/removing favorites items to favorites")
+    void testSuccessfulAddingFavorites() throws Exception {
+
+
+        String jwt = getJwt(false);
+        mockMvc.perform
+                (
+                        post("/api/user/favorite/1")
+                                .header("Authorization", jwt)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk());
+        mockMvc.perform
+                (
+                        delete("/api/user/favorite/1")
+                                .header("Authorization", jwt)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk());
+
+    }
+
+
+    @Test
+    @DisplayName("Test guest user adding items to favorites")
+    void testUnsuccessfulAddingToFavorites() throws Exception {
+        mockMvc.perform
+                (
+                        post("/api/user/favorite/1")
+                ).andExpect(status().isNotFound());
+        // try incorrect patch POST method
+        mockMvc.perform
+                (
+                        patch("/api/user/favorite/1")
+                ).andExpect(status().isMethodNotAllowed());
+
+        mockMvc.perform
+                (
+                        delete("/api/user/favorite/a")
+                ).andExpect(status().isBadRequest());
+    }
+
 
     @Test
     @DisplayName("Display all articles without authorization")
@@ -49,30 +189,11 @@ public class EndpointTest {
     @Test
     @DisplayName("Display all articles with authorization")
     @WithMockUser(username = "paul")
-        // Skipping authentication only testing authorization
     void testDisplayArticlesAuthorized() throws Exception {
         mockMvc.perform(get("/api/article/"))
                 .andExpect(status().isOk());
     }
 
-    @Test
-    @DisplayName("Test getting unpublished articles without authorization")
-    void testUnpublishedArticles() throws Exception {
-        mockMvc.perform(get("/api/unpublished/"))
-                .andExpect(status().isUnauthorized());
-    }
-//
-//    @Test
-//    //TODO: WithMockUser when removed returns ok, else 404
-//    @WithMockUser(username = "paul")
-//    void testUnpublishedArticlesWithAuthorization() throws Exception {
-//        mockMvc.perform(get("/api/unpublished/"))
-//                .andExpect(status().isUnauthorized());
-//    }
-
-    /*
-             /api/user/login
-     */
 
     @Test
     @DisplayName("Login without with bad data/no data")
@@ -115,11 +236,6 @@ public class EndpointTest {
 
     }
 
-
-        /*
-             /api/user/register
-        */
-
     @Test
     @DisplayName("Test successful user registration")
     void testUserRegistration() throws Exception {
@@ -148,7 +264,7 @@ public class EndpointTest {
         var invalidUser = "";
         var invalidEmail = "user.lt";
         var invalidPassword = "123";
-        var user = new CreateUserDTO(invalidUser, invalidEmail,  invalidPassword, invalidPassword);
+        var user = new CreateUserDTO(invalidUser, invalidEmail, invalidPassword, invalidPassword);
         String jsonUserDetails = new Gson().toJson(user);
 
         mockMvc.perform
@@ -170,112 +286,5 @@ public class EndpointTest {
 
     }
 
-        /*
-             /api/user/favorites
-
-        TODO: add user validation
-        */
-
-        @Test
-        @DisplayName("Test guest user adding items to favorites")
-        void testUnsuccessfulAddingToFavorites() throws Exception {
-            mockMvc.perform
-                    (
-                            post("/api/user/favorite/1")
-                    )                .andExpect(status().isNotFound());
-            // try incorrect patch POST method
-            mockMvc.perform
-                    (
-                            patch("/api/user/favorite/1")
-                    )                .andExpect(status().isMethodNotAllowed());
-
-            mockMvc.perform
-                    (
-                            delete("/api/user/favorite/a")
-                    )                .andExpect(status().isBadRequest());
-        }
-
-
-        /*
-
-             /api/admin/delete/{userId}
-        */
-
-    @Test
-    @DisplayName("Test guest user trying update user details")
-    void testUnsuccessfulUserDelete() throws Exception {
-        mockMvc.perform
-                (
-                        delete("/api/admin/update/user/1")
-                )                .andExpect(status().isUnauthorized());
-
-    }
-
-    @Test
-    @DisplayName("Test public used data")
-    void testGetPublicUserData() throws Exception {
-        mockMvc.perform
-                (
-                        get("/api/user/public/1")
-                )                .andExpect(status().isOk());
-
-    }
-
-
-            /*
-             /api/user/register
-        */
-
-
-//    @Test
-//    @DisplayName("Test demo user adding items to favorites")
-//    @WithMockUser(username = "demo")
-//    void testSuccessfulAddingFavorites() throws Exception {
-//        mockMvc.perform
-//                (
-//                        put("/api/user/favorite/1")
-//                ).andExpect(status().isOk());
-//
-//    }
-
-
-        /*
-             article
-        */
-
-//    @Test
-//    @DisplayName("Test article creation with authorized user using jwt")
-//    @WithMockUser(username = "admin")
-//        // TODO: review
-//    void testRegistrationWithAuthorisedUser() throws Exception {
-//        var user = new CreateUserDTO("username", "user@user.lt", "pass", "pass");
-//        String jsonUserDetails = new Gson().toJson(user);
-//
-//        String username = "user";
-//        String password = "user1234";
-//
-//
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_URL)
-//                .content(new UserPassword(username, password).json()))
-//                .andExpect(status().isOk()).andReturn();
-//
-//        String response = result.getResponse().getContentAsString();
-//        response = response.replace("{\"jwt\": \"", "");
-//        String token = response.replace("\"}", "");
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/user/register")
-//                .header("Authorization", "Bearer " + token))
-//                .andExpect(status().isOk());
-//
-//        mockMvc.perform
-//                (
-//                        post("/api/user/register")
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .content(jsonUserDetails)
-//                )
-//                .andExpect(status().isCreated());
-//
-//    }
 
 }
