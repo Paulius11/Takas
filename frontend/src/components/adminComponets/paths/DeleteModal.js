@@ -4,7 +4,14 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import "./DeleteModal.css";
 
-export default function DeleteModal({ open, handleClose, id, handleDelete }) {
+export default function DeleteModal({
+  open,
+  handleClose,
+  passToModal,
+  handleDelete,
+}) {
+  const { id, title } = passToModal;
+
   return (
     <div>
       <Modal
@@ -21,7 +28,9 @@ export default function DeleteModal({ open, handleClose, id, handleDelete }) {
       >
         <Fade in={open}>
           <div className="delete__content">
-            <h2 id="transition-modal-title">Do you want to delete "{id}"?</h2>
+            <h2 id="transition-modal-title">
+              Do you want to delete "{title}"?
+            </h2>
             <div id="transition-modal-description">
               <button onClick={handleClose}>Cancel</button>
               <button onClick={() => handleDelete(id)}>Delete</button>

@@ -1,0 +1,39 @@
+.show-sidebar {
+  width: 25%;
+  transition: all 0.3s linear;
+}
+
+.hide-sidebar {
+  width: 0;
+  transition: all 0.3s linear;
+}
+
+.sidebar-open {
+  width: 100%;
+  background: "efefef";
+}
+
+.full-size {
+  width: 100%;
+}
+
+.hide-menu,
+.hide-close {
+  display: none;
+}
+
+.show-menu,
+.show-close {
+  display: block;
+  position: absolute;
+  z-index: 100;
+  width: 57px;
+  height: 57px;
+  background-color: rgba(21, 23, 28, 0.1);
+  color: #15171a;
+}
+
+.show-menu:hover,
+.show-close:hover {
+  color: #15171a;
+}

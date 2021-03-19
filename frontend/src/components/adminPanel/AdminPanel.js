@@ -1,21 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminSidebar from "./AdminSidebar";
-import { Link, Route } from "react-router-dom";
-
+import { Route } from "react-router-dom";
+import "./AdminPanel.css";
 import UsersList from "../adminComponets/users/UsersList";
 import PathsList from "../adminComponets/paths/PathsList";
 import AddPath from "../adminComponets/paths/AddPath";
+import AdminHome from "../adminComponets/adminHome/AdminHome";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 
 // Example components
-const AdminHome = () => {
-  return (
-    <div style={{ flex: 0.8 }}>
-      <h1>Admin Home</h1>
-      <Link to="/admin-panel/data/paths">Paths</Link>
-    </div>
-  );
-};
-
 const DashboardStatistics = () => {
   return (
     <div style={{ flex: 0.8 }}>
@@ -33,16 +27,37 @@ const DashboardSettings = () => {
 };
 
 function AdminPanel() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const openSidebar = () => {
+    setIsSidebarOpen(true);
+  };
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div
       style={{
         display: "flex",
       }}
     >
-      <div style={{ flex: "0.2" }}>
+      <div className={`${isSidebarOpen ? "show-sidebar" : "hide-sidebar"}`}>
         <AdminSidebar />
       </div>
-      <div style={{ flex: "0.8", background: "#efefef" }}>
+      <div className={`${isSidebarOpen ? "sidebar-open" : "full-size"}`}>
+        <button
+          onClick={openSidebar}
+          className={isSidebarOpen ? "hide-menu" : "show-menu"}
+        >
+          <MenuIcon />
+        </button>
+        <button
+          onClick={closeSidebar}
+          className={isSidebarOpen ? "show-close" : "hide-close"}
+        >
+          <CloseIcon />
+        </button>
         <Route path="/admin-panel/admin-home">
           <AdminHome />
         </Route>
