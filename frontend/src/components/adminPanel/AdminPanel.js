@@ -73,6 +73,9 @@ function AdminPanel() {
         <Route exact path="/admin-panel/data/paths">
           <PathsList />
         </Route>
+        <Route exact path="/admin-panel/data/paths/edit/:id">
+          <AddPath />
+        </Route>
         <Route exact path="/admin-panel/data/paths/add">
           <AddPath />
         </Route>

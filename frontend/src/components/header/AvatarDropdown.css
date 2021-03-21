@@ -5,7 +5,8 @@
   align-items: center;
   background-color: #f44336;
   border-radius: 30px;
-  width: 110px;
+  width: auto;
+  position: relative;
 }
 
 .avatarButton > div > p {
@@ -52,7 +53,7 @@
   border-radius: 5px;
   -webkit-box-shadow: 0 0 10px #555;
   box-shadow: 0 0 5px #555;
-  width: 110px;
+  width: 100%;
 }
 
 .relative {

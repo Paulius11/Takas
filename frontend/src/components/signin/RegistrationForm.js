@@ -52,13 +52,15 @@ function RegistrationForm() {
     username: Yup.string()
       .min(2, "The name must be 2 or more characters")
       .max(15, "The name cant be more than 15 characters")
-      .required("First name is required"),
+      .required("First name is required")
+      .matches(/^\S*$/, "No space allowed"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
       .min(8, "Password needs to be 8 or more characters")
       .required("Password is required")
+      .matches(/^\S*$/, "No space allowed")
       .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[A-Z])[A-Za-z\d@$!%*#?&]{8,}$/,
         "Must contain Uppercase, Lowercase and Number"
       ),
     confirmPassword: Yup.string()
@@ -86,7 +88,11 @@ function RegistrationForm() {
               )}
               {signupError && <ErrorMessage errorMessage={signupError} />}
               <TextField placeholder="username" name="username" type="text" />
-              <TextField placeholder="email" name="email" type="email" />
+              <TextField
+                placeholder="email@example.com"
+                name="email"
+                type="email"
+              />
               <TextField
                 placeholder="password"
                 name="password"

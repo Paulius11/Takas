@@ -71,7 +71,7 @@ function UsersList() {
         lookup: {
           // ROLE_ADMIN: "Admin",
           ROLE_USER: "User",
-          ROLE_SUPER_ADMIN: "Moderator",
+          ROLE_MODERATOR: "Moderator",
         },
       },
     ],

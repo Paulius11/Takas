@@ -7,7 +7,7 @@ import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutline
 function UserProfile() {
   const authContext = useContext(AuthContext);
   const { user } = authContext.authState;
-  const { username, title } = user;
+  const { username, title, favorites, created_at } = user;
 
   return (
     <div className="userProfile">
@@ -26,12 +26,12 @@ function UserProfile() {
           <p>
             <EventAvailableOutlinedIcon />
             Join Date:
-            <span>{user.created_at.slice(0, 10)}</span>
+            <span>{created_at.slice(0, 10)}</span>
           </p>
         </div>
         <div className="userProfile__stats">
           <div className="stats__container">
-            <h2>3</h2>
+            <h2>{favorites !== null ? favorites.length : 0}</h2>
             <p>Favorites</p>
           </div>
           <div className="stats__container">

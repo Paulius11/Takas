@@ -11,6 +11,7 @@ import { IconButton } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import DeleteModal from "./DeleteModal";
+import EditIcon from "@material-ui/icons/Edit";
 
 axios.interceptors.request.use((config) => {
   config.headers.authorization = "Bearer " + Cookies.get("token");
@@ -183,6 +184,21 @@ function PathsList() {
           >
             <DeleteIcon title="Delete" />
           </IconButton>
+        </>
+      ),
+    },
+    {
+      name: "Edit",
+      width: "50px",
+      selector: "id",
+      center: true,
+      cell: (row) => (
+        <>
+          <Link to={"/admin-panel/data/paths/edit/" + row.id} title="Edit">
+            <IconButton>
+              <EditIcon title="Edit" />
+            </IconButton>
+          </Link>
         </>
       ),
     },
