@@ -29,6 +29,7 @@
 .error__page > p {
   padding: 20px 5px;
   color: #646286;
+  margin-top: 10px;
 }
 
 .error__page > a {

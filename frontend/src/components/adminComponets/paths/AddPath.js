@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { BASE_URL } from "./../../../utils/URL";
 import "./AddPath.css";
 import Alert from "./Alert";
 
 function AddPath() {
+  const { id } = useParams();
   const initialValue = {
     title: "",
     image: "",
@@ -14,6 +15,7 @@ function AddPath() {
     length: "",
     difficulty: "EASY",
     region: "VILNIUS",
+    published: true,
   };
 
   const [newPath, setNewPath] = useState(initialValue);
@@ -49,6 +51,51 @@ function AddPath() {
     }
   };
 
+  // Get the path by id
+  useEffect(() => {
+    const subscribe = axios
+      .get(`${BASE_URL}/${id}`)
+      .then((res) => {
+        if (res.data !== null) {
+          setNewPath({
+            title: res.data.title,
+            image: res.data.image,
+            description: res.data.description,
+            difficulty: res.data.difficulty,
+            length: res.data.length,
+            region: res.data.region,
+            featured: res.data.featured,
+            published: res.data.published,
+          });
+          console.log("update", newPath);
+          console.log(res.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error - " + error);
+      });
+    return () => setNewPath(subscribe); // to do
+  }, []);
+
+  const updatePath = (e) => {
+    e.preventDefault();
+    const path = {
+      title: newPath.title,
+      image: newPath.image,
+      description: newPath.description,
+      difficulty: newPath.difficulty,
+      length: newPath.length,
+      region: newPath.region,
+      featured: newPath.featured,
+      published: newPath.published,
+    };
+
+    axios.put(`${BASE_URL}/${id}`, path).then((res) => {
+      setNewPath(res.data);
+      showAlert(true, "success", "new path was successfuly edited");
+    });
+  };
+
   const handleOnChange = (event) => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -64,9 +111,9 @@ function AddPath() {
   return (
     <div className="addPath__form">
       {alert.show && <Alert {...alert} removeAlert={showAlert} />}
-      <h1>Add path</h1>
+      <h1>{id ? `Edit Path ${id}` : "Add Path"}</h1>
       <div className="underline"></div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={id ? updatePath : handleSubmit}>
         <div className="input__container">
           <label htmlFor="title">Title*</label>
           <input
@@ -117,11 +164,24 @@ function AddPath() {
             checked={newPath.featured}
           />
         </div>
+        {id && (
+          <div className="input__container checkbox">
+            <label htmlFor="published">Published</label>
+            <input
+              type="checkbox"
+              value={newPath.published}
+              placeholder="published"
+              onChange={handleOnChange}
+              name="published"
+              checked={newPath.published}
+            />
+          </div>
+        )}
         <div className="input__container">
           <label htmlFor="difficulty">Difficulty</label>
-          {difficulty.map((option) => {
+          {difficulty.map((option, index) => {
             return (
-              <div className="radio__toolbar">
+              <div className="radio__toolbar" key={index}>
                 <input
                   type="radio"
                   value={option.value}
@@ -137,9 +197,9 @@ function AddPath() {
         </div>
         <div className="input__container">
           <label htmlFor="region">Region</label>
-          {regions.map((region) => {
+          {regions.map((region, index) => {
             return (
-              <div className="radio__toolbar">
+              <div className="radio__toolbar" key={index}>
                 <input
                   type="radio"
                   value={region.value}
