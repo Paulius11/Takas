@@ -134,6 +134,7 @@ public class ArticleServices {
         articleToBeUpdated.setLength(article.getLength());
         articleToBeUpdated.setRating(article.getRating());
         articleToBeUpdated.setPublished(article.isPublished());
+        articleToBeUpdated.setRegion(article.getRegion());
 
         return articleRepository.save(articleToBeUpdated);
 
