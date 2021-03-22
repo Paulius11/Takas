@@ -16,6 +16,7 @@ import { Suspense } from "react";
 import * as ROUTES from "./utils/routes";
 import Login from "./pages/Login";
 import SignUpPage from "./pages/SignUpPage";
+import Error from "./pages/Error";
 
 // For spliting app in different bundles, so we can load an appropriate bundle on appropriate time
 const AdminPage = lazy(() => import("./pages/AdminPage"));
@@ -81,6 +82,10 @@ const AppRoutes = () => {
           <Route exact path={ROUTES.SINGLE_PATH} children={<SinglePath />} />
           <Route exact path={ROUTES.HOME}>
             <Home />
+          </Route>
+          {/*For error - Page not found */}
+          <Route path="*">
+            <Error />
           </Route>
         </Switch>
       </Suspense>

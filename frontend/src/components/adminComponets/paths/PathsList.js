@@ -11,6 +11,7 @@ import { IconButton } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import DeleteModal from "./DeleteModal";
+import EditIcon from "@material-ui/icons/Edit";
 
 axios.interceptors.request.use((config) => {
   config.headers.authorization = "Bearer " + Cookies.get("token");
@@ -38,8 +39,8 @@ function PathsList() {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [open, setOpen] = React.useState(false);
-  //setting id for delete modal
-  const [id, setId] = useState(0);
+  //setting values for delete modal
+  const [passToModal, setPassToModal] = useState({ id: 0, title: "" });
 
   const handleOpen = () => {
     setOpen(true);
@@ -67,24 +68,6 @@ function PathsList() {
 
   const columns = [
     {
-      name: "Del",
-      width: "50px",
-      selector: "id",
-      center: true,
-      cell: (row) => (
-        <>
-          <IconButton
-            onClick={() => {
-              handleOpen();
-              setId(row.id);
-            }}
-          >
-            <DeleteIcon title="Delete" />
-          </IconButton>
-        </>
-      ),
-    },
-    {
       name: "ID",
       width: "62px",
       selector: "id",
@@ -111,7 +94,7 @@ function PathsList() {
     },
     {
       name: "Description",
-      width: "300px",
+      width: "auto",
       selector: "description",
       sortable: true,
       center: true,
@@ -186,6 +169,39 @@ function PathsList() {
         </div>
       ),
     },
+    {
+      name: "Del",
+      width: "50px",
+      selector: "id",
+      center: true,
+      cell: (row) => (
+        <>
+          <IconButton
+            onClick={() => {
+              handleOpen();
+              setPassToModal({ id: row.id, title: row.title });
+            }}
+          >
+            <DeleteIcon title="Delete" />
+          </IconButton>
+        </>
+      ),
+    },
+    {
+      name: "Edit",
+      width: "50px",
+      selector: "id",
+      center: true,
+      cell: (row) => (
+        <>
+          <Link to={"/admin-panel/data/paths/edit/" + row.id} title="Edit">
+            <IconButton>
+              <EditIcon title="Edit" />
+            </IconButton>
+          </Link>
+        </>
+      ),
+    },
   ];
 
   const filteredItems = adminPaths.filter(
@@ -215,8 +231,8 @@ function PathsList() {
       <DeleteModal
         open={open}
         handleClose={handleClose}
-        id={id}
         handleDelete={handleDelete}
+        passToModal={passToModal}
       />
       <div className="add__btn">
         <Link to="/admin-panel/data/paths/add">
@@ -232,6 +248,7 @@ function PathsList() {
         pagination
         highlightOnHover
         defaultSortField="id"
+        defaultSortAsc={false}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         paginationResetDefaultPage={resetPaginationToggle}
