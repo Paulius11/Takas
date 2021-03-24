@@ -7,11 +7,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import "./AddPath.css";
-import { IconButton } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import DeleteModal from "./DeleteModal";
 import EditIcon from "@material-ui/icons/Edit";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreModal from "./MoreModal";
 
 axios.interceptors.request.use((config) => {
   config.headers.authorization = "Bearer " + Cookies.get("token");
@@ -40,7 +41,15 @@ function PathsList() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [open, setOpen] = React.useState(false);
   //setting values for delete modal
-  const [passToModal, setPassToModal] = useState({ id: 0, title: "" });
+  const [passToModal, setPassToModal] = useState({ id: 1, title: "" });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -119,7 +128,7 @@ function PathsList() {
 
     {
       name: "Rating",
-      width: "70px",
+      width: "60px",
       selector: "rating",
       sortable: true,
       center: true,
@@ -170,34 +179,47 @@ function PathsList() {
       ),
     },
     {
-      name: "Del",
-      width: "50px",
+      name: "Actions",
+      width: "100px",
       selector: "id",
       center: true,
       cell: (row) => (
         <>
-          <IconButton
+          <DeleteIcon
+            title="Delete"
             onClick={() => {
               handleOpen();
               setPassToModal({ id: row.id, title: row.title });
             }}
+          />
+          <Link
+            className="edit"
+            to={"/admin-panel/data/paths/edit/" + row.id}
+            title="Edit"
           >
-            <DeleteIcon title="Delete" />
-          </IconButton>
-        </>
-      ),
-    },
-    {
-      name: "Edit",
-      width: "50px",
-      selector: "id",
-      center: true,
-      cell: (row) => (
-        <>
-          <Link to={"/admin-panel/data/paths/edit/" + row.id} title="Edit">
-            <IconButton>
-              <EditIcon title="Edit" />
-            </IconButton>
+            <EditIcon title="Edit" />
+          </Link>
+          <Link
+            className="edit"
+            onClick={() => {
+              openModal();
+              setPassToModal({
+                id: row.id,
+                title: row.title,
+                description: row.description,
+                region: row.region,
+                length: row.length,
+                image: row.image,
+                featured: row.featured,
+                published: row.published,
+                rating: row.rating,
+                difficulty: row.difficulty,
+              });
+            }}
+            title="More"
+            to="#"
+          >
+            <MoreVertIcon />
           </Link>
         </>
       ),
@@ -232,6 +254,11 @@ function PathsList() {
         open={open}
         handleClose={handleClose}
         handleDelete={handleDelete}
+        passToModal={passToModal}
+      />
+      <MoreModal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
         passToModal={passToModal}
       />
       <div className="add__btn">

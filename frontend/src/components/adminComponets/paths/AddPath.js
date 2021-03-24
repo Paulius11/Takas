@@ -16,6 +16,7 @@ function AddPath() {
     difficulty: "EASY",
     region: "VILNIUS",
     published: true,
+    rating: "",
   };
 
   const [newPath, setNewPath] = useState(initialValue);
@@ -66,6 +67,7 @@ function AddPath() {
             region: res.data.region,
             featured: res.data.featured,
             published: res.data.published,
+            rating: res.data.rating,
           });
           console.log("update", newPath);
           console.log(res.data);
@@ -88,6 +90,7 @@ function AddPath() {
       region: newPath.region,
       featured: newPath.featured,
       published: newPath.published,
+      rating: newPath.rating,
     };
 
     axios.put(`${BASE_URL}/${id}`, path).then((res) => {
