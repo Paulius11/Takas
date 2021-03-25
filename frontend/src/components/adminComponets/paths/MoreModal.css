@@ -44,19 +44,43 @@
   cursor: pointer;
 }
 
-.more__info {
-  display: flex;
-  color: #181239;
+.modal__infoConatainer {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  text-align: center;
+  padding: 10px;
 }
 
-.more__info > h4 {
+.more__info {
+  color: #181239;
+  background-color: rgba(219, 219, 219, 0.2);
+  padding: 10px;
+  text-align: center;
+}
+
+.more__description {
+  padding: 10px;
+  margin: 0 10px;
+  background-color: rgba(219, 219, 219, 0.2);
+  color: #181239;
+  text-align: center;
+}
+
+.more__image {
+  background-color: rgba(219, 219, 219, 0.2);
+  text-align: center;
+  margin: 0 10px;
+}
+
+.more__info > h4,
+.more__description > h4 {
   margin-left: 20px;
-  margin-bottom: 10px;
   font-weight: 500;
+  font-size: 18px;
   margin-right: 5px;
 }
 
-.more__info > img {
+.more__image > img {
   width: 50%;
   margin: 10px;
   margin-left: 20px;
