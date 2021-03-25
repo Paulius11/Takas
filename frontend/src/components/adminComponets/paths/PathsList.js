@@ -268,7 +268,7 @@ function PathsList() {
         </Link>
       </div>
       <DataTable
-        title="Paths"
+        noHeader={true}
         width={100}
         columns={columns}
         data={filteredItems}

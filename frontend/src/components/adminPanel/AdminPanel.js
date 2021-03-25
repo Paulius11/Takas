@@ -6,9 +6,7 @@ import UsersList from "../adminComponets/users/UsersList";
 import PathsList from "../adminComponets/paths/PathsList";
 import AddPath from "../adminComponets/paths/AddPath";
 import AdminHome from "../adminComponets/adminHome/AdminHome";
-import MenuIcon from "@material-ui/icons/Menu";
-import CloseIcon from "@material-ui/icons/Close";
-import MoreModal from "../adminComponets/paths/MoreModal";
+import AdminHeader from "./AdminHeader";
 
 // Example components
 const DashboardStatistics = () => {
@@ -47,18 +45,11 @@ function AdminPanel() {
         <AdminSidebar />
       </div>
       <div className={`${isSidebarOpen ? "sidebar-open" : "full-size"}`}>
-        <button
-          onClick={openSidebar}
-          className={isSidebarOpen ? "hide-menu" : "show-menu"}
-        >
-          <MenuIcon />
-        </button>
-        <button
-          onClick={closeSidebar}
-          className={isSidebarOpen ? "show-close" : "hide-close"}
-        >
-          <CloseIcon />
-        </button>
+        <AdminHeader
+          isSidebarOpen={isSidebarOpen}
+          openSidebar={openSidebar}
+          closeSidebar={closeSidebar}
+        />
         <Route path="/admin-panel/admin-home">
           <AdminHome />
         </Route>
