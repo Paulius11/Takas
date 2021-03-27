@@ -252,7 +252,7 @@ const regions = [
   { value: "VILNIUS", label: "Vilnius" },
   { value: "KAUNAS", label: "Kaunas" },
   { value: "KLAIPĖDA", label: "Klaipėda" },
-  { value: "MARIAMPOLĖ", label: "Marijampolė" },
+  { value: "MARIJAMPOLĖ", label: "Marijampolė" },
   { value: "PANEVEŽYS", label: "Panevėžys" },
   { value: "ŠIAULIAI", label: "Šiauliai" },
   { value: "TAURAGĖ", label: " Taurgė" },

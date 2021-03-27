@@ -17,6 +17,7 @@ import * as ROUTES from "./utils/routes";
 import Login from "./pages/Login";
 import SignUpPage from "./pages/SignUpPage";
 import Error from "./pages/Error";
+import Page from "./components/adminPanel/Page";
 
 // For spliting app in different bundles, so we can load an appropriate bundle on appropriate time
 const AdminPage = lazy(() => import("./pages/AdminPage"));
@@ -55,34 +56,78 @@ const AdmindRoute = ({ children, ...props }) => {
 };
 
 const AppRoutes = () => {
+  const authContext = useContext(AuthContext);
   return (
     <>
       {/* Suspense for lazy import to work */}
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
-          <Route exact path={ROUTES.PATHS}>
-            <Paths />
-          </Route>
+          <Route
+            exact
+            path={ROUTES.PATHS}
+            render={(props) => (
+              <Page title="Paths">
+                <Paths />
+              </Page>
+            )}
+          />
           <Route exact path={ROUTES.PATHS_PHOTOS}>
             <Photos />
           </Route>
-          <AuthenticatedRoute exact path={ROUTES.USER_PROFILE}>
-            <UserProfilePage />
-          </AuthenticatedRoute>
+          <Route
+            path={ROUTES.USER_PROFILE}
+            render={(props) =>
+              authContext.isAuthenticated() ? (
+                <>
+                  <Page title={`${props.match.params.username} Profile`}>
+                    <UserProfilePage />
+                  </Page>
+                </>
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          ></Route>
           <AdmindRoute path={ROUTES.ADMIN_PANEL}>
             <AdminPage />
           </AdmindRoute>
-          <Route exact path={ROUTES.SIGN_IN}>
-            <Login />
-          </Route>
-          <Route exact path={ROUTES.SIGN_UP}>
-            <SignUpPage />
-          </Route>
+          <Route
+            exact
+            path={ROUTES.SIGN_IN}
+            render={(props) => (
+              <Page title="Login">
+                <Login />
+              </Page>
+            )}
+          ></Route>
+          <Route
+            exact
+            path={ROUTES.SIGN_UP}
+            render={(props) => (
+              <Page title="Sign Up">
+                <SignUpPage />
+              </Page>
+            )}
+          ></Route>
           {/*For the children part https://reactrouter.com/web/example/url-params */}
-          <Route exact path={ROUTES.SINGLE_PATH} children={<SinglePath />} />
-          <Route exact path={ROUTES.HOME}>
-            <Home />
-          </Route>
+          <Route
+            exact
+            path={ROUTES.SINGLE_PATH}
+            render={(props) => (
+              <Page title={`Path ${props.match.params.id}`}>
+                <SinglePath />
+              </Page>
+            )}
+          />
+          <Route
+            exact
+            path={ROUTES.HOME}
+            render={(props) => (
+              <Page title="Home">
+                <Home />
+              </Page>
+            )}
+          ></Route>
           {/*For error - Page not found */}
           <Route path="*">
             <Error />

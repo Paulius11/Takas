@@ -14,6 +14,7 @@ import * as ROUTES from "./../../utils/routes";
 
 function LoginForm() {
   const authContext = useContext(AuthContext);
+  const { authState } = authContext;
   const [show, setShow] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState();
   const [loginError, setLoginError] = useState();
@@ -57,7 +58,9 @@ function LoginForm() {
 
   return (
     <>
-      {redirectOnLogin && <Redirect to="/user-profile" />}
+      {redirectOnLogin && (
+        <Redirect to={`/user-profile/${authState.user.username}`} />
+      )}
       <Formik
         initialValues={{
           username: "",

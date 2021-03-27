@@ -7,6 +7,7 @@ import PathsList from "../adminComponets/paths/PathsList";
 import AddPath from "../adminComponets/paths/AddPath";
 import AdminHome from "../adminComponets/adminHome/AdminHome";
 import AdminHeader from "./AdminHeader";
+import Page from "./Page";
 
 // Example components
 const DashboardStatistics = () => {
@@ -50,28 +51,64 @@ function AdminPanel() {
           openSidebar={openSidebar}
           closeSidebar={closeSidebar}
         />
-        <Route path="/admin-panel/admin-home">
-          <AdminHome />
-        </Route>
-        <Route path="/admin-panel/dashboard/statistics">
-          <DashboardStatistics />
-        </Route>
-        <Route path="/admin-panel/dashboard/settings">
-          <DashboardSettings />
-        </Route>
-        <Route path="/admin-panel/data/users">
-          <UsersList />
-        </Route>
-        <Route exact path="/admin-panel/data/paths">
-          <PathsList />
-        </Route>
+        <Route
+          path="/admin-panel/admin-home"
+          render={(props) => (
+            <Page title="Admin Home">
+              <AdminHome />
+            </Page>
+          )}
+        />
+        <Route
+          path="/admin-panel/dashboard/statistics"
+          render={(props) => (
+            <Page title="Dashboard Statistics">
+              <DashboardStatistics />
+            </Page>
+          )}
+        />
+        <Route
+          path="/admin-panel/dashboard/settings"
+          render={(props) => (
+            <Page title="Dashboard Settings">
+              <DashboardSettings />
+            </Page>
+          )}
+        />
+        <Route
+          path="/admin-panel/data/users"
+          render={(props) => (
+            <Page title="Users List">
+              <UsersList />
+            </Page>
+          )}
+        />
+        <Route
+          exact
+          path="/admin-panel/data/paths"
+          render={(props) => (
+            <Page title="Paths List">
+              <PathsList />
+            </Page>
+          )}
+        />
         <Route
           path="/admin-panel/data/paths/edit/:id"
-          children={<AddPath />}
-        ></Route>
-        <Route exact path="/admin-panel/data/paths/add">
-          <AddPath />
-        </Route>
+          render={(props) => (
+            <Page title="Edit Path">
+              <AddPath />
+            </Page>
+          )}
+        />
+        <Route
+          exact
+          path="/admin-panel/data/paths/add"
+          render={(props) => (
+            <Page title="Add Path">
+              <AddPath />
+            </Page>
+          )}
+        />
       </div>
     </div>
   );

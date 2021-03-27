@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Icon from "@material-ui/core/Icon";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import "./AvatarDropdown.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import * as ROUTES from "./../../utils/routes";
 
 const DropdownItem = ({ item }) => (
@@ -36,11 +36,12 @@ const AvatarDropdown = () => {
   const { authState } = auth;
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const { id } = useParams();
   const dropdownItems = [
     {
       title: "Profile",
       icon: <AccountCircleOutlinedIcon />,
-      path: ROUTES.USER_PROFILE,
+      path: `/user-profile/${authState.user.username}`,
     },
     {
       title: "Log Out",
