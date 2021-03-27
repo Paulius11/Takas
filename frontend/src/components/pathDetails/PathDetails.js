@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { PathContext } from "../../context/PathProvider";
 import Loading from "../loading/Loading";
 import "./PathDetails.css";
-import PathDetailsHeader from "../pathDetailsHeader.js/PathDetailsHeader";
+import PathDetailsHeader from "../pathDetailsHeader/PathDetailsHeader";
 import StarRating from "../starRating/StarRating";
 
 function PathDetails() {

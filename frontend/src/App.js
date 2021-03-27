@@ -18,6 +18,8 @@ import Login from "./pages/Login";
 import SignUpPage from "./pages/SignUpPage";
 import Error from "./pages/Error";
 import Page from "./components/adminPanel/Page";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
 
 // For spliting app in different bundles, so we can load an appropriate bundle on appropriate time
 const AdminPage = lazy(() => import("./pages/AdminPage"));
@@ -128,6 +130,24 @@ const AppRoutes = () => {
               </Page>
             )}
           ></Route>
+          <Route
+            exact
+            path="/featured"
+            render={(props) => (
+              <Page title="Featured Paths">
+                <Featured />
+              </Page>
+            )}
+          ></Route>
+          <Route
+            exact
+            path="/contacts"
+            render={(props) => (
+              <Page title="Contact Us">
+                <ContactUs />
+              </Page>
+            )}
+          ></Route>
           {/*For error - Page not found */}
           <Route path="*">
             <Error />
@@ -151,5 +171,26 @@ function App() {
     </Router>
   );
 }
+
+// Temp components
+const Featured = () => {
+  return (
+    <>
+      <Header />
+      <h1 style={{ height: "300px" }}>Featured</h1>
+      <Footer />
+    </>
+  );
+};
+
+const ContactUs = () => {
+  return (
+    <>
+      <Header />
+      <h1 style={{ height: "300px" }}>Contact Us</h1>
+      <Footer />
+    </>
+  );
+};
 
 export default App;
