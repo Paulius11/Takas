@@ -229,3 +229,7 @@
   color: #212121;
   margin-left: 5px;
 }
+
+.edit:hover {
+  color: #0da462;
+}

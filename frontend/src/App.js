@@ -20,6 +20,7 @@ import Error from "./pages/Error";
 import Page from "./components/adminPanel/Page";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
+import { AdminPathProvider } from "./context/AdminPathContext";
 
 // For spliting app in different bundles, so we can load an appropriate bundle on appropriate time
 const AdminPage = lazy(() => import("./pages/AdminPage"));
@@ -163,9 +164,11 @@ function App() {
     <Router>
       <AuthProvider>
         <FetchProvider>
-          <PathProvider>
-            <AppRoutes />
-          </PathProvider>
+          <AdminPathProvider>
+            <PathProvider>
+              <AppRoutes />
+            </PathProvider>
+          </AdminPathProvider>
         </FetchProvider>
       </AuthProvider>
     </Router>
