@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import { BASE_URL } from "../../../utils/URL";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import "./AddPath.css";
-import { IconButton } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import DeleteModal from "./DeleteModal";
 import EditIcon from "@material-ui/icons/Edit";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreModal from "./MoreModal";
+import { useGlobalContext } from "../../../context/AdminPathContext";
+import { BASE_URL } from "../../../utils/URL";
+import Alert from "./Alert";
 
 axios.interceptors.request.use((config) => {
   config.headers.authorization = "Bearer " + Cookies.get("token");
@@ -35,20 +38,21 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
 );
 
 function PathsList() {
-  const [adminPaths, setAdminPaths] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [adminPaths, setAdminPaths] = useState([]);
   //setting values for delete modal
-  const [passToModal, setPassToModal] = useState({ id: 0, title: "" });
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [passToModal, setPassToModal] = useState({ id: 1, title: "" });
+  const {
+    closeModal,
+    isModalOpen,
+    openModal,
+    handleOpen,
+    open,
+    handleClose,
+    showAlert,
+    alert,
+  } = useGlobalContext();
 
   useEffect(() => {
     axios.get(`${BASE_URL}/private/all`).then((response) => {
@@ -60,9 +64,12 @@ function PathsList() {
   const handleDelete = (id) => {
     axios.delete(`${BASE_URL}/${id}`).then((result) => {
       result.data = adminPaths.filter((path) => path.id !== id);
-      setAdminPaths(result.data);
+
       handleClose();
       console.log("Delete was successful", id);
+
+      setAdminPaths(result.data);
+      showAlert(true, "success", "Path successfully deleted"); //TODO
     });
   };
 
@@ -119,7 +126,7 @@ function PathsList() {
 
     {
       name: "Rating",
-      width: "70px",
+      width: "60px",
       selector: "rating",
       sortable: true,
       center: true,
@@ -170,34 +177,51 @@ function PathsList() {
       ),
     },
     {
-      name: "Del",
-      width: "50px",
+      name: "Actions",
+      width: "100px",
       selector: "id",
       center: true,
       cell: (row) => (
         <>
-          <IconButton
+          <Link
+            to="#"
+            className="edit"
+            title="Delete"
             onClick={() => {
               handleOpen();
               setPassToModal({ id: row.id, title: row.title });
             }}
           >
-            <DeleteIcon title="Delete" />
-          </IconButton>
-        </>
-      ),
-    },
-    {
-      name: "Edit",
-      width: "50px",
-      selector: "id",
-      center: true,
-      cell: (row) => (
-        <>
-          <Link to={"/admin-panel/data/paths/edit/" + row.id} title="Edit">
-            <IconButton>
-              <EditIcon title="Edit" />
-            </IconButton>
+            <DeleteIcon />
+          </Link>
+          <Link
+            className="edit"
+            to={"/admin-panel/data/paths/edit/" + row.id}
+            title="Edit"
+          >
+            <EditIcon title="Edit" />
+          </Link>
+          <Link
+            className="edit"
+            onClick={() => {
+              openModal();
+              setPassToModal({
+                id: row.id,
+                title: row.title,
+                description: row.description,
+                region: row.region,
+                length: row.length,
+                image: row.image,
+                featured: row.featured,
+                published: row.published,
+                rating: row.rating,
+                difficulty: row.difficulty,
+              });
+            }}
+            title="More"
+            to="#"
+          >
+            <MoreVertIcon />
           </Link>
         </>
       ),
@@ -228,10 +252,16 @@ function PathsList() {
 
   return (
     <>
+      {alert.show && <Alert {...alert} removeAlert={showAlert} />}
       <DeleteModal
         open={open}
         handleClose={handleClose}
         handleDelete={handleDelete}
+        passToModal={passToModal}
+      />
+      <MoreModal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
         passToModal={passToModal}
       />
       <div className="add__btn">
@@ -240,8 +270,9 @@ function PathsList() {
           <h2>Add</h2>
         </Link>
       </div>
+
       <DataTable
-        title="Paths"
+        noHeader={true}
         width={100}
         columns={columns}
         data={filteredItems}

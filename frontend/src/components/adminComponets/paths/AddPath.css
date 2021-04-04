@@ -224,3 +224,12 @@
   color: #0b975a;
   transition: all 0.2s ease-out;
 }
+
+.edit {
+  color: #212121;
+  margin-left: 5px;
+}
+
+.edit:hover {
+  color: #0da462;
+}

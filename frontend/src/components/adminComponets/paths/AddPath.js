@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useGlobalContext } from "../../../context/AdminPathContext";
 import { BASE_URL } from "./../../../utils/URL";
 import "./AddPath.css";
 import Alert from "./Alert";
@@ -16,14 +17,11 @@ function AddPath() {
     difficulty: "EASY",
     region: "VILNIUS",
     published: true,
+    rating: "",
   };
 
   const [newPath, setNewPath] = useState(initialValue);
-  const [alert, setAlert] = useState({ show: false, msg: "", type: "" });
-
-  const showAlert = (show = false, type = "", msg = "") => {
-    setAlert({ show, type, msg });
-  };
+  const { alert, showAlert } = useGlobalContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,6 +64,7 @@ function AddPath() {
             region: res.data.region,
             featured: res.data.featured,
             published: res.data.published,
+            rating: res.data.rating,
           });
           console.log("update", newPath);
           console.log(res.data);
@@ -75,6 +74,7 @@ function AddPath() {
         console.error("Error - " + error);
       });
     return () => setNewPath(subscribe); // to do
+    // eslint-disable-next-line
   }, []);
 
   const updatePath = (e) => {
@@ -88,6 +88,7 @@ function AddPath() {
       region: newPath.region,
       featured: newPath.featured,
       published: newPath.published,
+      rating: newPath.rating,
     };
 
     axios.put(`${BASE_URL}/${id}`, path).then((res) => {
@@ -249,7 +250,7 @@ const regions = [
   { value: "VILNIUS", label: "Vilnius" },
   { value: "KAUNAS", label: "Kaunas" },
   { value: "KLAIPĖDA", label: "Klaipėda" },
-  { value: "MARIAMPOLĖ", label: "Marijampolė" },
+  { value: "MARIJAMPOLĖ", label: "Marijampolė" },
   { value: "PANEVEŽYS", label: "Panevėžys" },
   { value: "ŠIAULIAI", label: "Šiauliai" },
   { value: "TAURAGĖ", label: " Taurgė" },

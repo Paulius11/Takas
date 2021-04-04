@@ -6,8 +6,8 @@ import UsersList from "../adminComponets/users/UsersList";
 import PathsList from "../adminComponets/paths/PathsList";
 import AddPath from "../adminComponets/paths/AddPath";
 import AdminHome from "../adminComponets/adminHome/AdminHome";
-import MenuIcon from "@material-ui/icons/Menu";
-import CloseIcon from "@material-ui/icons/Close";
+import AdminHeader from "./AdminHeader";
+import Page from "./Page";
 
 // Example components
 const DashboardStatistics = () => {
@@ -46,40 +46,69 @@ function AdminPanel() {
         <AdminSidebar />
       </div>
       <div className={`${isSidebarOpen ? "sidebar-open" : "full-size"}`}>
-        <button
-          onClick={openSidebar}
-          className={isSidebarOpen ? "hide-menu" : "show-menu"}
-        >
-          <MenuIcon />
-        </button>
-        <button
-          onClick={closeSidebar}
-          className={isSidebarOpen ? "show-close" : "hide-close"}
-        >
-          <CloseIcon />
-        </button>
-        <Route path="/admin-panel/admin-home">
-          <AdminHome />
-        </Route>
-        <Route path="/admin-panel/dashboard/statistics">
-          <DashboardStatistics />
-        </Route>
-        <Route path="/admin-panel/dashboard/settings">
-          <DashboardSettings />
-        </Route>
-        <Route path="/admin-panel/data/users">
-          <UsersList />
-        </Route>
-        <Route exact path="/admin-panel/data/paths">
-          <PathsList />
-        </Route>
+        <AdminHeader
+          isSidebarOpen={isSidebarOpen}
+          openSidebar={openSidebar}
+          closeSidebar={closeSidebar}
+        />
+        <Route
+          path="/admin-panel/admin-home"
+          render={(props) => (
+            <Page title="Admin Home">
+              <AdminHome />
+            </Page>
+          )}
+        />
+        <Route
+          path="/admin-panel/dashboard/statistics"
+          render={(props) => (
+            <Page title="Dashboard Statistics">
+              <DashboardStatistics />
+            </Page>
+          )}
+        />
+        <Route
+          path="/admin-panel/dashboard/settings"
+          render={(props) => (
+            <Page title="Dashboard Settings">
+              <DashboardSettings />
+            </Page>
+          )}
+        />
+        <Route
+          path="/admin-panel/data/users"
+          render={(props) => (
+            <Page title="Users List">
+              <UsersList />
+            </Page>
+          )}
+        />
+        <Route
+          exact
+          path="/admin-panel/data/paths"
+          render={(props) => (
+            <Page title="Paths List">
+              <PathsList />
+            </Page>
+          )}
+        />
         <Route
           path="/admin-panel/data/paths/edit/:id"
-          children={<AddPath />}
-        ></Route>
-        <Route exact path="/admin-panel/data/paths/add">
-          <AddPath />
-        </Route>
+          render={(props) => (
+            <Page title="Edit Path">
+              <AddPath />
+            </Page>
+          )}
+        />
+        <Route
+          exact
+          path="/admin-panel/data/paths/add"
+          render={(props) => (
+            <Page title="Add Path">
+              <AddPath />
+            </Page>
+          )}
+        />
       </div>
     </div>
   );

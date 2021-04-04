@@ -29,7 +29,7 @@ const AdminSidebar = () => {
           </div>
           <div>
             <h4>{authState.user.username}</h4>
-            <p>{authState.user.roles}</p>
+            <p>{authState.user.roles === "ROLE_ADMIN" && <span>Admin</span>}</p>
           </div>
         </div>
         {SidebarData.map((item, index) => {

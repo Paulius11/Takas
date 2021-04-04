@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import MenuRoundedIcon from "@material-ui/icons/MenuRounded";
 import TrackChangesRoundedIcon from "@material-ui/icons/TrackChangesRounded";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
@@ -51,42 +51,49 @@ function Header() {
           )}
         </div>
         <ul className={click ? "header__menu active" : "header__menu"}>
-          <li className="header__item">
-            <Link
-              to={ROUTES.HOME}
-              className="header__links"
-              onClick={closeMobileMenu}
-            >
-              Home
-            </Link>
-          </li>
-          <li className="header__item">
-            <Link
-              to={ROUTES.PATHS}
-              className="header__links"
-              onClick={closeMobileMenu}
-            >
-              Paths
-            </Link>
-          </li>
-          <li className="header__item">
-            <Link
-              to={ROUTES.HOME}
-              className="header__links"
-              onClick={closeMobileMenu}
-            >
-              Featured
-            </Link>
-          </li>
-          <li className="header__item">
-            <Link
-              to={ROUTES.HOME}
-              className="header__links"
-              onClick={closeMobileMenu}
-            >
-              Contact us
-            </Link>
-          </li>
+          <div className="header__linksContainer">
+            <li className="header__item">
+              <NavLink
+                to={ROUTES.HOME}
+                className="header__links"
+                exact={true}
+                activeClassName="is-active"
+                onClick={closeMobileMenu}
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className="header__item">
+              <NavLink
+                to={ROUTES.PATHS}
+                activeClassName="is-active"
+                className="header__links"
+                onClick={closeMobileMenu}
+              >
+                Paths
+              </NavLink>
+            </li>
+            <li className="header__item">
+              <NavLink
+                to="/featured"
+                activeClassName="is-active"
+                className="header__links"
+                onClick={closeMobileMenu}
+              >
+                Featured
+              </NavLink>
+            </li>
+            <li className="header__item">
+              <NavLink
+                to="/contacts"
+                className="header__links"
+                activeClassName="is-active"
+                onClick={closeMobileMenu}
+              >
+                Contact us
+              </NavLink>
+            </li>
+          </div>
           {authContext.isAuthenticated() ? (
             <AvatarDropdown />
           ) : (
@@ -135,10 +142,9 @@ function Header() {
             <li className="header__admin">
               <Link
                 to={`${ROUTES.ADMIN_PANEL}/admin-home`}
-                className="header__links"
                 onClick={closeMobileMenu}
               >
-                A-Panel
+                AP
               </Link>
             </li>
           ) : null}
